@@ -9,8 +9,8 @@ export default function StripBanner() {
     // Fetch strip banner from API
     const fetchStripBanner = async () => {
       try {
-        const { data } = await api.get("/admin/banners");
-        const stripBanners = data.filter(b => b.type === "strip" && b.isActive).sort((a, b) => a.displayOrder - b.displayOrder);
+        const { data } = await api.get("/products/banners/public");
+        const stripBanners = data.filter(b => b.type === "strip").sort((a, b) => a.displayOrder - b.displayOrder);
         if (stripBanners.length > 0) {
           setBanner(stripBanners[0]);
         }

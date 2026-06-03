@@ -9,8 +9,8 @@ export default function AnnouncementBanner() {
     // Fetch announcement banner from API
     const fetchAnnouncementBanner = async () => {
       try {
-        const { data } = await api.get("/admin/banners");
-        const announcementBanners = data.filter(b => b.type === "announcement" && b.isActive).sort((a, b) => a.displayOrder - b.displayOrder);
+        const { data } = await api.get("/products/banners/public");
+        const announcementBanners = data.filter(b => b.type === "announcement").sort((a, b) => a.displayOrder - b.displayOrder);
         if (announcementBanners.length > 0) {
           setBanner(announcementBanners[0]);
         }

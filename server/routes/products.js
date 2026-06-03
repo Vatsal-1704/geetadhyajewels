@@ -3,8 +3,19 @@ const { getProducts, getProduct, createProduct, updateProduct, deleteProduct, ad
 const { protect, admin } = require("../middleware/auth");
 const { upload } = require("../config/cloudinary");
 const multer = require("multer");
+const Banner = require("../models/Banner");
 
 const fileUpload = multer({ storage: multer.memoryStorage() });
+
+// Public banner endpoint
+router.get("/banners/public", async (req, res) => {
+  try {
+    const banners = await Banner.find({ isActive: true }).sort({ displayOrder: 1 });
+    res.json(banners);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 router.get("/", getProducts);
 router.get("/admin/all", protect, admin, adminGetProducts);

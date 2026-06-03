@@ -23,8 +23,8 @@ export default function HeroBanner() {
     // Fetch banners from API
     const fetchBanners = async () => {
       try {
-        const { data } = await api.get("/admin/banners");
-        const heroBanners = data.filter(b => b.type === "hero" && b.isActive).sort((a, b) => a.displayOrder - b.displayOrder);
+        const { data } = await api.get("/products/banners/public");
+        const heroBanners = data.filter(b => b.type === "hero").sort((a, b) => a.displayOrder - b.displayOrder);
         if (heroBanners.length > 0) {
           const formattedBanners = heroBanners.map(b => ({
             image: b.image,

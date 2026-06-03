@@ -10,8 +10,8 @@ export default function SaleBanner() {
     // Fetch sale banner from API
     const fetchSaleBanner = async () => {
       try {
-        const { data } = await api.get("/admin/banners");
-        const saleBanners = data.filter(b => b.type === "sale" && b.isActive).sort((a, b) => a.displayOrder - b.displayOrder);
+        const { data } = await api.get("/products/banners/public");
+        const saleBanners = data.filter(b => b.type === "sale").sort((a, b) => a.displayOrder - b.displayOrder);
         if (saleBanners.length > 0) {
           setBanner(saleBanners[0]);
         }
