@@ -6,7 +6,17 @@ import { toast } from "react-toastify";
 export default function AdminBanners() {
   const [banners, setBanners] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ type: "hero", title: "", subtitle: "", image: "", text: "", link: "", isActive: true });
+  const [form, setForm] = useState({
+    type: "hero",
+    title: "",
+    subtitle: "",
+    image: "",
+    text: "",
+    link: "",
+    bgColor: "",
+    saleEndDate: "",
+    isActive: true
+  });
 
   useEffect(() => { api.get("/admin/banners").then(r => setBanners(r.data || [])).catch(() => {}); }, []);
 
@@ -69,8 +79,14 @@ export default function AdminBanners() {
                 <>
                   <input placeholder="Title" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
                   <input placeholder="Subtitle" value={form.subtitle} onChange={e => setForm(p => ({ ...p, subtitle: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
-                  <input placeholder="Image URL" value={form.image} onChange={e => setForm(p => ({ ...p, image: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
-                  <input placeholder="Link URL" value={form.link} onChange={e => setForm(p => ({ ...p, link: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
+                  {form.type !== "sale" && <input placeholder="Image URL" value={form.image} onChange={e => setForm(p => ({ ...p, image: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />}
+                  {form.type === "sale" && (
+                    <>
+                      <textarea placeholder="Sale description text..." value={form.text} onChange={e => setForm(p => ({ ...p, text: e.target.value }))} rows={2} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold resize-none" />
+                      <input type="datetime-local" placeholder="Sale End Date & Time" value={form.saleEndDate} onChange={e => setForm(p => ({ ...p, saleEndDate: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
+                    </>
+                  )}
+                  <input placeholder="Link URL (e.g., /offers)" value={form.link} onChange={e => setForm(p => ({ ...p, link: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
                 </>
               )}
               <div className="flex gap-3 pt-2">
