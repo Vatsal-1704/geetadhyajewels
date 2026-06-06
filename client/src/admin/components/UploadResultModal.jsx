@@ -1,12 +1,59 @@
 import { useState } from "react";
-import { FiCheckCircle, FiAlertCircle, FiDownload, FiChevronDown } from "react-icons/fi";
+import { FiCheckCircle, FiAlertCircle, FiDownload, FiChevronDown, FiPlus } from "react-icons/fi";
+import { toast } from "react-toastify";
+import api from "../../utils/api";
 import * as XLSX from "xlsx";
 
 export default function UploadResultModal({ result, onClose }) {
   const [expandedErrors, setExpandedErrors] = useState(null);
+  const [showCreateCategory, setShowCreateCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [creatingCategory, setCreatingCategory] = useState(false);
+  const [missingCategories, setMissingCategories] = useState(new Set());
+
+  // Extract missing categories from errors
+  const analyzeMissingCategories = () => {
+    if (!result.errors) return new Set();
+    const missing = new Set();
+    result.errors.forEach(error => {
+      if (Array.isArray(error.errors)) {
+        error.errors.forEach(err => {
+          const match = err.match(/Category ['"]([^'"]+)['"] not found/);
+          if (match) missing.add(match[1]);
+        });
+      }
+    });
+    return missing;
+  };
+
+  const missingCats = analyzeMissingCategories();
 
   const toggleError = (idx) => {
     setExpandedErrors(expandedErrors === idx ? null : idx);
+  };
+
+  const handleCreateCategory = async () => {
+    if (!newCategoryName.trim()) {
+      toast.error("Category name is required");
+      return;
+    }
+
+    setCreatingCategory(true);
+    try {
+      await api.post("/api/categories", { name: newCategoryName });
+      toast.success(`Category "${newCategoryName}" created successfully!`);
+      setNewCategoryName("");
+      setShowCreateCategory(false);
+      setMissingCategories(prev => {
+        const updated = new Set(prev);
+        updated.delete(newCategoryName);
+        return updated;
+      });
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to create category");
+    } finally {
+      setCreatingCategory(false);
+    }
   };
 
   const downloadErrorReport = () => {
@@ -67,6 +114,31 @@ export default function UploadResultModal({ result, onClose }) {
               <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <p className="text-xs text-orange-600 uppercase tracking-wide font-medium mb-1">Skipped</p>
                 <p className="text-2xl font-bold text-orange-600">{result.summary.skipped}</p>
+              </div>
+            </div>
+          )}
+
+          {hasErrors && missingCats.size > 0 && (
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="font-semibold text-amber-900 mb-2">Missing Categories</p>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {Array.from(missingCats).map(cat => (
+                      <span key={cat} className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-medium">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-amber-700">Create these categories to retry the upload</p>
+                </div>
+                <button
+                  onClick={() => setShowCreateCategory(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark font-medium transition-colors flex-shrink-0"
+                >
+                  <FiPlus size={16} />
+                  Add Category
+                </button>
               </div>
             </div>
           )}
@@ -146,6 +218,45 @@ export default function UploadResultModal({ result, onClose }) {
             {result.success ? "Close & Refresh" : "Close"}
           </button>
         </div>
+
+        {/* Create Category Modal */}
+        {showCreateCategory && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Create New Category</h3>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="e.g., Bracelets, Rings, Anklets..."
+                  className="w-full border rounded-lg px-4 py-2.5 outline-none focus:border-brand-gold transition-colors"
+                  disabled={creatingCategory}
+                  onKeyPress={(e) => e.key === "Enter" && handleCreateCategory()}
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowCreateCategory(false)}
+                  disabled={creatingCategory}
+                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateCategory}
+                  disabled={creatingCategory || !newCategoryName.trim()}
+                  className="flex-1 bg-brand-gold text-white rounded-lg px-4 py-2.5 font-medium hover:bg-brand-gold-dark transition-colors disabled:opacity-50"
+                >
+                  {creatingCategory ? "Creating..." : "Create Category"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
