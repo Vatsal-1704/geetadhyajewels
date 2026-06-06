@@ -10,4 +10,17 @@ const categorySchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
+// Auto-generate slug from name if not provided
+categorySchema.pre("save", function(next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "") // Remove special characters
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-"); // Replace multiple hyphens with single hyphen
+  }
+  next();
+});
+
 module.exports = mongoose.model("Category", categorySchema);
