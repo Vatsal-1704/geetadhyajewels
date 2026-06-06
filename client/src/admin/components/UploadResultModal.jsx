@@ -40,7 +40,7 @@ export default function UploadResultModal({ result, onClose }) {
 
     setCreatingCategory(true);
     try {
-      await api.post("/api/categories", { name: newCategoryName });
+      await api.post("/categories", { name: newCategoryName });
       toast.success(`Category "${newCategoryName}" created successfully!`);
       setNewCategoryName("");
       setShowCreateCategory(false);
@@ -50,7 +50,9 @@ export default function UploadResultModal({ result, onClose }) {
         return updated;
       });
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to create category");
+      const errorMsg = err.response?.data?.message || err.message || "Failed to create category";
+      console.error("Category creation error:", err);
+      toast.error(errorMsg);
     } finally {
       setCreatingCategory(false);
     }
