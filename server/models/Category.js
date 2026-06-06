@@ -10,8 +10,8 @@ const categorySchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-// Auto-generate slug from name if not provided
-categorySchema.pre("save", function(next) {
+// Auto-generate slug from name before validation
+categorySchema.pre("validate", function(next) {
   if (!this.slug && this.name) {
     this.slug = this.name
       .toLowerCase()
