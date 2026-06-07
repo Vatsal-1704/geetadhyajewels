@@ -2,46 +2,211 @@ const Order = require("../models/Order");
 const Coupon = require("../models/Coupon");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const {
+  validateEmail,
+  validatePhone,
+  validateAddressLine,
+  validateCity,
+  validateState,
+  validatePincode,
+  validatePrice,
+  validateRequired,
+} = require("../utils/validate");
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+/**
+ * Create a new order
+ * POST /api/orders
+ */
 exports.createOrder = async (req, res) => {
   try {
-    const { items, shippingAddress, deliveryMethod, paymentMethod, couponCode, itemsPrice, shippingPrice, discount, totalPrice } = req.body;
+    const {
+      items,
+      shippingAddress,
+      deliveryMethod,
+      paymentMethod,
+      couponCode,
+      itemsPrice,
+      shippingPrice,
+      discount,
+      totalPrice,
+    } = req.body;
+
+    // Validate required fields
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: "Order must contain at least one item" });
+    }
+
+    if (!shippingAddress) {
+      return res.status(400).json({ message: "Shipping address is required" });
+    }
+
+    if (!deliveryMethod || !["standard", "express"].includes(deliveryMethod)) {
+      return res.status(400).json({ message: "Invalid delivery method" });
+    }
+
+    if (!paymentMethod || !["razorpay", "cod"].includes(paymentMethod)) {
+      return res.status(400).json({ message: "Invalid payment method" });
+    }
+
+    if (typeof totalPrice !== "number" || totalPrice <= 0) {
+      return res.status(400).json({ message: "Invalid order total" });
+    }
+
+    // Validate shipping address
+    const nameValidation = validateRequired(shippingAddress.name, "Recipient name");
+    if (!nameValidation.valid) {
+      return res.status(400).json({ message: nameValidation.error });
+    }
+
+    const phoneValidation = validatePhone(shippingAddress.phone);
+    if (!phoneValidation.valid) {
+      return res.status(400).json({ message: phoneValidation.error });
+    }
+
+    const addr1Validation = validateAddressLine(shippingAddress.addressLine1, 1);
+    if (!addr1Validation.valid) {
+      return res.status(400).json({ message: addr1Validation.error });
+    }
+
+    const cityValidation = validateCity(shippingAddress.city);
+    if (!cityValidation.valid) {
+      return res.status(400).json({ message: cityValidation.error });
+    }
+
+    const stateValidation = validateState(shippingAddress.state);
+    if (!stateValidation.valid) {
+      return res.status(400).json({ message: stateValidation.error });
+    }
+
+    const pincodeValidation = validatePincode(shippingAddress.pincode);
+    if (!pincodeValidation.valid) {
+      return res.status(400).json({ message: pincodeValidation.error });
+    }
+
+    // Validate prices
+    const itemsPriceValidation = validatePrice(itemsPrice);
+    if (!itemsPriceValidation.valid) {
+      return res.status(400).json({ message: itemsPriceValidation.error });
+    }
+
+    if (shippingPrice < 0) {
+      return res.status(400).json({ message: "Shipping price cannot be negative" });
+    }
+
+    if (discount < 0) {
+      return res.status(400).json({ message: "Discount cannot be negative" });
+    }
+
+    // Validate coupon if provided
     let finalCoupon = null;
     if (couponCode) {
-      const coupon = await Coupon.findOne({ code: couponCode.toUpperCase(), isActive: true });
-      if (coupon && new Date() >= coupon.validFrom && new Date() <= coupon.validTo) finalCoupon = coupon.code;
+      const coupon = await Coupon.findOne({
+        code: couponCode.toUpperCase(),
+        isActive: true,
+      });
+      if (coupon && new Date() >= coupon.validFrom && new Date() <= coupon.validTo) {
+        finalCoupon = coupon.code;
+      }
     }
+
+    // Create order
     const order = await Order.create({
-      user: req.user?._id, items, shippingAddress, deliveryMethod, paymentMethod,
-      couponCode: finalCoupon, itemsPrice, shippingPrice, discount, totalPrice,
+      user: req.user?._id,
+      items,
+      shippingAddress: {
+        name: shippingAddress.name.trim(),
+        phone: shippingAddress.phone.replace(/[^\d]/g, ""),
+        addressLine1: shippingAddress.addressLine1.trim(),
+        addressLine2: shippingAddress.addressLine2 ? shippingAddress.addressLine2.trim() : "",
+        city: shippingAddress.city.trim(),
+        state: shippingAddress.state.trim(),
+        pincode: shippingAddress.pincode.trim(),
+      },
+      deliveryMethod,
+      paymentMethod,
+      couponCode: finalCoupon,
+      itemsPrice,
+      shippingPrice,
+      discount,
+      totalPrice,
     });
+
+    // If Razorpay payment, create Razorpay order
     if (paymentMethod === "razorpay") {
-      const rzOrder = await razorpay.orders.create({ amount: totalPrice * 100, currency: "INR", receipt: order.orderId });
+      const rzOrder = await razorpay.orders.create({
+        amount: totalPrice * 100,
+        currency: "INR",
+        receipt: order.orderId,
+      });
       order.razorpayOrderId = rzOrder.id;
       await order.save();
-      return res.status(201).json({ order, razorpayOrderId: rzOrder.id, key: process.env.RAZORPAY_KEY_ID });
+      return res.status(201).json({
+        order,
+        razorpayOrderId: rzOrder.id,
+        key: process.env.RAZORPAY_KEY_ID,
+      });
     }
+
     res.status(201).json({ order });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
+/**
+ * Verify Razorpay payment
+ * POST /api/orders/verify-payment
+ */
 exports.verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
-    const sign = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`).digest("hex");
-    if (sign !== razorpay_signature) return res.status(400).json({ message: "Payment verification failed" });
+
+    // Validate required fields
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ message: "Missing required payment verification fields" });
+    }
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+    // Verify signature
+    const sign = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (sign !== razorpay_signature) {
+      return res.status(400).json({ message: "Payment verification failed: Invalid signature" });
+    }
+
+    // Find and update order
     const order = await Order.findById(orderId);
-    order.paymentStatus = "paid"; order.orderStatus = "confirmed";
-    order.razorpayPaymentId = razorpay_payment_id; order.razorpaySignature = razorpay_signature;
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Verify order belongs to current user (if user is authenticated)
+    if (req.user && order.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized: Order does not belong to this user" });
+    }
+
+    // Update payment status
+    order.paymentStatus = "paid";
+    order.orderStatus = "confirmed";
+    order.razorpayPaymentId = razorpay_payment_id;
+    order.razorpaySignature = razorpay_signature;
     await order.save();
+
     res.json({ success: true, order });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 exports.getMyOrders = async (req, res) => {
@@ -51,12 +216,36 @@ exports.getMyOrders = async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 
+/**
+ * Get order by ID
+ * GET /api/orders/:orderId
+ */
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findOne({ orderId: req.params.orderId }).populate("items.product", "name images slug");
-    if (!order) return res.status(404).json({ message: "Order not found" });
+    const { orderId } = req.params;
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+    const order = await Order.findOne({ orderId }).populate(
+      "items.product",
+      "name images slug"
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Verify ownership if user is authenticated
+    if (req.user && order.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized: You cannot view this order" });
+    }
+
     res.json(order);
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 exports.trackOrder = async (req, res) => {
@@ -135,11 +324,38 @@ exports.adminGetOrders = async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 
+/**
+ * Admin: Update order status
+ * PUT /api/orders/:id
+ */
 exports.adminUpdateOrder = async (req, res) => {
   try {
     const { orderStatus, trackingNumber, courierName, paymentStatus, notes } = req.body;
+
     const order = await Order.findById(req.params.id);
-    if (!order) return res.status(404).json({ message: "Order not found" });
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Validate status if provided
+    if (orderStatus) {
+      const validStatuses = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+      if (!validStatuses.includes(orderStatus)) {
+        return res.status(400).json({
+          message: `Invalid order status. Must be one of: ${validStatuses.join(", ")}`,
+        });
+      }
+    }
+
+    // Validate payment status if provided
+    if (paymentStatus) {
+      const validPaymentStatuses = ["pending", "paid", "failed", "refunded"];
+      if (!validPaymentStatuses.includes(paymentStatus)) {
+        return res.status(400).json({
+          message: `Invalid payment status. Must be one of: ${validPaymentStatuses.join(", ")}`,
+        });
+      }
+    }
 
     // Log status change to history
     if (orderStatus && orderStatus !== order.orderStatus) {
@@ -148,21 +364,35 @@ exports.adminUpdateOrder = async (req, res) => {
         changedBy: req.user?._id,
         changedByName: req.user?.name || "Admin",
         timestamp: new Date(),
-        notes: notes || ""
+        notes: notes ? notes.trim() : "",
       });
       order.orderStatus = orderStatus;
       order.lastUpdatedBy = req.user?._id;
-      if (orderStatus === "delivered") order.deliveredAt = new Date();
-      if (orderStatus === "cancelled") order.cancelledAt = new Date();
+
+      if (orderStatus === "delivered") {
+        order.deliveredAt = new Date();
+      }
+      if (orderStatus === "cancelled") {
+        order.cancelledAt = new Date();
+      }
     }
 
-    if (trackingNumber) order.trackingNumber = trackingNumber;
-    if (courierName) order.courierName = courierName;
-    if (paymentStatus) order.paymentStatus = paymentStatus;
+    // Update other fields if provided
+    if (trackingNumber) {
+      order.trackingNumber = trackingNumber.trim();
+    }
+    if (courierName) {
+      order.courierName = courierName.trim();
+    }
+    if (paymentStatus) {
+      order.paymentStatus = paymentStatus;
+    }
 
     await order.save();
     res.json(order);
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 exports.getAnalytics = async (req, res) => {

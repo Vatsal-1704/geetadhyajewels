@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const { validateRequired, validatePrice, validateStock, validateSKU, validateRating } = require("../utils/validate");
 
 const buildQuery = (reqQuery) => {
   const q = { status: "published" };
@@ -61,19 +62,118 @@ exports.getProduct = async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 
+/**
+ * Admin: Create a new product
+ * POST /api/products
+ */
 exports.createProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const { name, price, category, sku, stock_quantity } = req.body;
+
+    // Validate required fields
+    const nameValidation = validateRequired(name, "Product name");
+    if (!nameValidation.valid) {
+      return res.status(400).json({ message: nameValidation.error });
+    }
+
+    const priceValidation = validatePrice(price);
+    if (!priceValidation.valid) {
+      return res.status(400).json({ message: priceValidation.error });
+    }
+
+    const categoryValidation = validateRequired(category, "Category");
+    if (!categoryValidation.valid) {
+      return res.status(400).json({ message: categoryValidation.error });
+    }
+
+    const skuValidation = validateSKU(sku);
+    if (!skuValidation.valid) {
+      return res.status(400).json({ message: skuValidation.error });
+    }
+
+    const stockValidation = validateStock(stock_quantity);
+    if (!stockValidation.valid) {
+      return res.status(400).json({ message: stockValidation.error });
+    }
+
+    // Check for duplicate SKU
+    const existingSKU = await Product.findOne({ sku: sku.trim().toUpperCase() });
+    if (existingSKU) {
+      return res.status(400).json({ message: "A product with this SKU already exists" });
+    }
+
+    const product = await Product.create({
+      ...req.body,
+      name: name.trim(),
+      sku: sku.trim().toUpperCase(),
+    });
+
     res.status(201).json(product);
-  } catch (err) { res.status(400).json({ message: err.message }); }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
+/**
+ * Admin: Update product
+ * PUT /api/products/:id
+ */
 exports.updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!product) return res.status(404).json({ message: "Product not found" });
+    const { price, stock_quantity, sku } = req.body;
+
+    // Validate if provided
+    if (price !== undefined) {
+      const priceValidation = validatePrice(price);
+      if (!priceValidation.valid) {
+        return res.status(400).json({ message: priceValidation.error });
+      }
+    }
+
+    if (stock_quantity !== undefined) {
+      const stockValidation = validateStock(stock_quantity);
+      if (!stockValidation.valid) {
+        return res.status(400).json({ message: stockValidation.error });
+      }
+    }
+
+    if (sku) {
+      const skuValidation = validateSKU(sku);
+      if (!skuValidation.valid) {
+        return res.status(400).json({ message: skuValidation.error });
+      }
+
+      // Check for duplicate SKU (if different from current)
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      if (sku.toUpperCase() !== product.sku) {
+        const existingSKU = await Product.findOne({ sku: sku.trim().toUpperCase() });
+        if (existingSKU) {
+          return res.status(400).json({ message: "A product with this SKU already exists" });
+        }
+      }
+    }
+
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        ...(sku && { sku: sku.trim().toUpperCase() }),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     res.json(product);
-  } catch (err) { res.status(400).json({ message: err.message }); }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 exports.deleteProduct = async (req, res) => {
@@ -83,20 +183,62 @@ exports.deleteProduct = async (req, res) => {
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 
+/**
+ * Add review to product
+ * POST /api/products/:id/reviews
+ */
 exports.addReview = async (req, res) => {
   try {
     const { rating, comment } = req.body;
+
+    // Validate rating
+    const ratingValidation = validateRating(rating);
+    if (!ratingValidation.valid) {
+      return res.status(400).json({ message: ratingValidation.error });
+    }
+
+    // Validate comment if provided
+    if (comment && comment.length > 500) {
+      return res.status(400).json({ message: "Review comment must not exceed 500 characters" });
+    }
+
     const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-    const already = product.reviews.find(r => r.user.toString() === req.user._id.toString());
-    if (already) return res.status(400).json({ message: "Already reviewed" });
-    product.reviews.push({ user: req.user._id, name: req.user.name, rating, comment });
-    const approved = product.reviews.filter(r => r.isApproved);
-    product.numReviews = approved.length;
-    product.rating = approved.length ? approved.reduce((a, r) => a + r.rating, 0) / approved.length : 0;
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Check if user already reviewed
+    const existingReview = product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+    if (existingReview) {
+      return res.status(400).json({ message: "You have already reviewed this product" });
+    }
+
+    // Add review
+    product.reviews.push({
+      user: req.user._id,
+      name: req.user.name,
+      rating,
+      comment: comment || "",
+    });
+
+    // Update rating
+    const approvedReviews = product.reviews.filter((r) => r.isApproved);
+    product.numReviews = approvedReviews.length;
+    product.rating =
+      approvedReviews.length > 0
+        ? approvedReviews.reduce((sum, r) => sum + r.rating, 0) / approvedReviews.length
+        : 0;
+
     await product.save();
-    res.status(201).json({ message: "Review added, pending approval" });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+
+    res.status(201).json({
+      message: "Review added successfully and is pending approval",
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 exports.getSimilarProducts = async (req, res) => {
