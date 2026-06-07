@@ -14,6 +14,8 @@ import BackToTop from "./components/common/BackToTop";
 import MobileBottomBar from "./components/common/MobileBottomBar";
 import NewsletterPopup from "./components/common/NewsletterPopup";
 import CookieBanner from "./components/common/CookieBanner";
+import PrivateRoute from "./components/auth/PrivateRoute";
+import AdminRoute from "./components/auth/AdminRoute";
 
 // Customer pages
 import HomePage from "./pages/HomePage";
@@ -76,25 +78,17 @@ export default function App() {
         <WishlistProvider>
           <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover theme="light" toastStyle={{ fontFamily: "Poppins, sans-serif" }} />
           <Routes>
-            {/* Customer Routes */}
+            {/* ===== CUSTOMER ROUTES ===== */}
+            {/* Public Routes */}
             <Route path="/" element={<CustomerLayout><HomePage /></CustomerLayout>} />
             <Route path="/collections" element={<CustomerLayout><CollectionsPage /></CustomerLayout>} />
             <Route path="/collections/:slug" element={<CustomerLayout><CollectionsPage /></CustomerLayout>} />
             <Route path="/product/:slug" element={<CustomerLayout><ProductDetailPage /></CustomerLayout>} />
             <Route path="/cart" element={<CustomerLayout><CartPage /></CustomerLayout>} />
-            <Route path="/checkout" element={<CustomerLayout><CheckoutPage /></CustomerLayout>} />
-            <Route path="/order-confirmation/:orderId" element={<CustomerLayout><OrderConfirmationPage /></CustomerLayout>} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<LoginPage />} />
-            <Route path="/admin/login" element={<LoginPage />} />
-            <Route path="/account" element={<CustomerLayout><AccountPage /></CustomerLayout>} />
-            <Route path="/account/*" element={<CustomerLayout><AccountPage /></CustomerLayout>} />
-            <Route path="/track-order" element={<CustomerLayout><TrackOrderPage /></CustomerLayout>} />
             <Route path="/search" element={<CustomerLayout><SearchPage /></CustomerLayout>} />
             <Route path="/offers" element={<CustomerLayout><OffersPage /></CustomerLayout>} />
             <Route path="/sales" element={<CustomerLayout><SalesPage /></CustomerLayout>} />
             <Route path="/promotions" element={<CustomerLayout><SalesPage /></CustomerLayout>} />
-            <Route path="/wishlist" element={<CustomerLayout><AccountPage /></CustomerLayout>} />
             <Route path="/about" element={<CustomerLayout><AboutPage /></CustomerLayout>} />
             <Route path="/contact" element={<CustomerLayout><ContactPage /></CustomerLayout>} />
             <Route path="/faq" element={<CustomerLayout><FAQPage /></CustomerLayout>} />
@@ -102,20 +96,178 @@ export default function App() {
             <Route path="/return-policy" element={<CustomerLayout><ReturnPolicy /></CustomerLayout>} />
             <Route path="/privacy-policy" element={<CustomerLayout><PrivacyPolicy /></CustomerLayout>} />
             <Route path="/terms" element={<CustomerLayout><TermsPage /></CustomerLayout>} />
+            <Route path="/track-order" element={<CustomerLayout><TrackOrderPage /></CustomerLayout>} />
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-            <Route path="/admin/products" element={<AdminLayout><AdminProducts /></AdminLayout>} />
-            <Route path="/admin/orders" element={<AdminLayout><AdminOrders /></AdminLayout>} />
-            <Route path="/admin/customers" element={<AdminLayout><AdminCustomers /></AdminLayout>} />
-            <Route path="/admin/coupons" element={<AdminLayout><AdminCoupons /></AdminLayout>} />
-            <Route path="/admin/banners" element={<AdminLayout><AdminBanners /></AdminLayout>} />
-            <Route path="/admin/categories" element={<AdminLayout><AdminCategories /></AdminLayout>} />
-            <Route path="/admin/reviews" element={<AdminLayout><AdminReviews /></AdminLayout>} />
-            <Route path="/admin/inventory" element={<AdminLayout><AdminInventory /></AdminLayout>} />
-            <Route path="/admin/reports" element={<AdminLayout><AdminReports /></AdminLayout>} />
-            <Route path="/admin/settings" element={<AdminLayout><AdminSettings /></AdminLayout>} />
+            {/* Auth Pages (Login/Register) */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<LoginPage />} />
 
+            {/* Protected Customer Routes */}
+            <Route
+              path="/checkout"
+              element={
+                <PrivateRoute>
+                  <CustomerLayout>
+                    <CheckoutPage />
+                  </CustomerLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/order-confirmation/:orderId"
+              element={
+                <PrivateRoute>
+                  <CustomerLayout>
+                    <OrderConfirmationPage />
+                  </CustomerLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute>
+                  <CustomerLayout>
+                    <AccountPage />
+                  </CustomerLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/account/*"
+              element={
+                <PrivateRoute>
+                  <CustomerLayout>
+                    <AccountPage />
+                  </CustomerLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <PrivateRoute>
+                  <CustomerLayout>
+                    <AccountPage />
+                  </CustomerLayout>
+                </PrivateRoute>
+              }
+            />
+
+            {/* ===== ADMIN ROUTES ===== */}
+            <Route path="/admin/login" element={<LoginPage />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminDashboard />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminProducts />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminOrders />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/customers"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminCustomers />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/coupons"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminCoupons />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/banners"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminBanners />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminCategories />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/reviews"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminReviews />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/inventory"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminInventory />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/reports"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminReports />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminSettings />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+
+            {/* 404 Page */}
             <Route path="*" element={<CustomerLayout><NotFoundPage /></CustomerLayout>} />
           </Routes>
         </WishlistProvider>

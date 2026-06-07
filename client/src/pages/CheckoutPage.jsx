@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
 import { toast } from "react-toastify";
 import { FiCheck, FiX } from "react-icons/fi";
+import FormInput from "../components/form/FormInput";
+import { validators } from "../utils/validators";
 
 const STEPS = ["Address", "Delivery", "Payment"];
 
@@ -23,7 +25,119 @@ export default function CheckoutPage() {
   const [delivery, setDelivery] = useState("standard");
   const [payment, setPayment] = useState("razorpay");
 
-  const handleAddressChange = (e) => setAddress(p => ({ ...p, [e.target.name]: e.target.value }));
+  const [addressErrors, setAddressErrors] = useState({});
+  const [addressTouched, setAddressTouched] = useState({});
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddress(p => ({ ...p, [name]: value }));
+
+    // Validate on change if field touched
+    if (addressTouched[name]) {
+      validateAddressField(name, value);
+    }
+  };
+
+  const handleAddressBlur = (e) => {
+    const { name, value } = e.target;
+    setAddressTouched(p => ({ ...p, [name]: true }));
+    validateAddressField(name, value);
+  };
+
+  const validateAddressField = (fieldName, value) => {
+    let error = null;
+
+    switch (fieldName) {
+      case "name":
+        const nameValidation = validators.fullName(value);
+        error = nameValidation.valid ? null : nameValidation.error;
+        break;
+      case "phone":
+        const phoneValidation = validators.phone(value);
+        error = phoneValidation.valid ? null : phoneValidation.error;
+        break;
+      case "addressLine1":
+        const addr1Validation = validators.addressLine(value, 1);
+        error = addr1Validation.valid ? null : addr1Validation.error;
+        break;
+      case "city":
+        const cityValidation = validators.city(value);
+        error = cityValidation.valid ? null : cityValidation.error;
+        break;
+      case "state":
+        const stateValidation = validators.state(value);
+        error = stateValidation.valid ? null : stateValidation.error;
+        break;
+      case "pincode":
+        const pincodeValidation = validators.pincode(value);
+        error = pincodeValidation.valid ? null : pincodeValidation.error;
+        break;
+      default:
+        break;
+    }
+
+    setAddressErrors(p => ({
+      ...p,
+      [fieldName]: error
+    }));
+  };
+
+  const validateAddressStep = () => {
+    const fields = ["name", "phone", "addressLine1", "city", "state", "pincode"];
+    const errors = {};
+    let isValid = true;
+
+    fields.forEach(field => {
+      const value = address[field];
+      let error = null;
+
+      switch (field) {
+        case "name":
+          const nameVal = validators.fullName(value);
+          error = nameVal.valid ? null : nameVal.error;
+          break;
+        case "phone":
+          const phoneVal = validators.phone(value);
+          error = phoneVal.valid ? null : phoneVal.error;
+          break;
+        case "addressLine1":
+          const addr1Val = validators.addressLine(value, 1);
+          error = addr1Val.valid ? null : addr1Val.error;
+          break;
+        case "city":
+          const cityVal = validators.city(value);
+          error = cityVal.valid ? null : cityVal.error;
+          break;
+        case "state":
+          const stateVal = validators.state(value);
+          error = stateVal.valid ? null : stateVal.error;
+          break;
+        case "pincode":
+          const pincodeVal = validators.pincode(value);
+          error = pincodeVal.valid ? null : pincodeVal.error;
+          break;
+        default:
+          break;
+      }
+
+      if (error) {
+        errors[field] = error;
+        isValid = false;
+      }
+    });
+
+    setAddressErrors(errors);
+    setAddressTouched({
+      name: true,
+      phone: true,
+      addressLine1: true,
+      city: true,
+      state: true,
+      pincode: true
+    });
+
+    return isValid;
+  };
 
   const validateCoupon = async () => {
     if (!couponInput.trim()) {
@@ -117,22 +231,134 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <h2 className="font-semibold text-xl mb-6">Shipping Address</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[["name", "Full Name", "text"], ["phone", "Phone Number", "tel"], ["addressLine1", "Address Line 1", "text"], ["addressLine2", "Address Line 2 (Optional)", "text"], ["city", "City", "text"], ["pincode", "Pincode", "text"]].map(([name, label, type]) => (
-                  <div key={name} className={name === "addressLine1" || name === "addressLine2" ? "sm:col-span-2" : ""}>
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">{label}</label>
-                    <input name={name} type={type} value={address[name]} onChange={handleAddressChange} required={name !== "addressLine2"}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-gold transition-colors" />
-                  </div>
-                ))}
-                <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">State</label>
-                  <select name="state" value={address.state} onChange={handleAddressChange} required className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-gold">
+                {/* Full Name */}
+                <FormInput
+                  label="Full Name"
+                  name="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={address.name}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.name}
+                  touched={addressTouched.name}
+                  required
+                  containerClassName="sm:col-span-2"
+                />
+
+                {/* Phone */}
+                <FormInput
+                  label="Phone Number"
+                  name="phone"
+                  type="tel"
+                  placeholder="9876543210"
+                  value={address.phone}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.phone}
+                  touched={addressTouched.phone}
+                  required
+                  containerClassName="sm:col-span-2"
+                />
+
+                {/* Address Line 1 */}
+                <FormInput
+                  label="Address Line 1"
+                  name="addressLine1"
+                  type="text"
+                  placeholder="Enter street address"
+                  value={address.addressLine1}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.addressLine1}
+                  touched={addressTouched.addressLine1}
+                  required
+                  containerClassName="sm:col-span-2"
+                />
+
+                {/* Address Line 2 */}
+                <FormInput
+                  label="Address Line 2 (Optional)"
+                  name="addressLine2"
+                  type="text"
+                  placeholder="Apartment, suite, etc. (optional)"
+                  value={address.addressLine2}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.addressLine2}
+                  touched={addressTouched.addressLine2}
+                  containerClassName="sm:col-span-2"
+                />
+
+                {/* City */}
+                <FormInput
+                  label="City"
+                  name="city"
+                  type="text"
+                  placeholder="Enter city"
+                  value={address.city}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.city}
+                  touched={addressTouched.city}
+                  required
+                />
+
+                {/* Pincode */}
+                <FormInput
+                  label="Pincode"
+                  name="pincode"
+                  type="text"
+                  placeholder="Enter 6-digit pincode"
+                  value={address.pincode}
+                  onChange={handleAddressChange}
+                  onBlur={handleAddressBlur}
+                  error={addressErrors.pincode}
+                  touched={addressTouched.pincode}
+                  required
+                />
+
+                {/* State */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-700 mb-2">
+                    State <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="state"
+                    value={address.state}
+                    onChange={handleAddressChange}
+                    onBlur={handleAddressBlur}
+                    className={`
+                      w-full px-4 py-3 text-sm rounded-xl border-2 transition-all
+                      outline-none focus:outline-none
+                      ${addressErrors.state && addressTouched.state ? "border-red-300 bg-red-50 focus:border-red-500" : ""}
+                      ${!addressErrors.state && addressTouched.state ? "border-green-300 bg-green-50 focus:border-green-500" : ""}
+                      ${!addressErrors.state && !addressTouched.state ? "border-gray-200 focus:border-brand-gold" : ""}
+                    `}
+                  >
                     <option value="">Select State</option>
                     {STATES.map(s => <option key={s}>{s}</option>)}
                   </select>
+                  {addressErrors.state && addressTouched.state && (
+                    <p className="text-xs text-red-600 mt-2 flex items-center gap-1">
+                      <span>•</span>
+                      {addressErrors.state}
+                    </p>
+                  )}
                 </div>
               </div>
-              <button onClick={() => setStep(1)} className="mt-6 w-full bg-brand-gold text-white py-3.5 rounded-xl font-semibold hover:bg-brand-gold-dark transition-all">Continue to Delivery →</button>
+              <button
+                onClick={() => {
+                  if (validateAddressStep()) {
+                    setStep(1);
+                  } else {
+                    toast.error("Please fix the errors above");
+                  }
+                }}
+                className="mt-6 w-full bg-brand-gold text-white py-3.5 rounded-xl font-semibold hover:bg-brand-gold-dark transition-all"
+              >
+                Continue to Delivery →
+              </button>
             </div>
           )}
 
