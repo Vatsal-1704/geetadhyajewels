@@ -3,6 +3,7 @@ import { useParams, useSearchParams, Link } from "react-router-dom";
 import { FiFilter, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
+import "./CollectionsPage.css";
 
 const STYLES = ["Gold Plated", "Oxidised", "Kundan", "American Diamond", "Temple", "Silver Plated"];
 const SORT_OPTIONS = [{ label: "Newest First", value: "newest" }, { label: "Price: Low to High", value: "price-asc" }, { label: "Price: High to Low", value: "price-desc" }, { label: "Top Rated", value: "rating" }];
@@ -52,88 +53,88 @@ export default function CollectionsPage() {
   const clearFilters = () => setFilters({ style: "", sort: "newest", priceMin: "", priceMax: "" });
 
   const Sidebar = () => (
-    <aside className="space-y-6 min-w-[220px]">
+    <aside className="collections-sidebar">
       {/* Sort */}
-      <div>
-        <h3 className="font-semibold text-sm uppercase tracking-widest text-gray-500 mb-3">Sort By</h3>
-        <div className="space-y-2">
+      <div className="filter-section">
+        <h3 className="filter-section-title">Sort By</h3>
+        <div className="filter-options">
           {SORT_OPTIONS.map(o => (
-            <label key={o.value} className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="sort" value={o.value} checked={filters.sort === o.value} onChange={() => setFilters(p => ({ ...p, sort: o.value }))} className="accent-brand-gold" />
-              <span className="text-sm">{o.label}</span>
+            <label key={o.value} className="filter-option">
+              <input type="radio" name="sort" value={o.value} checked={filters.sort === o.value} onChange={() => setFilters(p => ({ ...p, sort: o.value }))} />
+              <span>{o.label}</span>
             </label>
           ))}
         </div>
       </div>
       {/* Style */}
-      <div>
-        <button onClick={() => toggleSection("style")} className="w-full flex justify-between items-center font-semibold text-sm uppercase tracking-widest text-gray-500 mb-3">Style {openSections.style ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
+      <div className="filter-section">
+        <button onClick={() => toggleSection("style")} className="filter-section-title">Style {openSections.style ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
         {openSections.style && (
-          <div className="space-y-2">
+          <div className="filter-options">
             {STYLES.map(s => (
-              <label key={s} className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={filters.style === s} onChange={() => applyStyle(s)} className="accent-brand-gold" />
-                <span className="text-sm">{s}</span>
+              <label key={s} className="filter-option">
+                <input type="checkbox" checked={filters.style === s} onChange={() => applyStyle(s)} />
+                <span>{s}</span>
               </label>
             ))}
           </div>
         )}
       </div>
       {/* Price */}
-      <div>
-        <button onClick={() => toggleSection("price")} className="w-full flex justify-between items-center font-semibold text-sm uppercase tracking-widest text-gray-500 mb-3">Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
+      <div className="filter-section">
+        <button onClick={() => toggleSection("price")} className="filter-section-title">Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
         {openSections.price && (
-          <div className="space-y-2">
+          <div className="filter-options">
             {PRICE_RANGES.map(r => (
-              <label key={r.label} className="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="price" checked={filters.priceMin === String(r.min) && filters.priceMax === String(r.max)} onChange={() => applyPrice(r)} className="accent-brand-gold" />
-                <span className="text-sm">{r.label}</span>
+              <label key={r.label} className="filter-option">
+                <input type="radio" name="price" checked={filters.priceMin === String(r.min) && filters.priceMax === String(r.max)} onChange={() => applyPrice(r)} />
+                <span>{r.label}</span>
               </label>
             ))}
           </div>
         )}
       </div>
       {(filters.style || filters.priceMin) && (
-        <button onClick={clearFilters} className="text-sm text-red-500 hover:underline">✕ Clear All Filters</button>
+        <button onClick={clearFilters} className="filter-clear-button">✕ Clear All Filters</button>
       )}
     </aside>
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="collections-page">
       {/* Breadcrumb */}
-      <nav className="text-xs text-gray-500 mb-6 flex items-center gap-1">
-        <Link to="/" className="hover:text-brand-gold">Home</Link>
+      <nav className="collections-breadcrumb">
+        <Link to="/" className="collections-breadcrumb-link">Home</Link>
         <span>/</span>
-        <Link to="/collections" className="hover:text-brand-gold">Collections</Link>
-        {slug && <><span>/</span><span className="capitalize text-brand-black">{slug.replace(/-/g, " ")}</span></>}
+        <Link to="/collections" className="collections-breadcrumb-link">Collections</Link>
+        {slug && <><span>/</span><span className="capitalize" style={{ color: "var(--color-text-primary)" }}>{slug.replace(/-/g, " ")}</span></>}
       </nav>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif text-2xl sm:text-3xl text-brand-black capitalize">{slug ? slug.replace(/-/g, " ") : "All Collections"}</h1>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-500">{total} products</span>
-          <button onClick={() => setFiltersOpen(true)} className="lg:hidden flex items-center gap-1.5 border border-gray-300 rounded-lg px-3 py-2 text-sm">
+      <div className="collections-header">
+        <h1 className="collections-title">{slug ? slug.replace(/-/g, " ") : "All Collections"}</h1>
+        <div className="collections-header-controls">
+          <span className="collections-product-count">{total} products</span>
+          <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
             <FiFilter size={14} /> Filters
           </button>
         </div>
       </div>
-      <div className="flex gap-8">
+      <div className="collections-container">
         {/* Desktop Sidebar */}
-        <div className="hidden lg:block"><Sidebar /></div>
+        <Sidebar />
         {/* Products Grid */}
-        <div className="flex-1">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div className="collections-products">
+          <div className="products-grid">
             {loading ? Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-sm">
-                <div className="aspect-[3/4] bg-gray-100 animate-pulse" />
-                <div className="p-3 space-y-2"><div className="h-4 bg-gray-100 rounded animate-pulse" /><div className="h-8 bg-gray-100 rounded animate-pulse" /></div>
+              <div key={i} className="product-skeleton">
+                <div className="product-skeleton-image" />
+                <div className="product-skeleton-content"><div className="product-skeleton-line" /><div className="product-skeleton-line" style={{ width: "60%" }} /></div>
               </div>
             )) : products.map(p => <ProductCard key={p._id} product={p} />)}
           </div>
           {total > 12 && (
-            <div className="flex justify-center mt-10 gap-2">
+            <div className="pagination">
               {Array.from({ length: Math.ceil(total / 12) }, (_, i) => (
-                <button key={i} onClick={() => setPage(i + 1)} className={`w-9 h-9 rounded-full text-sm font-medium ${page === i + 1 ? "bg-brand-gold text-white" : "border border-gray-300 hover:border-brand-gold"}`}>{i + 1}</button>
+                <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>{i + 1}</button>
               ))}
             </div>
           )}
@@ -142,17 +143,17 @@ export default function CollectionsPage() {
 
       {/* Mobile Filter Drawer */}
       {filtersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setFiltersOpen(false)} />
-          <div className="absolute right-0 top-0 bottom-0 w-72 bg-white p-6 overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="font-semibold text-lg">Filters</h3>
-              <button onClick={() => setFiltersOpen(false)}><FiX size={20} /></button>
+        <>
+          <div className="collections-filter-drawer-overlay" onClick={() => setFiltersOpen(false)} />
+          <div className="collections-filter-drawer">
+            <div className="collections-filter-drawer-header">
+              <h3>Filters</h3>
+              <button onClick={() => setFiltersOpen(false)} className="collections-filter-drawer-close"><FiX size={20} /></button>
             </div>
             <Sidebar />
-            <button onClick={() => setFiltersOpen(false)} className="w-full mt-6 bg-brand-gold text-white py-3 rounded-xl font-medium">Apply Filters</button>
+            <button onClick={() => setFiltersOpen(false)} className="collections-apply-button">Apply Filters</button>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

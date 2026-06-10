@@ -4,6 +4,7 @@
 @import url('./styles/design-system.css');
 @import url('./styles/animations.css');
 @import url('./styles/components.css');
+@import url('./styles/pages.css');
 
 /* ============================================================================
    TAILWIND & LEGACY STYLES

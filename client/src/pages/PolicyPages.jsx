@@ -1,6 +1,8 @@
+import "../styles/info-pages.css";
+
 export function ShippingPolicy() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
+    <div className="info-page">
       <h1 className="font-serif text-3xl text-brand-black mb-8">Shipping Policy</h1>
       <div className="prose prose-sm max-w-none text-gray-600 space-y-6">
         <section><h2 className="font-serif text-xl text-brand-black mb-3">Delivery Timelines</h2><p>Standard Delivery: 5–7 business days. Express Delivery: 2–3 business days. Orders placed before 2 PM IST are processed the same day.</p></section>

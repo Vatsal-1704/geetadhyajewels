@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FiCheckCircle, FiPackage, FiArrowRight } from "react-icons/fi";
 import api from "../utils/api";
+import "./OrderConfirmationPage.css";
 
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();

@@ -8,6 +8,7 @@ import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import "./ProductDetailPage.css";
 
 const MOCK = {
   _id: "m1", slug: "kundan-necklace-set", name: "Kundan Bridal Necklace Set with Earrings", price: 1499, mrp: 2499,
@@ -73,28 +74,28 @@ export default function ProductDetailPage() {
   const wishlisted = isWishlisted(product._id);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 pb-32 lg:pb-8">
+    <div className="product-detail-page">
       {/* Breadcrumb */}
-      <nav className="text-xs text-gray-500 mb-6 flex items-center gap-1 flex-wrap">
-        <Link to="/" className="hover:text-brand-gold">Home</Link><span>/</span>
-        <Link to="/collections" className="hover:text-brand-gold">Collections</Link><span>/</span>
-        <Link to={`/collections/${product.category?.slug}`} className="hover:text-brand-gold capitalize">{product.category?.name}</Link><span>/</span>
-        <span className="text-brand-black truncate max-w-[200px]">{product.name}</span>
+      <nav className="product-detail-breadcrumb">
+        <Link to="/" className="product-detail-breadcrumb-link">Home</Link><span>/</span>
+        <Link to="/collections" className="product-detail-breadcrumb-link">Collections</Link><span>/</span>
+        <Link to={`/collections/${product.category?.slug}`} className="product-detail-breadcrumb-link capitalize">{product.category?.name}</Link><span>/</span>
+        <span className="product-detail-breadcrumb-current">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+      <div className="product-detail-grid">
         {/* Images */}
-        <div className="space-y-4">
-          <div className="relative aspect-square bg-brand-cream rounded-2xl overflow-hidden group">
-            <img src={imgs[selectedImg]} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow"><FiZoomIn size={18} /></button>
-            {product.discount > 0 && <span className="absolute top-3 left-3 bg-red-500 text-white text-sm px-3 py-1 rounded-full font-medium">{product.discount}% OFF</span>}
+        <div className="product-images-section">
+          <div className="product-main-image">
+            <img src={imgs[selectedImg]} alt={product.name} />
+            <button className="product-zoom-button"><FiZoomIn size={18} /></button>
+            {product.discount > 0 && <span className="product-discount-badge">{product.discount}% OFF</span>}
           </div>
           {imgs.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="product-thumbnails">
               {imgs.map((img, i) => (
-                <button key={i} onClick={() => setSelectedImg(i)} className={`w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${i === selectedImg ? "border-brand-gold" : "border-transparent"}`}>
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                <button key={i} onClick={() => setSelectedImg(i)} className={`product-thumbnail ${i === selectedImg ? "active" : ""}`}>
+                  <img src={img} alt="" />
                 </button>
               ))}
             </div>
@@ -102,55 +103,57 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Details */}
-        <div>
-          <p className="text-brand-gold text-xs tracking-widest uppercase mb-1">{product.style || product.category?.name}</p>
-          <h1 className="font-serif text-2xl sm:text-3xl text-brand-black mb-3 leading-tight">{product.name}</h1>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex text-amber-400 text-sm">{Array.from({ length: 5 }, (_, i) => <span key={i}>{i < Math.round(product.rating) ? "★" : "☆"}</span>)}</div>
-            <span className="text-sm text-gray-500">({product.numReviews} reviews)</span>
+        <div className="product-details-section">
+          <p className="product-category">{product.style || product.category?.name}</p>
+          <h1 className="product-detail-title">{product.name}</h1>
+          <div className="product-rating-section">
+            <div className="product-stars">{Array.from({ length: 5 }, (_, i) => <span key={i}>{i < Math.round(product.rating) ? "★" : "☆"}</span>)}</div>
+            <span className="product-reviews-count">({product.numReviews} reviews)</span>
           </div>
-          <div className="flex items-baseline gap-3 mb-6">
-            <span className="text-3xl font-bold text-brand-black">₹{product.price?.toLocaleString()}</span>
-            <span className="text-lg text-gray-400 line-through">₹{product.mrp?.toLocaleString()}</span>
-            <span className="text-green-600 font-semibold text-sm bg-green-50 px-2 py-0.5 rounded">{product.discount}% off</span>
+          <div className="product-pricing-section">
+            <span className="product-current-price">₹{product.price?.toLocaleString()}</span>
+            <span className="product-original-price">₹{product.mrp?.toLocaleString()}</span>
+            <span className="product-discount-percentage">{product.discount}% off</span>
           </div>
           {product.variants?.length > 0 && (
-            <div className="mb-6">
-              <p className="text-sm font-medium mb-2">Color: <span className="text-brand-gold">{selectedVariant?.color || "Select"}</span></p>
-              <div className="flex gap-2">
+            <div className="product-variants-section">
+              <p className="product-variant-label">Color: <span className="product-variant-highlight">{selectedVariant?.color || "Select"}</span></p>
+              <div className="product-color-swatches">
                 {product.variants.map(v => (
                   <button key={v.color} onClick={() => setSelectedVariant(v)} title={v.color}
                     style={{ backgroundColor: v.colorHex }}
-                    className={`w-8 h-8 rounded-full border-2 transition-all ${selectedVariant?.color === v.color ? "border-brand-gold scale-110" : "border-gray-300"}`} />
+                    className={`product-color-swatch ${selectedVariant?.color === v.color ? "active" : ""}`} />
                 ))}
               </div>
             </div>
           )}
-          <div className="flex items-center gap-4 mb-6">
-            <p className="text-sm font-medium">Quantity:</p>
-            <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden">
-              <button onClick={() => setQty(q => Math.max(1, q - 1))} className="px-4 py-2 hover:bg-brand-cream"><FiMinus size={14} /></button>
-              <span className="px-4 py-2 font-medium min-w-[40px] text-center">{qty}</span>
-              <button onClick={() => setQty(q => Math.min(product.stock || 10, q + 1))} className="px-4 py-2 hover:bg-brand-cream"><FiPlus size={14} /></button>
+          <div className="product-quantity-section">
+            <p className="product-quantity-label">Quantity:</p>
+            <div className="product-quantity-controls">
+              <button onClick={() => setQty(q => Math.max(1, q - 1))} className="product-quantity-button"><FiMinus size={14} /></button>
+              <span className="product-quantity-display">{qty}</span>
+              <button onClick={() => setQty(q => Math.min(product.stock || 10, q + 1))} className="product-quantity-button"><FiPlus size={14} /></button>
             </div>
-            <span className="text-xs text-gray-400">{product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}</span>
+            <span className="product-stock-status">{product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}</span>
           </div>
-          <div className="flex gap-3 mb-6">
-            <button onClick={handleAddToCart} className="flex-1 flex items-center justify-center gap-2 border-2 border-brand-gold text-brand-gold py-3.5 rounded-xl font-semibold hover:bg-brand-gold hover:text-white transition-all">
+          <div className="product-action-buttons">
+            <button onClick={handleAddToCart} className="product-add-to-cart-button">
               <FiShoppingBag size={18} /> Add to Cart
             </button>
-            <button onClick={handleBuyNow} className="flex-1 bg-brand-black text-brand-gold py-3.5 rounded-xl font-semibold hover:bg-brand-gold hover:text-white transition-all">Buy Now</button>
-            <button onClick={() => toggle(product._id)} className={`p-3.5 rounded-xl border-2 transition-all ${wishlisted ? "bg-red-500 border-red-500 text-white" : "border-gray-300 hover:border-red-400 hover:text-red-400"}`}>
+            <button onClick={handleBuyNow} className="product-buy-now-button">Buy Now</button>
+            <button onClick={() => toggle(product._id)} className={`product-wishlist-button ${wishlisted ? "active" : ""}`}>
               <FiHeart size={18} fill={wishlisted ? "currentColor" : "none"} />
             </button>
           </div>
           {/* Share */}
-          <div className="flex items-center gap-3 text-sm text-gray-500 mb-6">
-            <FiShare2 size={14} /> Share:
-            <a href={`https://wa.me/?text=${encodeURIComponent(product.name + " - " + window.location.href)}`} target="_blank" rel="noreferrer" className="text-green-600 hover:scale-110 transition-transform"><FaWhatsapp size={20} /></a>
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:scale-110 transition-transform"><FaFacebook size={20} /></a>
+          <div className="product-share-section">
+            <div className="product-share-icon"><FiShare2 size={14} /> Share:</div>
+            <div className="product-share-links">
+              <a href={`https://wa.me/?text=${encodeURIComponent(product.name + " - " + window.location.href)}`} target="_blank" rel="noreferrer" className="product-share-link" style={{ color: "var(--color-success)" }}><FaWhatsapp size={20} /></a>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`} target="_blank" rel="noreferrer" className="product-share-link" style={{ color: "#1877f2" }}><FaFacebook size={20} /></a>
+            </div>
           </div>
-          <div className="bg-brand-cream rounded-xl p-4 text-sm text-gray-600 space-y-1">
+          <div className="product-info-box">
             <p>✅ Free shipping on orders above ₹999</p>
             <p>↩️ 7-day hassle-free return policy</p>
             <p>🔒 100% secure payment</p>
@@ -160,47 +163,49 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Tabs */}
-      <div className="mb-16">
-        <div className="flex border-b mb-6 overflow-x-auto">
+      <div className="product-tabs">
+        <div className="product-tabs-header">
           {["description", "reviews"].map(t => (
-            <button key={t} onClick={() => setTab(t)} className={`px-6 py-3 text-sm font-medium capitalize whitespace-nowrap border-b-2 transition-colors ${tab === t ? "border-brand-gold text-brand-gold" : "border-transparent text-gray-500 hover:text-brand-gold"}`}>{t === "reviews" ? `Reviews (${product.numReviews})` : t}</button>
+            <button key={t} onClick={() => setTab(t)} className={`product-tab-button ${tab === t ? "active" : ""}`}>{t === "reviews" ? `Reviews (${product.numReviews})` : t}</button>
           ))}
         </div>
         {tab === "description" && (
-          <div className="prose max-w-none text-gray-700 leading-relaxed">
-            <p>{product.description}</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
-              {[["Material", "Brass with Gold Plating"], ["Stone", "Kundan & Meenakari"], ["Care", "Avoid water & perfume"], ["Occasion", "Bridal & Festive"], ["Finish", "Antique Gold"], ["Set Includes", "Necklace + Earrings"]].map(([k, v]) => (
-                <div key={k} className="bg-brand-cream rounded-lg p-3"><p className="text-xs text-gray-500 mb-1">{k}</p><p className="text-sm font-medium">{v}</p></div>
-              ))}
+          <div>
+            <div className="product-description">
+              <p>{product.description}</p>
+              <div className="product-specs-grid">
+                {[["Material", "Brass with Gold Plating"], ["Stone", "Kundan & Meenakari"], ["Care", "Avoid water & perfume"], ["Occasion", "Bridal & Festive"], ["Finish", "Antique Gold"], ["Set Includes", "Necklace + Earrings"]].map(([k, v]) => (
+                  <div key={k} className="product-spec-item"><p className="product-spec-label">{k}</p><p className="product-spec-value">{v}</p></div>
+                ))}
+              </div>
             </div>
           </div>
         )}
         {tab === "reviews" && (
           <div>
-            <div className="space-y-4 mb-8">
+            <div className="product-reviews-list">
               {product.reviews?.filter(r => r.isApproved !== false).map(r => (
-                <div key={r._id} className="bg-white rounded-xl p-4 shadow-sm">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium text-sm">{r.name}</span>
-                    <div className="flex text-amber-400 text-sm">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</div>
+                <div key={r._id} className="product-review-item">
+                  <div className="product-review-header">
+                    <span className="product-review-name">{r.name}</span>
+                    <div className="product-review-stars">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</div>
                   </div>
-                  <p className="text-gray-600 text-sm">{r.comment}</p>
-                  {r.adminReply && <div className="mt-2 pl-3 border-l-2 border-brand-gold text-xs text-gray-500"><span className="font-medium text-brand-gold">GeetadhyaJewels: </span>{r.adminReply}</div>}
+                  <p className="product-review-text">{r.comment}</p>
+                  {r.adminReply && <div className="product-review-reply"><span className="product-review-reply-brand">GeetadhyaJewels: </span>{r.adminReply}</div>}
                 </div>
               ))}
             </div>
             {user && (
-              <form onSubmit={submitReview} className="bg-white rounded-xl p-6 shadow-sm">
-                <h3 className="font-semibold mb-4">Write a Review</h3>
-                <div className="flex gap-1 mb-4">
+              <form onSubmit={submitReview} className="product-review-form">
+                <h3>Write a Review</h3>
+                <div className="product-review-rating">
                   {[1,2,3,4,5].map(s => (
-                    <button key={s} type="button" onClick={() => setReviewRating(s)} className={`text-2xl ${s <= reviewRating ? "text-amber-400" : "text-gray-300"}`}>★</button>
+                    <button key={s} type="button" onClick={() => setReviewRating(s)} className={`product-review-rating-button ${s <= reviewRating ? "active" : ""}`}>★</button>
                   ))}
                 </div>
                 <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Share your experience..." rows={4} required
-                  className="w-full border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-brand-gold resize-none mb-4" />
-                <button type="submit" className="bg-brand-gold text-white px-6 py-2.5 rounded-lg font-medium hover:bg-brand-gold-dark transition-colors">Submit Review</button>
+                  className="product-review-textarea" />
+                <button type="submit" className="product-review-submit">Submit Review</button>
               </form>
             )}
           </div>
@@ -208,18 +213,18 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Similar */}
-      <div>
-        <h2 className="font-serif text-2xl text-brand-black mb-6">You May Also Like</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+      <div className="product-similar-section">
+        <h2>You May Also Like</h2>
+        <div className="product-similar-grid">
           {similar.map(p => <ProductCard key={p._id} product={p} />)}
         </div>
       </div>
 
       {/* Sticky Add to Cart (mobile) */}
       {stickyVisible && (
-        <div className="fixed bottom-16 lg:bottom-0 left-0 right-0 z-30 bg-white border-t shadow-lg p-3 flex gap-3 lg:hidden">
-          <div className="flex-1"><p className="font-medium text-sm truncate">{product.name}</p><p className="text-brand-gold font-bold">₹{product.price?.toLocaleString()}</p></div>
-          <button onClick={handleAddToCart} className="bg-brand-gold text-white px-5 py-2.5 rounded-xl font-medium text-sm">Add to Cart</button>
+        <div className="product-sticky-bar">
+          <div className="product-sticky-info"><p className="product-sticky-name">{product.name}</p><p className="product-sticky-price">₹{product.price?.toLocaleString()}</p></div>
+          <button onClick={handleAddToCart} className="product-sticky-button">Add to Cart</button>
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import "../styles/info-pages.css";
 
 const faqs = [
   { q: "What is imitation jewellery?", a: "Imitation jewellery is crafted from non-precious metals and stones that mimic the appearance of fine jewellery. Our pieces use high-quality brass with gold/silver plating and premium stones." },

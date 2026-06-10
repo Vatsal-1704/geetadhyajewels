@@ -3,6 +3,7 @@ import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useFormValidation } from "../hooks/useFormValidation";
+import "../styles/info-pages.css";
 import { validators } from "../utils/validators";
 import FormInput from "../components/form/FormInput";
 import api from "../utils/api";

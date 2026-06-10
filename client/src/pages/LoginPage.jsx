@@ -6,6 +6,7 @@ import { useFormValidation } from "../hooks/useFormValidation";
 import { validators } from "../utils/validators";
 import FormInput from "../components/form/FormInput";
 import PasswordStrengthIndicator from "../components/form/PasswordStrengthIndicator";
+import "./LoginPage.css";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);

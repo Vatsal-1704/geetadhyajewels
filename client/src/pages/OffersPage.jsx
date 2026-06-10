@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
+import "../styles/info-pages.css";
 
 const MOCK = Array.from({ length: 6 }, (_, i) => ({
   _id: `o${i}`, slug: `offer-product-${i}`, name: ["Kundan Necklace", "Bridal Earrings", "Gold Bangle Set", "Temple Pendant", "Pearl Maang Tikka", "Oxidised Anklet"][i],

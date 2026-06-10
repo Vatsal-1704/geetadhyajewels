@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../utils/api";
 import { toast } from "react-toastify";
+import "../styles/info-pages.css";
 
 export default function SalesPage() {
   const [banners, setBanners] = useState([]);

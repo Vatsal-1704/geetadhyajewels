@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiSearch, FiPackage } from "react-icons/fi";
 import api from "../utils/api";
+import "./TrackOrderPage.css";
 
 const STEPS = ["pending", "confirmed", "shipped", "delivered"];
 const STEP_LABELS = { pending: "Order Placed", confirmed: "Order Confirmed", shipped: "Shipped", delivered: "Delivered" };

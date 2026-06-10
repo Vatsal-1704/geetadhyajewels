@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { FiCheck, FiX } from "react-icons/fi";
 import FormInput from "../components/form/FormInput";
 import { validators } from "../utils/validators";
+import "./CheckoutPage.css";
 
 const STEPS = ["Address", "Delivery", "Payment"];
 

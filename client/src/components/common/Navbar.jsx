@@ -4,6 +4,7 @@ import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX, FiChevronDown } 
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
+import "./Navbar.css";
 
 const categories = [
   { name: "Necklaces", slug: "necklaces" }, { name: "Earrings", slug: "earrings" },
@@ -37,92 +38,92 @@ export default function Navbar() {
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-brand-black text-brand-gold text-xs py-2 overflow-hidden">
-        <div className="marquee-text whitespace-nowrap inline-block">
+      <div className="navbar-announcement">
+        <div className="navbar-announcement-text">
           🚚 FREE SHIPPING on orders above ₹999 &nbsp;&nbsp;|&nbsp;&nbsp; 💎 Use code JEWEL10 for 10% OFF &nbsp;&nbsp;|&nbsp;&nbsp; ✨ New Arrivals Every Week &nbsp;&nbsp;|&nbsp;&nbsp; 📞 WhatsApp Us: +91 XXXXXXXXXX &nbsp;&nbsp;|&nbsp;&nbsp; 🚚 FREE SHIPPING on orders above ₹999 &nbsp;&nbsp;|&nbsp;&nbsp; 💎 Use code JEWEL10 for 10% OFF
         </div>
       </div>
 
       {/* Main Nav */}
-      <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-md" : "bg-brand-cream"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Hamburger (mobile) */}
-            <button className="lg:hidden p-2" onClick={() => setMenuOpen(true)}>
-              <FiMenu size={22} className="text-brand-black" />
-            </button>
+      <nav className={`navbar ${scrolled ? "navbar-scrolled" : "navbar-default"}`}>
+        <div className="navbar-inner">
+          {/* Hamburger (mobile) */}
+          <button className="navbar-hamburger" onClick={() => setMenuOpen(true)}>
+            <FiMenu size={22} />
+          </button>
 
-            {/* Logo */}
-            <Link to="/" className="flex-shrink-0">
-              <div className="text-center">
-                <span className="font-serif text-xl font-bold tracking-wide text-brand-black">
-                  Geetadhya<span className="text-brand-gold">Jewels</span>
-                </span>
-                <p className="text-xs text-gray-500 tracking-widest hidden sm:block" style={{ fontSize: "9px" }}>ELEGANT IMITATION JEWELLERY</p>
-              </div>
-            </Link>
-
-            {/* Desktop Nav Links */}
-            <div className="hidden lg:flex items-center space-x-8">
-              <Link to="/" className="text-sm font-medium text-brand-black hover:text-brand-gold transition-colors">Home</Link>
-              <div className="relative group" onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)}>
-                <button className="flex items-center gap-1 text-sm font-medium text-brand-black hover:text-brand-gold transition-colors">
-                  Shop <FiChevronDown size={14} />
-                </button>
-                {shopOpen && (
-                  <div className="absolute top-full left-0 bg-white shadow-xl rounded-lg p-4 w-64 grid grid-cols-2 gap-2 z-50">
-                    {categories.map(c => (
-                      <Link key={c.slug} to={`/collections/${c.slug}`} className="text-sm text-gray-700 hover:text-brand-gold py-1 px-2 rounded hover:bg-brand-cream transition-colors" onClick={() => setShopOpen(false)}>{c.name}</Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <Link to="/offers" className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">🔥 Offers</Link>
-              <Link to="/sales" className="text-sm font-medium text-brand-gold hover:text-brand-black transition-colors">💎 Sales</Link>
-              <Link to="/about" className="text-sm font-medium text-brand-black hover:text-brand-gold transition-colors">About</Link>
-              <Link to="/contact" className="text-sm font-medium text-brand-black hover:text-brand-gold transition-colors">Contact</Link>
+          {/* Logo */}
+          <Link to="/" className="navbar-logo">
+            <div>
+              <span className="navbar-logo-text">
+                Geetadhya<span className="navbar-logo-gold">Jewels</span>
+              </span>
+              <p className="navbar-logo-tagline">ELEGANT IMITATION JEWELLERY</p>
             </div>
+          </Link>
 
-            {/* Icons */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <button onClick={() => setSearchOpen(true)} className="p-1.5 hover:text-brand-gold transition-colors"><FiSearch size={20} /></button>
-              <Link to="/wishlist" className="p-1.5 hover:text-brand-gold transition-colors relative">
-                <FiHeart size={20} />
-                {wishlist.length > 0 && <span className="absolute -top-1 -right-1 bg-brand-gold text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{wishlist.length}</span>}
-              </Link>
-              <Link to="/cart" className="p-1.5 hover:text-brand-gold transition-colors relative">
-                <FiShoppingBag size={20} />
-                {itemCount > 0 && <span className="absolute -top-1 -right-1 bg-brand-gold text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{itemCount}</span>}
-              </Link>
-              {user ? (
-                <div className="relative group">
-                  <button className="p-1.5 hover:text-brand-gold transition-colors"><FiUser size={20} /></button>
-                  <div className="absolute right-0 top-full hidden group-hover:block bg-white shadow-lg rounded-lg py-2 w-44 z-50">
-                    <Link to="/account" className="block px-4 py-2 text-sm hover:bg-brand-cream hover:text-brand-gold">My Account</Link>
-                    <Link to="/account/orders" className="block px-4 py-2 text-sm hover:bg-brand-cream hover:text-brand-gold">My Orders</Link>
-                    <Link to="/account/wishlist" className="block px-4 py-2 text-sm hover:bg-brand-cream hover:text-brand-gold">Wishlist</Link>
-                    {user.role === "admin" && <Link to="/admin" className="block px-4 py-2 text-sm text-brand-gold font-medium hover:bg-brand-cream">Admin Panel</Link>}
-                    <hr className="my-1" />
-                    <button onClick={logout} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>
-                  </div>
+          {/* Desktop Nav Links */}
+          <div className="navbar-links">
+            <Link to="/" className="navbar-link">Home</Link>
+            <div className="relative group" onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)}>
+              <button className="navbar-link">
+                Shop <FiChevronDown size={14} />
+              </button>
+              {shopOpen && (
+                <div className="navbar-dropdown">
+                  {categories.map(c => (
+                    <Link key={c.slug} to={`/collections/${c.slug}`} className="navbar-dropdown-item" onClick={() => setShopOpen(false)}>{c.name}</Link>
+                  ))}
                 </div>
-              ) : (
-                <Link to="/login" className="p-1.5 hover:text-brand-gold transition-colors"><FiUser size={20} /></Link>
               )}
             </div>
+            <Link to="/offers" className="navbar-link navbar-link-special">🔥 Offers</Link>
+            <Link to="/sales" className="navbar-link navbar-link-highlight">💎 Sales</Link>
+            <Link to="/about" className="navbar-link">About</Link>
+            <Link to="/contact" className="navbar-link">Contact</Link>
+          </div>
+
+          {/* Icons */}
+          <div className="navbar-icons">
+            <button onClick={() => setSearchOpen(true)} className="navbar-icon-button"><FiSearch size={20} /></button>
+            <Link to="/wishlist" className="navbar-icon-button">
+              <FiHeart size={20} />
+              {wishlist.length > 0 && <span className="navbar-icon-badge">{wishlist.length}</span>}
+            </Link>
+            <Link to="/cart" className="navbar-icon-button">
+              <FiShoppingBag size={20} />
+              {itemCount > 0 && <span className="navbar-icon-badge">{itemCount}</span>}
+            </Link>
+            {user ? (
+              <div className="relative group">
+                <button className="navbar-icon-button"><FiUser size={20} /></button>
+                <div className="navbar-user-menu hidden group-hover:block">
+                  <Link to="/account" className="navbar-user-item">My Account</Link>
+                  <Link to="/account/orders" className="navbar-user-item">My Orders</Link>
+                  <Link to="/account/wishlist" className="navbar-user-item">Wishlist</Link>
+                  {user.role === "admin" && <Link to="/admin" className="navbar-user-item" style={{ color: "var(--color-gold)" }}>Admin Panel</Link>}
+                  <hr style={{ borderColor: "var(--color-border)", margin: "var(--space-1) 0" }} />
+                  <button onClick={logout} className="navbar-user-item navbar-user-item-danger">Logout</button>
+                </div>
+              </div>
+            ) : (
+              <Link to="/login" className="navbar-icon-button"><FiUser size={20} /></Link>
+            )}
           </div>
         </div>
 
         {/* Search Overlay */}
         {searchOpen && (
-          <div className="absolute inset-x-0 top-0 bg-white z-50 shadow-lg">
-            <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-3">
-              <FiSearch size={20} className="text-brand-gold" />
-              <form onSubmit={handleSearch} className="flex-1">
-                <input autoFocus value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Search for jewellery, occasions, styles..." className="w-full text-lg outline-none bg-transparent" />
-              </form>
-              <button onClick={() => setSearchOpen(false)}><FiX size={22} /></button>
+          <div className="navbar-search-modal" onClick={() => setSearchOpen(false)}>
+            <div className="navbar-search-box" onClick={e => e.stopPropagation()}>
+              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+                <FiSearch size={20} style={{ color: "var(--color-gold)" }} />
+                <form onSubmit={handleSearch} style={{ flex: 1 }}>
+                  <input autoFocus value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                    placeholder="Search for jewellery, occasions, styles..." className="navbar-search-input" />
+                </form>
+                <button onClick={() => setSearchOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-primary)" }}><FiX size={22} /></button>
+              </div>
             </div>
           </div>
         )}
@@ -130,25 +131,25 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setMenuOpen(false)} />
-          <div className="absolute left-0 top-0 bottom-0 w-80 bg-white shadow-xl animate-slide-in-right">
-            <div className="flex items-center justify-between p-4 border-b">
-              <span className="font-serif text-xl font-bold">Geetadhya<span className="text-brand-gold">Jewels</span></span>
-              <button onClick={() => setMenuOpen(false)}><FiX size={22} /></button>
+        <>
+          <div className="navbar-mobile-overlay" onClick={() => setMenuOpen(false)} />
+          <div className="navbar-mobile-menu">
+            <div className="navbar-mobile-header">
+              <span className="navbar-mobile-title">Geetadhya<span className="navbar-logo-gold">Jewels</span></span>
+              <button className="navbar-mobile-close" onClick={() => setMenuOpen(false)}><FiX size={22} /></button>
             </div>
-            <nav className="p-4 space-y-1">
+            <nav className="navbar-mobile-links">
               {[{ to: "/", label: "Home" }, { to: "/offers", label: "🔥 Offers" }, { to: "/sales", label: "💎 Sales & Promotions" }, { to: "/about", label: "About Us" }, { to: "/contact", label: "Contact" }, { to: "/track-order", label: "Track Order" }].map(l => (
-                <Link key={l.to} to={l.to} onClick={() => setMenuOpen(false)} className="block py-3 px-3 text-sm font-medium border-b hover:text-brand-gold hover:bg-brand-cream rounded">{l.label}</Link>
+                <Link key={l.to} to={l.to} onClick={() => setMenuOpen(false)} className="navbar-mobile-link">{l.label}</Link>
               ))}
-              <div className="pt-2"><p className="text-xs font-semibold text-gray-400 uppercase tracking-widest px-3 mb-2">Shop by Category</p>
+              <div style={{ paddingTop: "var(--space-2)" }}><p style={{ fontSize: "var(--text-xs)", fontWeight: "var(--weight-semibold)", color: "var(--color-text-muted)", letterSpacing: "0.05em", padding: "var(--space-3) var(--space-2)", marginBottom: "var(--space-2)" }}>SHOP BY CATEGORY</p>
                 {categories.map(c => (
-                  <Link key={c.slug} to={`/collections/${c.slug}`} onClick={() => setMenuOpen(false)} className="block py-2 px-3 text-sm hover:text-brand-gold hover:bg-brand-cream rounded">{c.name}</Link>
+                  <Link key={c.slug} to={`/collections/${c.slug}`} onClick={() => setMenuOpen(false)} className="navbar-mobile-link">{c.name}</Link>
                 ))}
               </div>
             </nav>
           </div>
-        </div>
+        </>
       )}
     </>
   );

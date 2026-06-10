@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { FiSearch, FiFilter, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
+import "./CollectionsPage.css";
 
 const STYLES = ["Gold Plated", "Oxidised", "Kundan", "American Diamond", "Temple", "Silver Plated"];
 const PRICE_RANGES = [{ label: "Under ₹500", min: 0, max: 500 }, { label: "₹500–₹1000", min: 500, max: 1000 }, { label: "₹1000–₹2000", min: 1000, max: 2000 }, { label: "Above ₹2000", min: 2000, max: 99999 }];

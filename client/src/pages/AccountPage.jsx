@@ -8,6 +8,7 @@ import ProductCard from "../components/common/ProductCard";
 import { useFormValidation } from "../hooks/useFormValidation";
 import { validators } from "../utils/validators";
 import FormInput from "../components/form/FormInput";
+import "./AccountPage.css";
 
 const TABS = [{ id: "orders", label: "My Orders", icon: FiPackage }, { id: "wishlist", label: "Wishlist", icon: FiHeart }, { id: "addresses", label: "Addresses", icon: FiMapPin }, { id: "profile", label: "Profile", icon: FiUser }];
 

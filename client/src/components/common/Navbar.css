@@ -1,0 +1,419 @@
+/* ============================================================================
+   NAVBAR — LUXURY DESIGN
+   Navigation bar with search, cart, and user menu
+   ============================================================================ */
+
+/* ========== ANNOUNCEMENT BAR ========== */
+
+.navbar-announcement {
+  background-color: var(--color-bg);
+  color: var(--color-gold);
+  font-size: var(--text-xs);
+  padding: var(--space-2) 0;
+  overflow: hidden;
+}
+
+.navbar-announcement-text {
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ========== MAIN NAV ========== */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: all var(--transition-base);
+}
+
+.navbar-scrolled {
+  background-color: var(--color-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-default {
+  background-color: var(--color-surface);
+}
+
+.navbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+@media (min-width: 768px) {
+  .navbar-inner {
+    padding: 0 var(--space-8);
+  }
+}
+
+/* ========== HAMBURGER (MOBILE) ========== */
+
+.navbar-hamburger {
+  display: none;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 1023px) {
+  .navbar-hamburger {
+    display: flex;
+  }
+}
+
+/* ========== LOGO ========== */
+
+.navbar-logo {
+  flex-shrink: 0;
+  text-decoration: none;
+  text-align: center;
+}
+
+.navbar-logo-text {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+}
+
+.navbar-logo-gold {
+  color: var(--color-gold);
+}
+
+.navbar-logo-tagline {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .navbar-logo-tagline {
+    display: block;
+  }
+}
+
+/* ========== DESKTOP NAV LINKS ========== */
+
+.navbar-links {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .navbar-links {
+    display: flex;
+  }
+}
+
+.navbar-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.navbar-link:hover {
+  color: var(--color-gold);
+}
+
+.navbar-link-special {
+  color: var(--color-error);
+}
+
+.navbar-link-special:hover {
+  color: var(--color-error);
+}
+
+.navbar-link-highlight {
+  color: var(--color-gold);
+}
+
+.navbar-link-highlight:hover {
+  color: var(--color-text-primary);
+}
+
+/* ========== DROPDOWN MENU ========== */
+
+.navbar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  width: 256px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  z-index: 50;
+}
+
+.navbar-dropdown-item {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.navbar-dropdown-item:hover {
+  background-color: var(--color-bg);
+  color: var(--color-gold);
+}
+
+/* ========== ICONS ========== */
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.navbar-icon-button {
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  transition: color var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.navbar-icon-button:hover {
+  color: var(--color-gold);
+}
+
+.navbar-icon-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  font-size: var(--text-xs);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--weight-semibold);
+}
+
+/* ========== USER MENU ========== */
+
+.navbar-user-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2);
+  min-width: 176px;
+  z-index: 50;
+}
+
+.navbar-user-item {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  display: block;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: none;
+}
+
+.navbar-user-item:hover {
+  background-color: var(--color-bg);
+  color: var(--color-gold);
+}
+
+.navbar-user-item-danger {
+  color: var(--color-error);
+}
+
+.navbar-user-item-danger:hover {
+  background-color: rgba(224, 92, 92, 0.1);
+  color: var(--color-error);
+}
+
+/* ========== MOBILE MENU ========== */
+
+.navbar-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+.navbar-mobile-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 320px;
+  background-color: var(--color-surface);
+  padding: var(--space-6);
+  overflow-y: auto;
+  z-index: 50;
+  animation: slideIn var(--transition-slow);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.navbar-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.navbar-mobile-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.navbar-mobile-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  padding: 0;
+}
+
+.navbar-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.navbar-mobile-link {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.navbar-mobile-link:hover {
+  background-color: var(--color-bg);
+  color: var(--color-gold);
+}
+
+/* ========== SEARCH MODAL ========== */
+
+.navbar-search-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: var(--space-12);
+}
+
+.navbar-search-box {
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+}
+
+.navbar-search-input {
+  width: 100%;
+  padding: var(--space-3);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+}
+
+.navbar-search-input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* ========== FOCUS STATES ========== */
+
+.navbar-icon-button:focus-visible,
+.navbar-link:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ========== MARQUEE ANIMATION ========== */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navbar-icon-button,
+  .navbar-link {
+    transition: none;
+  }
+
+  .navbar-mobile-menu {
+    animation: none;
+  }
+
+  .navbar-announcement-text {
+    animation: none;
+  }
+}
