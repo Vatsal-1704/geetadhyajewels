@@ -60,9 +60,16 @@ export default function Footer() {
             {/* Newsletter */}
             <div className="footer-newsletter">
               <label className="footer-newsletter-label">Subscribe for exclusive deals</label>
-              <form className="footer-newsletter-form">
-                <input type="email" placeholder="Your email" className="footer-newsletter-input" />
-                <button type="button" className="footer-newsletter-button">→</button>
+              <form className="footer-newsletter-form" onSubmit={(e) => {
+                e.preventDefault();
+                const email = e.target.querySelector('input[type="email"]')?.value;
+                if (email) {
+                  e.target.reset();
+                  // API call would go here
+                }
+              }}>
+                <input type="email" placeholder="Your email" className="footer-newsletter-input" required />
+                <button type="submit" className="footer-newsletter-button">→</button>
               </form>
             </div>
           </div>

@@ -7,11 +7,20 @@ import "./OrderConfirmationPage.css";
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [confetti, setConfetti] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
-      try { const { data } = await api.get(`/orders/${orderId}`); setOrder(data); } catch {}
+      try {
+        setLoading(true);
+        const { data } = await api.get(`/orders/${orderId}`);
+        setOrder(data);
+      } catch (err) {
+        console.error("Failed to load order:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetch();
     const t = setTimeout(() => setConfetti(false), 5000);
@@ -19,6 +28,17 @@ export default function OrderConfirmationPage() {
   }, [orderId]);
 
   const delivery = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-gray-500">Loading your order details...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">

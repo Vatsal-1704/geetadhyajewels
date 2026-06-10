@@ -12,13 +12,23 @@ export default function CartPage() {
   const [couponLoading, setCouponLoading] = useState(false);
 
   const applyCoupon = async () => {
-    if (!couponCode.trim()) return;
+    if (!couponCode.trim()) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
     try {
       setCouponLoading(true);
       const { data } = await api.post("/coupons/validate", { code: couponCode, orderValue: subtotal });
-      setCoupon({ ...data.coupon, discountAmount: data.discountAmount });
-      toast.success(`Coupon applied! You save ₹${data.discountAmount}`);
-    } catch (err) { toast.error(err.response?.data?.message || "Invalid coupon"); }
+      if (data?.coupon) {
+        setCoupon({ ...data.coupon, discountAmount: data.discountAmount });
+        toast.success(`Coupon applied! You save ₹${data.discountAmount}`);
+        setCouponCode("");
+      } else {
+        toast.error("Invalid coupon response");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Invalid or expired coupon");
+    }
     finally { setCouponLoading(false); }
   };
 
@@ -52,7 +62,10 @@ export default function CartPage() {
               <div className="cart-item-controls">
                 <button onClick={() => removeFromCart(item.key)} className="cart-item-delete"><FiTrash2 size={16} /></button>
                 <div className="cart-item-quantity">
-                  <button onClick={() => updateQuantity(item.key, item.quantity - 1)} className="cart-item-quantity-button"><FiMinus size={12} /></button>
+                  <button onClick={() => {
+                    if (item.quantity <= 1) removeFromCart(item.key);
+                    else updateQuantity(item.key, item.quantity - 1);
+                  }} className="cart-item-quantity-button"><FiMinus size={12} /></button>
                   <span className="cart-item-quantity-display">{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.key, item.quantity + 1)} className="cart-item-quantity-button"><FiPlus size={12} /></button>
                 </div>

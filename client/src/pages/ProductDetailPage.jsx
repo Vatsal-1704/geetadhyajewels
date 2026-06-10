@@ -46,12 +46,18 @@ export default function ProductDetailPage() {
     const fetchProduct = async () => {
       try {
         const { data } = await api.get(`/products/${slug}`);
-        setProduct(data);
-        if (data._id) {
-          const { data: sim } = await api.get(`/products/${data._id}/similar`);
-          if (sim.length) setSimilar(sim);
+        if (data && data._id) {
+          setProduct(data);
+          try {
+            const { data: sim } = await api.get(`/products/${data._id}/similar`);
+            if (sim && sim.length > 0) setSimilar(sim);
+          } catch (err) {
+            console.error("Failed to load similar products:", err);
+          }
         }
-      } catch {}
+      } catch (err) {
+        console.error("Failed to load product:", err);
+      }
     };
     fetchProduct();
     const h = () => setStickyVisible(window.scrollY > 500);
@@ -59,8 +65,23 @@ export default function ProductDetailPage() {
     return () => window.removeEventListener("scroll", h);
   }, [slug]);
 
-  const handleAddToCart = () => { addToCart(product, qty, selectedVariant); toast.success("Added to cart! 🛍️"); };
-  const handleBuyNow = () => { addToCart(product, qty, selectedVariant); window.location.href = "/checkout"; };
+  const handleAddToCart = () => {
+    if (product.stock <= 0) {
+      toast.error("This item is out of stock");
+      return;
+    }
+    addToCart(product, qty, selectedVariant);
+    toast.success("Added to cart! 🛍️");
+  };
+
+  const handleBuyNow = () => {
+    if (product.stock <= 0) {
+      toast.error("This item is out of stock");
+      return;
+    }
+    addToCart(product, qty, selectedVariant);
+    window.location.href = "/checkout";
+  };
   const submitReview = async (e) => {
     e.preventDefault();
     try {

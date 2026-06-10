@@ -169,7 +169,7 @@
 .hero-cta-button:hover {
   background-color: var(--color-gold-light);
   box-shadow: var(--shadow-gold-hover);
-  transform: translateY(-2px);
+  transform: translateY(2px);
 }
 
 .hero-cta-button:active {

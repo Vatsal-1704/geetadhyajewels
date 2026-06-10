@@ -53,7 +53,7 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link to="/" className="navbar-logo">
+          <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
             <div>
               <span className="navbar-logo-text">
                 Geetadhya<span className="navbar-logo-gold">Jewels</span>
@@ -66,7 +66,7 @@ export default function Navbar() {
           <div className="navbar-links">
             <Link to="/" className="navbar-link">Home</Link>
             <div className="relative group">
-              <button className="navbar-link">
+              <button onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)} className="navbar-link">
                 Shop <FiChevronDown size={14} />
               </button>
               {shopOpen && (
@@ -86,10 +86,10 @@ export default function Navbar() {
           {/* Icons */}
           <div className="navbar-icons">
             <button onClick={() => setSearchOpen(true)} className="navbar-icon-button"><FiSearch size={20} /></button>
-            <Link to="/wishlist" className="navbar-icon-button">
+            <button onClick={() => user ? navigate("/account?tab=wishlist") : navigate("/login")} className="navbar-icon-button">
               <FiHeart size={20} />
               {wishlist.length > 0 && <span className="navbar-icon-badge">{wishlist.length}</span>}
-            </Link>
+            </button>
             <Link to="/cart" className="navbar-icon-button">
               <FiShoppingBag size={20} />
               {itemCount > 0 && <span className="navbar-icon-badge">{itemCount}</span>}
@@ -99,8 +99,8 @@ export default function Navbar() {
                 <button className="navbar-icon-button"><FiUser size={20} /></button>
                 <div className="navbar-user-menu">
                   <Link to="/account" className="navbar-user-item">My Account</Link>
-                  <Link to="/account/orders" className="navbar-user-item">My Orders</Link>
-                  <Link to="/account/wishlist" className="navbar-user-item">Wishlist</Link>
+                  <Link to="/account?tab=orders" className="navbar-user-item">My Orders</Link>
+                  <button onClick={() => navigate("/account?tab=wishlist")} className="navbar-user-item" style={{background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left', padding: 'var(--space-2) var(--space-3)'}}>Wishlist</button>
                   {user.role === "admin" && <Link to="/admin" className="navbar-user-item" style={{ color: "var(--color-gold)" }}>Admin Panel</Link>}
                   <hr style={{ borderColor: "var(--color-border)", margin: "var(--space-1) 0" }} />
                   <button onClick={logout} className="navbar-user-item navbar-user-item-danger">Logout</button>

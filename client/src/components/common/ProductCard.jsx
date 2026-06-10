@@ -19,9 +19,13 @@ export default function ProductCard({ product, onQuickView }) {
         {/* Image */}
         <div className="product-image-container">
           {!imgLoaded && <div className="product-image-skeleton" />}
-          <img src={img} alt={product.name} loading="lazy"
+          <img src={img} alt={product.name} loading="lazy" decoding="async"
             className={`product-image ${imgLoaded ? "product-image-visible" : "product-image-hidden"}`}
-            onLoad={() => setImgLoaded(true)} />
+            onLoad={() => setImgLoaded(true)}
+            onError={(e) => {
+              e.target.src = "https://via.placeholder.com/300x300?text=Image+Not+Found";
+              setImgLoaded(true);
+            }} />
         </div>
         {/* Badges */}
         <div className="product-badges">

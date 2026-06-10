@@ -20,6 +20,12 @@ export default function AccountPage() {
   const [orders, setOrders] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
+  // Scroll to top when tab changes
+  const handleTabChange = (newTab) => {
+    setTab(newTab);
+    window.scrollTo(0, 0);
+  };
+
   if (!user) return <Navigate to="/login" replace />;
 
   // Profile form validation
@@ -36,16 +42,12 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (tab === "orders") {
-      api.get("/orders/my-orders").then(r => setOrders(r.data)).catch(() => {});
+      api.get("/orders/my-orders").then(r => setOrders(r.data || [])).catch(() => setOrders([]));
     }
     if (tab === "wishlist") {
-      api.get("/auth/wishlist").then(r => setWishlist(r.data)).catch(() => {});
+      api.get("/auth/wishlist").then(r => setWishlist(r.data || [])).catch(() => setWishlist([]));
     }
-    if (tab === "profile") {
-      // Set initial profile values when tab changes
-      profileForm.setValues({ name: user?.name || "", phone: user?.phone || "" });
-    }
-  }, [tab]);
+  }, [tab, user]);
 
   async function handleProfileSubmit(values) {
     try {
@@ -74,7 +76,7 @@ export default function AccountPage() {
         {/* Sidebar */}
         <div className="bg-white rounded-2xl p-4 shadow-sm h-fit">
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all mb-1 ${tab === t.id ? "bg-brand-gold text-white" : "text-gray-600 hover:bg-brand-cream hover:text-brand-gold"}`}>
+            <button key={t.id} onClick={() => handleTabChange(t.id)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all mb-1 ${tab === t.id ? "bg-brand-gold text-white" : "text-gray-600 hover:bg-brand-cream hover:text-brand-gold"}`}>
               <t.icon size={16} /> {t.label}
             </button>
           ))}

@@ -239,12 +239,10 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Forgot Password Link (Login only) */}
+          {/* Forgot Password Link (Login only) - Disabled until implemented */}
           {isLogin && (
             <p className="text-center text-xs text-gray-400 mt-4">
-              <Link to="/forgot-password" className="text-brand-gold hover:underline">
-                Forgot your password?
-              </Link>
+              Password reset feature coming soon. Contact support for assistance.
             </p>
           )}
         </div>

@@ -18,6 +18,18 @@ export default function CheckoutPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+
+  // Redirect if cart is empty
+  if (cartItems.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <div className="text-5xl mb-4">🛒</div>
+        <h2 className="font-serif text-2xl font-bold mb-2">Your cart is empty</h2>
+        <p className="text-gray-500 mb-6">Add items to your cart before checking out.</p>
+        <a href="/collections" className="inline-block bg-brand-gold text-white px-6 py-3 rounded-xl font-medium hover:bg-brand-gold-dark">Continue Shopping</a>
+      </div>
+    );
+  }
   const [loading, setLoading] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [couponLoading, setCouponLoading] = useState(false);
@@ -368,12 +380,12 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <h2 className="font-semibold text-xl mb-6">Delivery Method</h2>
               <div className="space-y-3">
-                {[{ id: "standard", label: "Standard Delivery", desc: "5–7 business days", price: shipping === 0 ? "FREE" : "₹99" },
-                  { id: "express", label: "Express Delivery", desc: "2–3 business days", price: "₹199" }].map(o => (
+                {[{ id: "standard", label: "Standard Delivery", desc: "5–7 business days", deliveryPrice: 99 },
+                  { id: "express", label: "Express Delivery", desc: "2–3 business days", deliveryPrice: 199 }].map(o => (
                   <label key={o.id} className={`flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all ${delivery === o.id ? "border-brand-gold bg-brand-cream" : "border-gray-200 hover:border-gray-300"}`}>
-                    <input type="radio" value={o.id} checked={delivery === o.id} onChange={() => setDelivery(o.id)} className="accent-brand-gold" />
+                    <input type="radio" name="delivery" value={o.id} checked={delivery === o.id} onChange={() => setDelivery(o.id)} className="accent-brand-gold" />
                     <div className="flex-1"><p className="font-medium text-sm">{o.label}</p><p className="text-xs text-gray-500">{o.desc}</p></div>
-                    <span className={`font-semibold text-sm ${o.price === "FREE" ? "text-green-600" : ""}`}>{o.price}</span>
+                    <span className={`font-semibold text-sm ${o.deliveryPrice === 0 ? "text-green-600" : ""}`}>{o.deliveryPrice === 0 ? "FREE" : `₹${o.deliveryPrice}`}</span>
                   </label>
                 ))}
               </div>
@@ -422,7 +434,8 @@ export default function CheckoutPage() {
                       placeholder="Enter coupon code"
                       value={couponInput}
                       onChange={(e) => {
-                        setCouponInput(e.target.value.toUpperCase());
+                        const upperValue = e.target.value.toUpperCase();
+                        setCouponInput(upperValue);
                         if (couponError) setCouponError("");
                       }}
                       onKeyPress={(e) => e.key === "Enter" && validateCoupon()}
