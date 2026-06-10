@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import api from "../../utils/api";
+import "./AnnouncementBanner.css";
 
 export default function AnnouncementBanner() {
   const [banner, setBanner] = useState(null);
@@ -10,7 +10,9 @@ export default function AnnouncementBanner() {
     const fetchAnnouncementBanner = async () => {
       try {
         const { data } = await api.get("/products/banners/public");
-        const announcementBanners = data.filter(b => b.type === "announcement").sort((a, b) => a.displayOrder - b.displayOrder);
+        const announcementBanners = data
+          .filter((b) => b.type === "announcement")
+          .sort((a, b) => a.displayOrder - b.displayOrder);
         if (announcementBanners.length > 0) {
           setBanner(announcementBanners[0]);
         }
@@ -26,9 +28,9 @@ export default function AnnouncementBanner() {
   if (!banner) return null;
 
   return (
-    <div className="bg-gradient-to-r from-brand-gold via-brand-gold to-brand-gold-dark py-3 px-4 text-center">
-      <div className="max-w-7xl mx-auto">
-        <p className="text-white text-sm font-medium tracking-wide">
+    <div className="announcement-banner">
+      <div className="announcement-banner-content">
+        <p className="announcement-text">
           📢 {banner.text || banner.title || "Important Announcement"}
         </p>
       </div>

@@ -1,0 +1,97 @@
+/* ============================================================================
+   ANNOUNCEMENT BANNER — LUXURY DESIGN
+   Gold banner with announcement text and shimmer effect
+   ============================================================================ */
+
+.announcement-banner {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 100%
+  );
+  background-size: 200% auto;
+  padding: var(--space-3) var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer animation */
+.announcement-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmerSlide 3s infinite;
+}
+
+.announcement-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.announcement-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-bg);
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 768px) {
+  .announcement-banner {
+    padding: var(--space-4) var(--space-8);
+  }
+
+  .announcement-text {
+    font-size: var(--text-base);
+  }
+}
+
+/* Shimmer animation keyframe */
+@keyframes shimmerSlide {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Responsive: Allow text to wrap on smaller screens */
+@media (max-width: 640px) {
+  .announcement-text {
+    white-space: normal;
+  }
+}
+
+/* Accessibility */
+.announcement-banner:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.3);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-banner::before {
+    animation: none;
+  }
+}
