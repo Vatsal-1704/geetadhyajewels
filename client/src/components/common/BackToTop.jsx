@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FiArrowUp } from "react-icons/fi";
+import "./BackToTop.css";
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -10,8 +11,7 @@ export default function BackToTop() {
   }, []);
   if (!visible) return null;
   return (
-    <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-36 right-4 z-40 bg-brand-black text-brand-gold w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-brand-gold hover:text-white transition-all">
+    <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="back-to-top">
       <FiArrowUp size={18} />
     </button>
   );

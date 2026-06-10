@@ -235,6 +235,12 @@
   padding: var(--space-2);
   min-width: 176px;
   z-index: 50;
+  display: none;
+}
+
+.relative.group:hover .navbar-user-menu,
+.relative.group:focus-within .navbar-user-menu {
+  display: block;
 }
 
 .navbar-user-item {

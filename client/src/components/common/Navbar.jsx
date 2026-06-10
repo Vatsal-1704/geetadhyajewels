@@ -65,12 +65,12 @@ export default function Navbar() {
           {/* Desktop Nav Links */}
           <div className="navbar-links">
             <Link to="/" className="navbar-link">Home</Link>
-            <div className="relative group" onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)}>
+            <div className="relative group">
               <button className="navbar-link">
                 Shop <FiChevronDown size={14} />
               </button>
               {shopOpen && (
-                <div className="navbar-dropdown">
+                <div className="navbar-dropdown" style={{ display: 'block' }}>
                   {categories.map(c => (
                     <Link key={c.slug} to={`/collections/${c.slug}`} className="navbar-dropdown-item" onClick={() => setShopOpen(false)}>{c.name}</Link>
                   ))}
@@ -97,7 +97,7 @@ export default function Navbar() {
             {user ? (
               <div className="relative group">
                 <button className="navbar-icon-button"><FiUser size={20} /></button>
-                <div className="navbar-user-menu hidden group-hover:block">
+                <div className="navbar-user-menu">
                   <Link to="/account" className="navbar-user-item">My Account</Link>
                   <Link to="/account/orders" className="navbar-user-item">My Orders</Link>
                   <Link to="/account/wishlist" className="navbar-user-item">Wishlist</Link>

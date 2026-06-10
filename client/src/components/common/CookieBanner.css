@@ -1,0 +1,127 @@
+/* ============================================================================
+   COOKIE BANNER — LUXURY DESIGN
+   Notification banner for cookie consent
+   ============================================================================ */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 80px;
+  left: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-overlay);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  max-width: 512px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  animation: slideUp var(--transition-slow);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+}
+
+.cookie-banner-emoji {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .cookie-banner {
+    bottom: var(--space-4);
+    max-width: none;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cookie-banner-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  flex: 1;
+  line-height: var(--leading-relaxed);
+}
+
+.cookie-banner-link {
+  color: var(--color-gold);
+  text-decoration: underline;
+  transition: color var(--transition-base);
+}
+
+.cookie-banner-link:hover {
+  color: var(--color-gold-light);
+}
+
+.cookie-banner-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.cookie-banner-button {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.cookie-banner-accept {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+}
+
+.cookie-banner-accept:hover {
+  background-color: var(--color-gold-light);
+  box-shadow: var(--shadow-gold);
+}
+
+.cookie-banner-decline {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.cookie-banner-decline:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cookie-banner-actions {
+    width: 100%;
+  }
+
+  .cookie-banner-button {
+    flex: 1;
+  }
+}

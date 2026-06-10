@@ -1,0 +1,192 @@
+/* ============================================================================
+   FORM INPUT — LUXURY DESIGN
+   Reusable input component with validation states
+   ============================================================================ */
+
+.form-input-container {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.form-input-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  font-family: var(--font-sans);
+}
+
+.form-input-label .required {
+  color: var(--color-error);
+  margin-left: var(--space-1);
+}
+
+.form-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  transition: all var(--transition-base);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-input:disabled {
+  background-color: var(--color-surface-2);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Error state */
+.form-input.error {
+  border-color: var(--color-error);
+  background-color: rgba(224, 92, 92, 0.05);
+}
+
+.form-input.error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(224, 92, 92, 0.1);
+}
+
+/* Success state */
+.form-input.success {
+  border-color: var(--color-success);
+  background-color: rgba(76, 175, 130, 0.05);
+}
+
+.form-input.success:focus {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 3px rgba(76, 175, 130, 0.1);
+}
+
+/* Password toggle button */
+.form-input-toggle-password {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-base);
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+}
+
+.form-input-toggle-password:hover {
+  color: var(--color-text-secondary);
+}
+
+.form-input-toggle-password:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Validation icons */
+.form-input-icon {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-size: 0;
+}
+
+.form-input-icon.error {
+  color: var(--color-error);
+}
+
+.form-input-icon.success {
+  color: var(--color-success);
+}
+
+/* When password toggle is visible, adjust icon position */
+.form-input-wrapper .form-input-toggle-password + .form-input-icon {
+  right: 48px;
+}
+
+/* Error message */
+.form-input-error {
+  font-size: var(--text-xs);
+  color: var(--color-error);
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  line-height: var(--leading-tight);
+}
+
+.form-input-error::before {
+  content: "•";
+  flex-shrink: 0;
+}
+
+/* Success message */
+.form-input-success {
+  font-size: var(--text-xs);
+  color: var(--color-success);
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.form-input-success::before {
+  content: "✓";
+  flex-shrink: 0;
+  font-weight: var(--weight-bold);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .form-input {
+    padding: var(--space-3) var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .form-input-toggle-password,
+  .form-input-icon {
+    right: var(--space-3);
+  }
+
+  .form-input-wrapper .form-input-toggle-password + .form-input-icon {
+    right: 42px;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+@media (prefers-reduced-motion: reduce) {
+  .form-input {
+    transition: none;
+  }
+
+  .form-input-toggle-password {
+    transition: none;
+  }
+}

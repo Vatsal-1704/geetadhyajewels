@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { FiEye, FiEyeOff, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import "./FormInput.css";
 
 /**
  * Reusable form input component with validation
@@ -31,16 +32,17 @@ const FormInput = forwardRef((props, ref) => {
   const isPassword = type === "password";
 
   return (
-    <div className={containerClassName}>
+    <div className={`form-input-container ${containerClassName}`}>
       {label && (
-        <label className="block text-xs font-medium text-gray-700 mb-2">
+        <label className="form-input-label" htmlFor={name}>
           {label}
-          {required && <span className="text-red-500">*</span>}
+          {required && <span className="required">*</span>}
         </label>
       )}
-      <div className="relative">
+      <div className="form-input-wrapper">
         <input
           ref={ref}
+          id={name}
           name={name}
           type={isPassword && showPassword ? "text" : type}
           placeholder={placeholder}
@@ -49,15 +51,7 @@ const FormInput = forwardRef((props, ref) => {
           onBlur={onBlur}
           disabled={disabled}
           data-error={hasError}
-          className={`
-            w-full px-4 py-3 text-sm rounded-xl border-2 transition-all
-            outline-none focus:outline-none
-            ${hasError ? "border-red-300 bg-red-50 focus:border-red-500" : ""}
-            ${isValid ? "border-green-300 bg-green-50 focus:border-green-500" : ""}
-            ${!hasError && !isValid ? "border-gray-200 focus:border-brand-gold" : ""}
-            ${disabled ? "bg-gray-100 text-gray-400 cursor-not-allowed" : ""}
-            ${className}
-          `}
+          className={`form-input ${hasError ? "error" : ""} ${isValid ? "success" : ""} ${className}`}
           {...rest}
         />
 
@@ -66,8 +60,9 @@ const FormInput = forwardRef((props, ref) => {
           <button
             type="button"
             onClick={onTogglePassword}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="form-input-toggle-password"
             tabIndex="-1"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
           </button>
@@ -79,13 +74,15 @@ const FormInput = forwardRef((props, ref) => {
             {hasError && (
               <FiAlertCircle
                 size={18}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-red-500"
+                className="form-input-icon error"
+                aria-hidden="true"
               />
             )}
             {isValid && (
               <FiCheckCircle
                 size={18}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500"
+                className="form-input-icon success"
+                aria-hidden="true"
               />
             )}
           </>
@@ -94,15 +91,16 @@ const FormInput = forwardRef((props, ref) => {
 
       {/* Error message */}
       {hasError && (
-        <p className="text-xs text-red-600 mt-2 flex items-center gap-1">
-          <span>•</span>
+        <p className="form-input-error" role="alert">
           {error}
         </p>
       )}
 
       {/* Success message (optional) */}
       {isValid && (
-        <p className="text-xs text-green-600 mt-2">✓ Looks good!</p>
+        <p className="form-input-success">
+          Looks good!
+        </p>
       )}
     </div>
   );
