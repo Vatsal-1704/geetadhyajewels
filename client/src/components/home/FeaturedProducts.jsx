@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../common/ProductCard";
 import api from "../../utils/api";
+import "./FeaturedProducts.css";
 
 const MOCK_PRODUCTS = Array.from({ length: 8 }, (_, i) => ({
   _id: `mock-${i}`, name: ["Kundan Necklace Set", "Pearl Drop Earrings", "Oxidised Bangles", "Temple Ring", "Bridal Choker", "American Diamond Maang Tikka", "Gold Plated Anklet", "Ethnic Jhumkas"][i],
@@ -27,25 +28,32 @@ export default function FeaturedProducts({ type = "bestsellers", title = "Best S
   }, [type]);
 
   return (
-    <section className="py-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-end justify-between mb-8">
+    <section className="featured-products">
+      <div className="featured-products-container">
+        <div className="featured-products-header">
           <div>
-            <p className="text-brand-gold text-sm tracking-widest uppercase mb-1">✦ Curated</p>
-            <h2 className="font-serif text-3xl sm:text-4xl text-brand-black">{title}</h2>
+            <p className="featured-products-label">✦ Curated</p>
+            <h2 className="featured-products-title">{title}</h2>
           </div>
-          <Link to="/collections" className="text-sm text-brand-gold hover:underline hidden sm:block">View All →</Link>
+          <Link to="/collections" className="featured-products-link-desktop">View All →</Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+
+        <div className="featured-products-grid">
           {loading ? Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl overflow-hidden shadow-sm">
-              <div className="aspect-[3/4] bg-gray-100 animate-pulse" />
-              <div className="p-3 space-y-2"><div className="h-4 bg-gray-100 rounded animate-pulse" /><div className="h-4 w-24 bg-gray-100 rounded animate-pulse" /></div>
+            <div key={i} className="product-skeleton">
+              <div className="product-skeleton-image" />
+              <div className="product-skeleton-content">
+                <div className="product-skeleton-line" />
+                <div className="product-skeleton-line product-skeleton-line-short" />
+              </div>
             </div>
           )) : products.map(p => <ProductCard key={p._id} product={p} />)}
         </div>
-        <div className="text-center mt-8">
-          <Link to="/collections" className="inline-flex items-center gap-2 border-2 border-brand-gold text-brand-gold px-8 py-3 rounded-full font-medium hover:bg-brand-gold hover:text-white transition-all">View All Products →</Link>
+
+        <div className="featured-products-footer">
+          <Link to="/collections" className="featured-products-cta">
+            View All Products →
+          </Link>
         </div>
       </div>
     </section>

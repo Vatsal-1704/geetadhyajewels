@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../utils/api";
+import "./SaleBanner.css";
 
 export default function SaleBanner() {
   const [banner, setBanner] = useState(null);
@@ -89,19 +90,21 @@ export default function SaleBanner() {
   if (!banner) return null;
 
   return (
-    <div className="bg-gradient-to-r from-brand-black via-gray-900 to-brand-black py-12 px-4 text-center">
-      <p className="text-brand-gold text-sm tracking-widest uppercase mb-2">⚡ {banner.subtitle || "Limited Time"}</p>
-      <h2 className="font-serif text-3xl sm:text-4xl text-white mb-2">{banner.title || "Special Offer"}</h2>
-      <p className="text-gray-300 mb-6">{banner.text || "Don't miss out on this amazing deal!"}</p>
-      <div className="flex justify-center gap-4 mb-8">
+    <div className="sale-banner">
+      <p className="sale-banner-label">⚡ {banner.subtitle || "Limited Time"}</p>
+      <h2 className="sale-banner-title">{banner.title || "Special Offer"}</h2>
+      <p className="sale-banner-text">{banner.text || "Don't miss out on this amazing deal!"}</p>
+      <div className="sale-banner-timer">
         {[["Hours", time.h], ["Minutes", time.m], ["Seconds", time.s]].map(([label, val]) => (
-          <div key={label} className="bg-white/10 border border-white/20 rounded-xl px-6 py-4 min-w-[80px]">
-            <div className="text-brand-gold font-bold text-3xl font-mono">{val}</div>
-            <div className="text-gray-400 text-xs mt-1">{label}</div>
+          <div key={label} className="timer-box">
+            <div className="timer-value">{val}</div>
+            <div className="timer-label">{label}</div>
           </div>
         ))}
       </div>
-      <Link to={banner.link || "/offers"} className="inline-flex items-center gap-2 bg-brand-gold text-white px-8 py-3.5 rounded-full font-semibold hover:bg-brand-gold-dark transition-all hover:shadow-lg hover:scale-105">Shop the Sale →</Link>
+      <Link to={banner.link || "/offers"} className="sale-banner-cta">
+        Shop the Sale →
+      </Link>
     </div>
   );
 }

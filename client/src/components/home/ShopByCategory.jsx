@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./ShopByCategory.css";
 
 const categories = [
   { name: "Necklaces", slug: "necklaces", img: "https://rubans.in/cdn/shop/collections/Necklaces_b5ab2a97-af50-4ff7-aaea-29cb54e21de8_280x.jpg", emoji: "📿" },
@@ -13,20 +14,23 @@ const categories = [
 
 export default function ShopByCategory() {
   return (
-    <section className="py-16 px-4 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <p className="text-brand-gold text-sm tracking-widest uppercase mb-2">Explore</p>
-          <h2 className="font-serif text-3xl sm:text-4xl text-brand-black">Shop by Category</h2>
+    <section className="shop-by-category">
+      <div className="shop-by-category-container">
+        <div className="shop-by-category-header">
+          <p className="shop-by-category-label">Explore</p>
+          <h2 className="shop-by-category-title">Shop by Category</h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+        <div className="shop-by-category-grid">
           {categories.map((cat) => (
-            <Link key={cat.slug} to={`/collections/${cat.slug}`}
-              className="group flex flex-col items-center gap-3">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden bg-brand-cream border-2 border-transparent group-hover:border-brand-gold transition-all duration-300 shadow-sm group-hover:shadow-md">
-                <img src={cat.img} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={e => { e.target.src = `https://via.placeholder.com/200x200/FAF7F2/C9A84C?text=${cat.emoji}`; }} />
+            <Link key={cat.slug} to={`/collections/${cat.slug}`} className="category-card">
+              <div className="category-card-image">
+                <img
+                  src={cat.img}
+                  alt={cat.name}
+                  onError={e => { e.target.src = `https://via.placeholder.com/200x200/0a0a0a/d4af37?text=${cat.emoji}`; }}
+                />
               </div>
-              <span className="text-xs sm:text-sm font-medium text-center text-brand-black group-hover:text-brand-gold transition-colors">{cat.name}</span>
+              <span className="category-card-name">{cat.name}</span>
             </Link>
           ))}
         </div>

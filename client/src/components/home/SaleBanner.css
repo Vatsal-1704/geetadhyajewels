@@ -1,0 +1,196 @@
+/* ============================================================================
+   SALE BANNER — LUXURY DESIGN
+   Full-width sale countdown with timer and CTA
+   ============================================================================ */
+
+.sale-banner {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg),
+    rgba(10, 10, 10, 0.95),
+    var(--color-bg)
+  );
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .sale-banner {
+    padding: var(--space-16) var(--space-8);
+  }
+}
+
+/* ========== LABEL ========== */
+
+.sale-banner-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+/* ========== TITLE ========== */
+
+.sale-banner-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.875rem, 5vw, 2.25rem);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+/* ========== TEXT ========== */
+
+.sale-banner-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  line-height: var(--leading-relaxed);
+}
+
+/* ========== TIMER SECTION ========== */
+
+.sale-banner-timer {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .sale-banner-timer {
+    gap: var(--space-6);
+  }
+}
+
+/* ========== TIMER BOX ========== */
+
+.timer-box {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-6);
+  min-width: 100px;
+  backdrop-filter: blur(4px);
+  animation: timerGlow 2s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .timer-box {
+    padding: var(--space-6) var(--space-8);
+    min-width: 120px;
+  }
+}
+
+/* ========== TIMER VALUE ========== */
+
+.timer-value {
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: var(--weight-bold);
+  color: var(--color-gold);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* ========== TIMER LABEL ========== */
+
+.timer-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-2);
+}
+
+/* ========== CTA BUTTON ========== */
+
+.sale-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-gold);
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.sale-banner-cta:hover {
+  background-color: var(--color-gold-light);
+  box-shadow: var(--shadow-gold-hover);
+  transform: translateY(-2px);
+}
+
+.sale-banner-cta:active {
+  transform: scale(0.97);
+}
+
+/* ========== TIMER GLOW ANIMATION ========== */
+
+@keyframes timerGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+  }
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+.sale-banner-cta:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 640px) {
+  .sale-banner {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .sale-banner-label {
+    margin-bottom: var(--space-2);
+  }
+
+  .sale-banner-title {
+    margin-bottom: var(--space-2);
+  }
+
+  .sale-banner-text {
+    margin-bottom: var(--space-6);
+  }
+
+  .sale-banner-timer {
+    margin-bottom: var(--space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer-box,
+  .sale-banner-cta {
+    animation: none;
+    transition: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import "./Testimonials.css";
 
 const reviews = [
   { name: "Priya Sharma", city: "Mumbai", rating: 5, text: "Absolutely gorgeous jewellery! The quality is amazing for the price. Got so many compliments at my cousin's wedding. Will definitely order again!", avatar: "P" },
@@ -14,27 +15,42 @@ export default function Testimonials() {
   const next = () => setIdx(p => (p + 1) % reviews.length);
 
   return (
-    <section className="py-16 px-4 bg-brand-black">
-      <div className="max-w-4xl mx-auto text-center">
-        <p className="text-brand-gold text-sm tracking-widest uppercase mb-2">❤️ Happy Customers</p>
-        <h2 className="font-serif text-3xl sm:text-4xl text-white mb-12">What Our Customers Say</h2>
-        <div className="relative">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12">
-            <div className="flex justify-center mb-4">{"★".repeat(reviews[idx].rating).split("").map((s, i) => <span key={i} className="text-brand-gold text-2xl">{s}</span>)}</div>
-            <p className="text-gray-300 text-lg italic mb-8 leading-relaxed">"{reviews[idx].text}"</p>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-brand-gold flex items-center justify-center text-white text-xl font-bold">{reviews[idx].avatar}</div>
-              <div className="text-left">
-                <p className="text-white font-semibold">{reviews[idx].name}</p>
-                <p className="text-gray-400 text-sm">{reviews[idx].city}</p>
+    <section className="testimonials">
+      <div className="testimonials-container">
+        <p className="testimonials-label">❤️ Happy Customers</p>
+        <h2 className="testimonials-title">What Our Customers Say</h2>
+        <div className="testimonials-carousel">
+          <div className="testimonial-card">
+            <div className="testimonial-rating">
+              {Array(reviews[idx].rating).fill("★").map((s, i) => (
+                <span key={i} className="testimonial-star">{s}</span>
+              ))}
+            </div>
+            <p className="testimonial-text">"{reviews[idx].text}"</p>
+            <div className="testimonial-author">
+              <div className="testimonial-avatar">{reviews[idx].avatar}</div>
+              <div className="testimonial-info">
+                <p className="testimonial-name">{reviews[idx].name}</p>
+                <p className="testimonial-city">{reviews[idx].city}</p>
               </div>
             </div>
           </div>
-          <button onClick={prev} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-brand-gold text-white rounded-full p-2 hover:bg-brand-gold-dark"><FiChevronLeft size={18} /></button>
-          <button onClick={next} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-brand-gold text-white rounded-full p-2 hover:bg-brand-gold-dark"><FiChevronRight size={18} /></button>
+          <button onClick={prev} className="testimonial-nav-button testimonial-nav-prev">
+            <FiChevronLeft size={18} />
+          </button>
+          <button onClick={next} className="testimonial-nav-button testimonial-nav-next">
+            <FiChevronRight size={18} />
+          </button>
         </div>
-        <div className="flex justify-center gap-2 mt-6">
-          {reviews.map((_, i) => <button key={i} onClick={() => setIdx(i)} className={`rounded-full transition-all ${i === idx ? "w-8 h-2 bg-brand-gold" : "w-2 h-2 bg-white/30"}`} />)}
+        <div className="testimonial-dots">
+          {reviews.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              className={`testimonial-dot ${i === idx ? "testimonial-dot-active" : ""}`}
+              aria-label={`Go to testimonial ${i + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
