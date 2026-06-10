@@ -203,6 +203,7 @@
   backdrop-filter: blur(8px);
   z-index: 3;
   min-height: 48px;
+  pointer-events: auto;
 }
 
 .hero-nav-button:hover {
