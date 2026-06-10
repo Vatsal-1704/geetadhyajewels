@@ -122,7 +122,7 @@
 }
 
 .account-logout-button:hover {
-  background-color: rgba(224, 92, 92, 0.1);
+  background-color: rgba(224, 92, 92, 0.08);
 }
 
 /* ========== CONTENT AREA ========== */
@@ -168,7 +168,7 @@
 
 .account-form-input:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 0 3px var(--color-gold-dim);
 }
 
 /* ========== ORDERS LIST ========== */
@@ -219,12 +219,12 @@
 }
 
 .order-status.pending {
-  background-color: rgba(232, 168, 56, 0.1);
+  background-color: rgba(232, 168, 56, 0.08);
   color: var(--color-warning);
 }
 
 .order-status.completed {
-  background-color: rgba(76, 175, 130, 0.1);
+  background-color: rgba(76, 175, 130, 0.08);
   color: var(--color-success);
 }
 

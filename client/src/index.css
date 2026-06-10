@@ -14,29 +14,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --brand-black: #1a1a1a;
-  --brand-gold: #C9A84C;
-  --brand-cream: #FAF7F2;
-}
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #FAF7F2;
-  color: #1a1a1a;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: 'Playfair Display', serif;
-}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #FAF7F2; }
-::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: var(--radius-sm); }
 
 /* Announcement bar scroll */
 @keyframes marquee {
@@ -47,7 +30,7 @@ h1, h2, h3, h4, h5 {
 
 /* Gold shimmer effect */
 .gold-shimmer {
-  background: linear-gradient(90deg, #C9A84C 0%, #E8C96B 50%, #C9A84C 100%);
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-light) 50%, var(--color-gold) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -56,11 +39,11 @@ h1, h2, h3, h4, h5 {
 
 /* Product card hover */
 .product-card:hover .product-overlay { opacity: 1; }
-.product-overlay { transition: opacity 0.3s ease; }
+.product-overlay { transition: opacity var(--transition-base); }
 
 /* Custom range slider */
-input[type="range"] { -webkit-appearance: none; height: 4px; background: #e5e7eb; border-radius: 2px; }
-input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #C9A84C; border-radius: 50%; cursor: pointer; }
+input[type="range"] { -webkit-appearance: none; height: 4px; background: var(--color-surface-2); border-radius: var(--radius-sm); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--color-gold); border-radius: 50%; cursor: pointer; }
 
-.slick-dots li button:before { color: #C9A84C !important; }
-.slick-dots li.slick-active button:before { color: #C9A84C !important; }
+.slick-dots li button:before { color: var(--color-gold) !important; }
+.slick-dots li.slick-active button:before { color: var(--color-gold) !important; }

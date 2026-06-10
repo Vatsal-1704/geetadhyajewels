@@ -223,7 +223,7 @@
 .product-discount-percentage {
   font-size: var(--text-sm);
   color: var(--color-success);
-  background-color: rgba(76, 175, 130, 0.1);
+  background-color: rgba(76, 175, 130, 0.08);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   font-weight: var(--weight-semibold);
@@ -267,7 +267,7 @@
 
 .product-color-swatch.active {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  box-shadow: var(--shadow-gold);
 }
 
 /* ========== QUANTITY ========== */

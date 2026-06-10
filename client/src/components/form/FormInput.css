@@ -42,7 +42,7 @@
 
 .form-input:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 0 3px var(--color-gold-dim);
 }
 
 .form-input:disabled {
@@ -59,23 +59,23 @@
 /* Error state */
 .form-input.error {
   border-color: var(--color-error);
-  background-color: rgba(224, 92, 92, 0.05);
+  background-color: rgba(224, 92, 92, 0.08);
 }
 
 .form-input.error:focus {
   border-color: var(--color-error);
-  box-shadow: 0 0 0 3px rgba(224, 92, 92, 0.1);
+  box-shadow: 0 0 0 3px rgba(224, 92, 92, 0.15);
 }
 
 /* Success state */
 .form-input.success {
   border-color: var(--color-success);
-  background-color: rgba(76, 175, 130, 0.05);
+  background-color: rgba(76, 175, 130, 0.08);
 }
 
 .form-input.success:focus {
   border-color: var(--color-success);
-  box-shadow: 0 0 0 3px rgba(76, 175, 130, 0.1);
+  box-shadow: 0 0 0 3px rgba(76, 175, 130, 0.15);
 }
 
 /* Password toggle button */

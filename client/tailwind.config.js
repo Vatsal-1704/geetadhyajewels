@@ -5,22 +5,22 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          black: "#1a1a1a",
-          gold: "#C9A84C",
-          cream: "#FAF7F2",
-          "gold-light": "#E8C96B",
-          "gold-dark": "#A8872E",
-          "gray-soft": "#F5F0EA",
+          black: "#0a0a0a",
+          gold: "#d4af37",
+          cream: "#f5f0e8",
+          "gold-light": "#e8c96a",
+          "gold-dark": "#d4af37",
+          "gray-soft": "#f5f0e8",
         },
       },
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Poppins", "system-ui", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        sans: ["Montserrat", "system-ui", "sans-serif"],
       },
       animation: {
-        "fade-in": "fadeIn 0.5s ease-in-out",
-        "slide-up": "slideUp 0.4s ease-out",
-        "slide-in-right": "slideInRight 0.3s ease-out",
+        "fade-in": "fadeIn 250ms ease-in-out",
+        "slide-up": "slideUp 250ms ease-out",
+        "slide-in-right": "slideInRight 250ms ease-out",
         shimmer: "shimmer 1.5s infinite",
       },
       keyframes: {

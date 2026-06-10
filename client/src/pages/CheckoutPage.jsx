@@ -224,26 +224,29 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="checkout-page">
       {/* Step Indicator */}
-      <div className="flex items-center justify-center mb-10">
+      <div className="checkout-steps">
         {STEPS.map((s, i) => (
-          <div key={s} className="flex items-center">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${i === step ? "bg-brand-gold text-white" : i < step ? "bg-green-500 text-white" : "bg-gray-100 text-gray-400"}`}>
-              <span className="w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs bg-white/30">{i < step ? "✓" : i + 1}</span>{s}
+          <div key={s} className="checkout-step-wrapper">
+            <div className={`checkout-step ${i === step ? "active" : ""} ${i < step ? "completed" : ""}`}>
+              <div className={`checkout-step-number`}>
+                {i < step ? "✓" : i + 1}
+              </div>
+              <div className="checkout-step-label">{s}</div>
             </div>
-            {i < STEPS.length - 1 && <div className={`h-0.5 w-8 mx-1 ${i < step ? "bg-green-500" : "bg-gray-200"}`} />}
+            {i < STEPS.length - 1 && <div className={`checkout-step-connector ${i < step ? "completed" : ""}`} />}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+      <div className="checkout-container">
+        <div>
           {/* Step 0: Address */}
           {step === 0 && (
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 className="font-semibold text-xl mb-6">Shipping Address</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="checkout-section">
+              <h2 className="checkout-section-title">Shipping Address</h2>
+              <div className="checkout-form-group two-cols">
                 {/* Full Name */}
                 <FormInput
                   label="Full Name"
@@ -368,7 +371,7 @@ export default function CheckoutPage() {
                     toast.error("Please fix the errors above");
                   }
                 }}
-                className="mt-6 w-full bg-brand-gold text-white py-3.5 rounded-xl font-semibold hover:bg-brand-gold-dark transition-all"
+                className="checkout-button checkout-button-primary w-full"
               >
                 Continue to Delivery →
               </button>
