@@ -1,0 +1,281 @@
+/* ============================================================================
+   IMAGE UPLOAD — CLOUDINARY IMAGE UPLOAD COMPONENT
+   Upload component with preview and progress indication
+   ============================================================================ */
+
+.image-upload {
+  width: 100%;
+}
+
+/* ========== LABEL ========== */
+
+.image-upload-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== UPLOAD ZONE ========== */
+
+.image-upload-zone {
+  position: relative;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  background-color: var(--color-surface);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-upload-zone:hover {
+  border-color: var(--color-gold);
+  background-color: rgba(212, 175, 55, 0.05);
+}
+
+.image-upload-zone:focus-within {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* ========== INPUT ========== */
+
+.image-upload-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.image-upload-input:disabled {
+  cursor: not-allowed;
+}
+
+/* ========== EMPTY STATE ========== */
+
+.image-upload-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.image-upload-icon {
+  color: var(--color-gold);
+  opacity: 0.7;
+}
+
+.image-upload-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.image-upload-subtext {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ========== PREVIEW ========== */
+
+.image-upload-preview-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface-2);
+}
+
+.image-upload-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ========== UPLOADING OVERLAY ========== */
+
+.image-upload-uploading-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  backdrop-filter: blur(4px);
+  z-index: 20;
+}
+
+.image-upload-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(212, 175, 55, 0.3);
+  border-top-color: var(--color-gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.image-upload-uploading-overlay p {
+  color: var(--color-gold);
+  font-weight: var(--weight-semibold);
+  margin: 0;
+}
+
+/* ========== SUCCESS STATE ========== */
+
+.image-upload-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.image-upload-success-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+.image-upload-check-icon {
+  color: var(--color-gold);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.image-upload-success-text {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-gold);
+  font-weight: var(--weight-semibold);
+  margin: 0;
+}
+
+/* ========== ACTIONS ========== */
+
+.image-upload-actions {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+.image-upload-button-retry,
+.image-upload-button-cancel,
+.image-upload-reset-button {
+  flex: 1;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.image-upload-button-retry,
+.image-upload-reset-button {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+}
+
+.image-upload-button-retry:hover,
+.image-upload-reset-button:hover {
+  background-color: var(--color-gold-light);
+}
+
+.image-upload-button-cancel {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.image-upload-button-cancel:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* ========== ERROR MESSAGE ========== */
+
+.image-upload-error-message,
+.image-upload-error {
+  padding: var(--space-3) var(--space-4);
+  background-color: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-3);
+}
+
+.image-upload-error-message p,
+.image-upload-error p {
+  color: #92400e;
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+/* ========== DISABLED STATE ========== */
+
+.image-upload-input:disabled ~ .image-upload-zone {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 640px) {
+  .image-upload-zone {
+    padding: var(--space-6);
+    min-height: 200px;
+  }
+
+  .image-upload-preview-container {
+    max-width: 200px;
+  }
+
+  .image-upload-actions {
+    flex-direction: column;
+  }
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .image-upload-zone,
+  .image-upload-button-retry,
+  .image-upload-button-cancel,
+  .image-upload-reset-button,
+  .image-upload-spinner {
+    animation: none;
+    transition: none;
+  }
+}
+
+.image-upload-input:focus-visible + .image-upload-zone {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
