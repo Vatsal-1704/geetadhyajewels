@@ -1,0 +1,116 @@
+.filter-badges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.04) 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  animation: slideDown 200ms ease-out;
+  flex-wrap: wrap;
+}
+
+.filter-badges-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-badges-list {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.filter-badge:hover {
+  background-color: var(--color-gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.filter-badge:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.filter-badge svg {
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.filter-badge:hover svg {
+  transform: rotate(90deg);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-badges {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .filter-badges-label {
+    width: 100%;
+  }
+
+  .filter-badges-list {
+    width: 100%;
+    gap: var(--space-2);
+  }
+
+  .filter-badge {
+    font-size: 0.7125rem;
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-badges {
+    animation: none;
+  }
+
+  .filter-badge {
+    transition: none;
+  }
+
+  .filter-badge:hover {
+    transform: none;
+  }
+
+  .filter-badge:hover svg {
+    transform: none;
+  }
+}
