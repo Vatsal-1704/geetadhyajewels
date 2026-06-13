@@ -431,6 +431,25 @@
   text-decoration: underline;
 }
 
+/* ========== SUMMARY IMPROVEMENTS ========== */
+
+.cart-summary-shipping {
+  margin-bottom: var(--space-6);
+}
+
+.cart-summary-coupon {
+  margin: var(--space-6) 0;
+}
+
+.cart-summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
 /* ========== TRUST BADGES SECTION ========== */
 
 .cart-trust-section {
