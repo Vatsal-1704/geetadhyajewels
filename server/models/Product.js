@@ -43,4 +43,9 @@ productSchema.pre("save", function (next) {
   next();
 });
 
+// Text indexes for search functionality
+productSchema.index({ name: "text", description: "text", tags: "text" });
+productSchema.index({ category: 1, style: 1, price: 1 });
+productSchema.index({ status: 1, createdAt: -1 });
+
 module.exports = mongoose.model("Product", productSchema);

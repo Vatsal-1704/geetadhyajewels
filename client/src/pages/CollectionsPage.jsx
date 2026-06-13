@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import { FiFilter, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiFilter, FiX, FiChevronDown, FiChevronUp, FiSearch } from "react-icons/fi";
 import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
 import "./CollectionsPage.css";
@@ -19,19 +19,24 @@ const MOCK_PRODUCTS = Array.from({ length: 12 }, (_, i) => ({
 export default function CollectionsPage() {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = useState(MOCK_PRODUCTS);
-  const [total, setTotal] = useState(12);
+  const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [filters, setFilters] = useState({ style: searchParams.get("style") || "", sort: "newest", priceMin: "", priceMax: "" });
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [openSections, setOpenSections] = useState({ style: true, price: true });
+  const searchDebounceRef = useCallback((query) => {
+    setSearchQuery(query);
+    setPage(1);
+  }, []);
 
-  // Reset page to 1 when filters change (but not when page changes)
+  // Reset page to 1 when filters/search change (but not when page changes)
   useEffect(() => {
     setPage(1);
-  }, [filters.style, filters.priceMin, filters.priceMax, filters.sort, slug]);
+  }, [filters.style, filters.priceMin, filters.priceMax, filters.sort, slug, searchQuery]);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -39,18 +44,21 @@ export default function CollectionsPage() {
       setError(null);
       const params = new URLSearchParams({ page, limit: 12, sort: filters.sort });
       if (slug) params.set("category", slug);
+      if (searchQuery) params.set("search", searchQuery);
       if (filters.style) params.set("style", filters.style);
       if (filters.priceMin) params.set("minPrice", filters.priceMin);
       if (filters.priceMax) params.set("maxPrice", filters.priceMax);
       const { data } = await api.get(`/products?${params}`);
-      if (data.products?.length) { setProducts(data.products); setTotal(data.total); }
+      setProducts(data.products || []);
+      setTotal(data.total || 0);
     } catch (err) {
       console.error("Fetch error:", err);
-      setError("Failed to load products. Using cached data.");
+      setError("Failed to load products. Please try again.");
+      setProducts([]);
     } finally {
       setLoading(false);
     }
-  }, [slug, page, filters]);
+  }, [slug, page, filters, searchQuery]);
 
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
@@ -126,6 +134,23 @@ export default function CollectionsPage() {
         </div>
       </div>
 
+      {/* Search Bar */}
+      <div className="collections-search-bar">
+        <FiSearch size={18} className="collections-search-icon" />
+        <input
+          type="text"
+          placeholder="Search jewellery, styles, occasions..."
+          value={searchQuery}
+          onChange={(e) => searchDebounceRef(e.target.value)}
+          className="collections-search-input"
+        />
+        {searchQuery && (
+          <button onClick={() => searchDebounceRef("")} className="collections-search-clear">
+            <FiX size={16} />
+          </button>
+        )}
+      </div>
+
       {error && (
         <div style={{ padding: "var(--space-4)", backgroundColor: "#fef3c7", borderLeft: "4px solid #f59e0b", borderRadius: "var(--rounded-lg)", margin: "0 var(--space-4) var(--space-4)" }}>
           <p style={{ color: "#92400e", fontSize: "var(--text-sm)" }}>{error}</p>
@@ -136,20 +161,39 @@ export default function CollectionsPage() {
         <Sidebar />
         {/* Products Grid */}
         <div className="collections-products">
-          <div className="products-grid">
-            {loading ? Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="product-skeleton">
-                <div className="product-skeleton-image" />
-                <div className="product-skeleton-content"><div className="product-skeleton-line" /><div className="product-skeleton-line" style={{ width: "60%" }} /></div>
-              </div>
-            )) : products.map(p => <ProductCard key={p._id} product={p} />)}
-          </div>
-          {total > 12 && (
-            <div className="pagination">
-              {Array.from({ length: Math.ceil(total / 12) }, (_, i) => (
-                <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>{i + 1}</button>
+          {loading ? (
+            <div className="products-grid">
+              {Array.from({ length: 9 }).map((_, i) => (
+                <div key={i} className="product-skeleton">
+                  <div className="product-skeleton-image" />
+                  <div className="product-skeleton-content"><div className="product-skeleton-line" /><div className="product-skeleton-line" style={{ width: "60%" }} /></div>
+                </div>
               ))}
             </div>
+          ) : products.length === 0 ? (
+            <div className="collections-empty-state">
+              <div className="collections-empty-icon">◆</div>
+              <h3 className="collections-empty-title">No Products Found</h3>
+              <p className="collections-empty-message">
+                {searchQuery ? `We couldn't find any jewellery matching "${searchQuery}".` : "Try adjusting your filters or search terms."}
+              </p>
+              <button onClick={() => { searchDebounceRef(""); clearFilters(); }} className="collections-empty-button">
+                Clear Filters
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="products-grid">
+                {products.map(p => <ProductCard key={p._id} product={p} />)}
+              </div>
+              {total > 12 && (
+                <div className="pagination">
+                  {Array.from({ length: Math.ceil(total / 12) }, (_, i) => (
+                    <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>{i + 1}</button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
