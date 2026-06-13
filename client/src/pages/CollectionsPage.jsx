@@ -1,60 +1,105 @@
-import { useState, useEffect, useCallback } from "react";
-import { useParams, useSearchParams, Link } from "react-router-dom";
-import { FiFilter, FiX, FiChevronDown, FiChevronUp, FiSearch } from "react-icons/fi";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useParams, Link } from "react-router-dom";
+import { FiFilter, FiX } from "react-icons/fi";
 import ProductCard from "../components/common/ProductCard";
+import ProductFilters from "../components/collections/ProductFilters";
+import FilterBadges from "../components/collections/FilterBadges";
+import SearchBar from "../components/collections/SearchBar";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import EmptyState from "../components/common/EmptyState";
+import Skeleton from "../components/common/Skeleton";
 import api from "../utils/api";
 import "./CollectionsPage.css";
 
-const STYLES = ["Gold Plated", "Oxidised", "Kundan", "American Diamond", "Temple", "Silver Plated"];
-const SORT_OPTIONS = [
-  { label: "Trending", value: "trending" },
-  { label: "Popularity", value: "popularity" },
-  { label: "Newest First", value: "newest" },
-  { label: "Top Rated", value: "rating" },
-  { label: "Price: Low to High", value: "price-asc" },
-  { label: "Price: High to Low", value: "price-desc" }
+// Popular search suggestions
+const POPULAR_SEARCHES = [
+  "Necklace",
+  "Earrings",
+  "Bangles",
+  "Rings",
+  "Gold Plated",
+  "Wedding",
+  "Kundan",
+  "Oxidised",
 ];
-const PRICE_RANGES = [{ label: "Under ₹500", min: 0, max: 500 }, { label: "₹500–₹1000", min: 500, max: 1000 }, { label: "₹1000–₹2000", min: 1000, max: 2000 }, { label: "Above ₹2000", min: 2000, max: 99999 }];
-
-const MOCK_PRODUCTS = Array.from({ length: 12 }, (_, i) => ({
-  _id: `mock-${i}`, slug: `product-${i + 1}`, name: ["Kundan Necklace", "Pearl Earrings", "Oxidised Bangle", "Temple Ring", "Bridal Choker", "AD Tikka", "Gold Anklet", "Ethnic Jhumka", "Silver Bracelet", "Floral Maang Tikka", "Layered Necklace", "Emerald Earrings"][i],
-  price: [999, 599, 799, 449, 2499, 1299, 399, 699, 549, 899, 1199, 749][i],
-  mrp: [1499, 899, 1199, 699, 3999, 1999, 599, 999, 799, 1299, 1799, 1099][i], discount: 30,
-  images: ["https://rubans.in/cdn/shop/files/website_banner_f959ab62-9b47-43fd-8931-81ab5c11dae3.png"], rating: 4 + Math.random(),
-}));
 
 export default function CollectionsPage() {
   const { slug } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Filter state
+  const [filters, setFilters] = useState({
+    sort: "trending",
+    styles: [],
+    materials: [],
+    occasions: [],
+    care: "",
+    priceMin: "",
+    priceMax: "",
+  });
+
+  // Search and UI state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  // Data state
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
-  const [filters, setFilters] = useState({ style: searchParams.get("style") || "", sort: "newest", priceMin: "", priceMax: "" });
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [openSections, setOpenSections] = useState({ style: true, price: true });
-  const searchDebounceRef = useCallback((query) => {
-    setSearchQuery(query);
-    setPage(1);
+
+  // Debounce search
+  const searchDebounceTimer = useCallback(() => {
+    let timer;
+    return (query) => {
+      clearTimeout(timer);
+      setPage(1);
+      timer = setTimeout(() => {
+        setSearchQuery(query);
+        // Generate suggestions based on query
+        if (query.length > 0) {
+          const matches = POPULAR_SEARCHES.filter(s =>
+            s.toLowerCase().includes(query.toLowerCase())
+          );
+          setSearchSuggestions(matches);
+          setShowSearchSuggestions(true);
+        } else {
+          setSearchSuggestions([]);
+        }
+      }, 300);
+    };
   }, []);
 
-  // Reset page to 1 when filters/search change (but not when page changes)
+  const debouncedSearch = useMemo(() => searchDebounceTimer(), [searchDebounceTimer]);
+
+  // Reset page when filters change
   useEffect(() => {
     setPage(1);
-  }, [filters.style, filters.priceMin, filters.priceMax, filters.sort, slug, searchQuery]);
+  }, [filters, searchQuery, slug]);
 
+  // Fetch products
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const params = new URLSearchParams({ page, limit: 12, sort: filters.sort });
+
+      const params = new URLSearchParams({
+        page,
+        limit: 12,
+        sort: filters.sort,
+      });
+
       if (slug) params.set("category", slug);
       if (searchQuery) params.set("search", searchQuery);
-      if (filters.style) params.set("style", filters.style);
+      if (filters.styles?.length) params.set("styles", filters.styles.join(","));
+      if (filters.materials?.length) params.set("materials", filters.materials.join(","));
+      if (filters.occasions?.length) params.set("occasions", filters.occasions.join(","));
+      if (filters.care) params.set("care", filters.care);
       if (filters.priceMin) params.set("minPrice", filters.priceMin);
       if (filters.priceMax) params.set("maxPrice", filters.priceMax);
+
       const { data } = await api.get(`/products?${params}`);
       setProducts(data.products || []);
       setTotal(data.total || 0);
@@ -67,60 +112,23 @@ export default function CollectionsPage() {
     }
   }, [slug, page, filters, searchQuery]);
 
-  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
-  const toggleSection = (s) => setOpenSections(p => ({ ...p, [s]: !p[s] }));
-  const applyStyle = (style) => setFilters(p => ({ ...p, style: p.style === style ? "" : style }));
-  const applyPrice = (range) => setFilters(p => ({ ...p, priceMin: String(range.min), priceMax: String(range.max) }));
-  const clearFilters = () => setFilters({ style: "", sort: "newest", priceMin: "", priceMax: "" });
-
-  const Sidebar = () => (
-    <aside className="collections-sidebar">
-      {/* Sort */}
-      <div className="filter-section">
-        <h3 className="filter-section-title">Sort By</h3>
-        <div className="filter-options">
-          {SORT_OPTIONS.map(o => (
-            <label key={o.value} className="filter-option">
-              <input type="radio" name="sort" value={o.value} checked={filters.sort === o.value} onChange={() => setFilters(p => ({ ...p, sort: o.value }))} />
-              <span>{o.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-      {/* Style */}
-      <div className="filter-section">
-        <button onClick={() => toggleSection("style")} className="filter-section-title">Style {openSections.style ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
-        {openSections.style && (
-          <div className="filter-options">
-            {STYLES.map(s => (
-              <label key={s} className="filter-option">
-                <input type="checkbox" checked={filters.style === s} onChange={() => applyStyle(s)} />
-                <span>{s}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-      {/* Price */}
-      <div className="filter-section">
-        <button onClick={() => toggleSection("price")} className="filter-section-title">Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
-        {openSections.price && (
-          <div className="filter-options">
-            {PRICE_RANGES.map(r => (
-              <label key={r.label} className="filter-option">
-                <input type="radio" name="price" checked={filters.priceMin === String(r.min) && filters.priceMax === String(r.max)} onChange={() => applyPrice(r)} />
-                <span>{r.label}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-      {(filters.style || filters.priceMin) && (
-        <button onClick={clearFilters} className="filter-clear-button">✕ Clear All Filters</button>
-      )}
-    </aside>
-  );
+  const clearFilters = () => {
+    setFilters({
+      sort: "trending",
+      styles: [],
+      materials: [],
+      occasions: [],
+      care: "",
+      priceMin: "",
+      priceMax: "",
+    });
+    setSearchQuery("");
+    setPage(1);
+  };
 
   return (
     <div className="collections-page">
@@ -129,74 +137,111 @@ export default function CollectionsPage() {
         <Link to="/" className="collections-breadcrumb-link">Home</Link>
         <span>/</span>
         <Link to="/collections" className="collections-breadcrumb-link">Collections</Link>
-        {slug && <><span>/</span><span className="capitalize" style={{ color: "var(--color-text-primary)" }}>{slug.replace(/-/g, " ")}</span></>}
+        {slug && (
+          <>
+            <span>/</span>
+            <span className="capitalize">{slug.replace(/-/g, " ")}</span>
+          </>
+        )}
       </nav>
+
+      {/* Header */}
       <div className="collections-header">
-        <h1 className="collections-title">{slug ? slug.replace(/-/g, " ") : "All Collections"}</h1>
-        <div className="collections-header-controls">
-          <span className="collections-product-count">{total} products</span>
-          <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
-            <FiFilter size={14} /> Filters
-          </button>
+        <div>
+          <h1 className="collections-title">
+            {slug ? slug.replace(/-/g, " ").charAt(0).toUpperCase() + slug.replace(/-/g, " ").slice(1) : "All Collections"}
+          </h1>
+          <p className="collections-subtitle">{total} products available</p>
         </div>
+        <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
+          <FiFilter size={16} /> Filters
+        </button>
       </div>
 
       {/* Search Bar */}
-      <div className="collections-search-bar">
-        <FiSearch size={18} className="collections-search-icon" />
-        <input
-          type="text"
-          placeholder="Search jewellery, styles, occasions..."
-          value={searchQuery}
-          onChange={(e) => searchDebounceRef(e.target.value)}
-          className="collections-search-input"
-        />
-        {searchQuery && (
-          <button onClick={() => searchDebounceRef("")} className="collections-search-clear">
-            <FiX size={16} />
-          </button>
-        )}
-      </div>
+      <SearchBar
+        value={searchQuery}
+        onChange={debouncedSearch}
+        suggestions={searchSuggestions}
+        onSuggestionClick={(suggestion) => {
+          setSearchQuery(suggestion);
+          setShowSearchSuggestions(false);
+        }}
+      />
 
+      {/* Active Filters Badges */}
+      {(filters.styles?.length > 0 ||
+        filters.materials?.length > 0 ||
+        filters.occasions?.length > 0 ||
+        filters.care ||
+        filters.priceMin) && (
+        <FilterBadges
+          filters={filters}
+          onRemoveFilter={setFilters}
+        />
+      )}
+
+      {/* Error Message */}
       {error && (
-        <div style={{ padding: "var(--space-4)", backgroundColor: "#fef3c7", borderLeft: "4px solid #f59e0b", borderRadius: "var(--rounded-lg)", margin: "0 var(--space-4) var(--space-4)" }}>
-          <p style={{ color: "#92400e", fontSize: "var(--text-sm)" }}>{error}</p>
+        <div className="collections-error">
+          <p>{error}</p>
+          <button onClick={fetchProducts}>Try Again</button>
         </div>
       )}
+
+      {/* Main Content */}
       <div className="collections-container">
         {/* Desktop Sidebar */}
-        <Sidebar />
+        <aside className="collections-sidebar">
+          <ProductFilters
+            filters={filters}
+            onFilterChange={setFilters}
+            onClearFilters={clearFilters}
+            isMobile={false}
+          />
+        </aside>
+
         {/* Products Grid */}
         <div className="collections-products">
           {loading ? (
             <div className="products-grid">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className="product-skeleton">
-                  <div className="product-skeleton-image" />
-                  <div className="product-skeleton-content"><div className="product-skeleton-line" /><div className="product-skeleton-line" style={{ width: "60%" }} /></div>
-                </div>
+              {Array.from({ length: 12 }).map((_, i) => (
+                <Skeleton key={i} type="product-card" />
               ))}
             </div>
           ) : products.length === 0 ? (
-            <div className="collections-empty-state">
-              <div className="collections-empty-icon">◆</div>
-              <h3 className="collections-empty-title">No Products Found</h3>
-              <p className="collections-empty-message">
-                {searchQuery ? `We couldn't find any jewellery matching "${searchQuery}".` : "Try adjusting your filters or search terms."}
-              </p>
-              <button onClick={() => { searchDebounceRef(""); clearFilters(); }} className="collections-empty-button">
-                Clear Filters
-              </button>
-            </div>
+            <EmptyState
+              icon="◆"
+              title="No Products Found"
+              description={
+                searchQuery
+                  ? `We couldn't find any jewellery matching "${searchQuery}".`
+                  : "Try adjusting your filters or search terms."
+              }
+              action="Clear Filters"
+              variant="default"
+            />
           ) : (
             <>
               <div className="products-grid">
-                {products.map(p => <ProductCard key={p._id} product={p} />)}
+                {products.map(p => (
+                  <ProductCard key={p._id} product={p} />
+                ))}
               </div>
+
+              {/* Pagination */}
               {total > 12 && (
-                <div className="pagination">
+                <div className="collections-pagination">
                   {Array.from({ length: Math.ceil(total / 12) }, (_, i) => (
-                    <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>{i + 1}</button>
+                    <button
+                      key={i}
+                      onClick={() => setPage(i + 1)}
+                      className={`pagination-button ${page === i + 1 ? "active" : ""}`}
+                      aria-label={`Go to page ${i + 1}`}
+                      aria-current={page === i + 1 ? "page" : undefined}
+                    >
+                      {i + 1}
+                    </button>
                   ))}
                 </div>
               )}
@@ -208,14 +253,34 @@ export default function CollectionsPage() {
       {/* Mobile Filter Drawer */}
       {filtersOpen && (
         <>
-          <div className="collections-filter-drawer-overlay" onClick={() => setFiltersOpen(false)} />
+          <div
+            className="collections-filter-drawer-overlay"
+            onClick={() => setFiltersOpen(false)}
+            aria-hidden="true"
+          />
           <div className="collections-filter-drawer">
             <div className="collections-filter-drawer-header">
               <h3>Filters</h3>
-              <button onClick={() => setFiltersOpen(false)} className="collections-filter-drawer-close"><FiX size={20} /></button>
+              <button
+                onClick={() => setFiltersOpen(false)}
+                className="collections-filter-drawer-close"
+                aria-label="Close filters"
+              >
+                <FiX size={20} />
+              </button>
             </div>
-            <Sidebar />
-            <button onClick={() => setFiltersOpen(false)} className="collections-apply-button">Apply Filters</button>
+            <ProductFilters
+              filters={filters}
+              onFilterChange={setFilters}
+              onClearFilters={clearFilters}
+              isMobile={true}
+            />
+            <button
+              onClick={() => setFiltersOpen(false)}
+              className="collections-apply-button"
+            >
+              Apply Filters
+            </button>
           </div>
         </>
       )}
