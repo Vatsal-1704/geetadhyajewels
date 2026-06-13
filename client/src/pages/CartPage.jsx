@@ -4,6 +4,7 @@ import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiTag } from "react-icons/fi"
 import { useCart } from "../context/CartContext";
 import api from "../utils/api";
 import { toast } from "react-toastify";
+import ShippingThresholdIndicator from "../components/cart/ShippingThresholdIndicator";
 import "./CartPage.css";
 
 export default function CartPage() {
@@ -78,6 +79,10 @@ export default function CartPage() {
         {/* Order Summary */}
         <div className="cart-summary">
           <h2 className="cart-summary-title">Order Summary</h2>
+
+          {/* Shipping Threshold Indicator */}
+          <ShippingThresholdIndicator subtotal={subtotal} shipping={shipping} />
+
           <div className="cart-summary-lines">
             <div className="cart-summary-line"><span>Subtotal</span><span>₹{subtotal.toLocaleString()}</span></div>
             {discount > 0 && <div className="cart-summary-line discount"><span>Discount ({coupon?.code})</span><span>- ₹{discount.toLocaleString()}</span></div>}
@@ -85,7 +90,6 @@ export default function CartPage() {
               <span>Shipping</span>
               <span className={shipping === 0 ? "cart-summary-line shipping-free" : ""}>{shipping === 0 ? "FREE" : `₹${shipping}`}</span>
             </div>
-            {shipping > 0 && <p className="cart-summary-line shipping-note">Add ₹{(999 - subtotal).toLocaleString()} more for free shipping</p>}
           </div>
           <div className="cart-summary-divider" />
           <div className="cart-summary-total">

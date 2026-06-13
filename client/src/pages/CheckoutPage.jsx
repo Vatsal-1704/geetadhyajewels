@@ -6,10 +6,12 @@ import api from "../utils/api";
 import { toast } from "react-toastify";
 import { FiCheck, FiX } from "react-icons/fi";
 import FormInput from "../components/form/FormInput";
+import CheckoutProgressTracker from "../components/checkout/CheckoutProgressTracker";
 import { validators } from "../utils/validators";
 import "./CheckoutPage.css";
 
 const STEPS = ["Address", "Delivery", "Payment"];
+const COMPLETED_STEPS = []; // Will be set dynamically based on validation
 
 const STATES = ["Andhra Pradesh","Assam","Bihar","Delhi","Gujarat","Haryana","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Punjab","Rajasthan","Tamil Nadu","Telangana","Uttar Pradesh","West Bengal"];
 
@@ -240,20 +242,8 @@ export default function CheckoutPage() {
 
   return (
     <div className="checkout-page">
-      {/* Step Indicator */}
-      <div className="checkout-steps">
-        {STEPS.map((s, i) => (
-          <div key={s} className="checkout-step-wrapper">
-            <div className={`checkout-step ${i === step ? "active" : ""} ${i < step ? "completed" : ""}`}>
-              <div className={`checkout-step-number`}>
-                {i < step ? "✓" : i + 1}
-              </div>
-              <div className="checkout-step-label">{s}</div>
-            </div>
-            {i < STEPS.length - 1 && <div className={`checkout-step-connector ${i < step ? "completed" : ""}`} />}
-          </div>
-        ))}
-      </div>
+      {/* Checkout Progress Tracker */}
+      <CheckoutProgressTracker currentStep={step} completedSteps={Array.from({ length: step }, (_, i) => i)} />
 
       <div className="checkout-container">
         <div>

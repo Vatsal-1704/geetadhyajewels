@@ -1,0 +1,217 @@
+/* ============================================================================
+   CHECKOUT PROGRESS TRACKER — CONVERSION OPTIMIZATION
+   Visual step indicator for multi-step checkout process
+   ============================================================================ */
+
+.checkout-progress {
+  margin-bottom: var(--space-8);
+}
+
+.checkout-progress-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  padding: var(--space-4) 0;
+}
+
+/* ========== STEP ITEMS ========== */
+
+.checkout-progress-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Adjust last item to not stretch */
+.checkout-progress-item:last-child {
+  flex: 0;
+}
+
+/* ========== STEP CIRCLES ========== */
+
+.checkout-progress-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-surface-2);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  z-index: 2;
+  margin-bottom: var(--space-3);
+}
+
+/* Active Step */
+.checkout-progress-circle.active {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+  animation: pulseGold 2s ease-in-out infinite;
+}
+
+/* Completed Step */
+.checkout-progress-circle.completed {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+@keyframes pulseGold {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(212, 175, 55, 0.2);
+  }
+}
+
+/* ========== STEP ICONS ========== */
+
+.checkout-progress-icon {
+  color: var(--color-text-secondary);
+}
+
+.checkout-progress-circle.active .checkout-progress-icon {
+  color: var(--color-bg);
+}
+
+.checkout-progress-circle.completed .checkout-progress-icon {
+  color: var(--color-bg);
+}
+
+.checkout-progress-icon-check {
+  color: var(--color-bg);
+  font-weight: var(--weight-bold);
+}
+
+/* ========== STEP LABELS ========== */
+
+.checkout-progress-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin: 0;
+  transition: color var(--transition-base);
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.checkout-progress-label.active {
+  color: var(--color-gold);
+}
+
+.checkout-progress-circle.completed ~ .checkout-progress-label {
+  color: var(--color-text-primary);
+}
+
+/* ========== CONNECTOR LINES ========== */
+
+.checkout-progress-line {
+  position: absolute;
+  top: 24px;
+  height: 2px;
+  background-color: var(--color-border);
+  transition: background-color var(--transition-base);
+}
+
+/* Calculate line width dynamically */
+.checkout-progress-item:nth-child(1) ~ .checkout-progress-item:nth-child(2) .checkout-progress-line {
+  left: 0;
+  right: calc(-50% - 12px);
+}
+
+.checkout-progress-item:nth-child(2) {
+  .checkout-progress-line {
+    left: calc(-50% + 12px);
+    right: calc(-50% - 12px);
+  }
+}
+
+.checkout-progress-item:nth-child(3) {
+  .checkout-progress-line {
+    left: calc(-50% + 12px);
+    right: 50%;
+  }
+}
+
+/* Completed Line */
+.checkout-progress-line.completed {
+  background-color: var(--color-gold);
+}
+
+/* ========== MOBILE INDICATOR ========== */
+
+.checkout-progress-mobile-indicator {
+  display: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: var(--space-4);
+  background-color: var(--color-surface);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+  .checkout-progress-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .checkout-progress-label {
+    font-size: var(--text-2xs);
+  }
+
+  .checkout-progress-mobile-indicator {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-progress-container {
+    padding: 0;
+  }
+
+  .checkout-progress-circle {
+    width: 36px;
+    height: 36px;
+    margin-bottom: var(--space-2);
+  }
+
+  .checkout-progress-label {
+    font-size: var(--text-2xs);
+    line-height: 1.2;
+  }
+
+  .checkout-progress-line {
+    top: 18px;
+  }
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-progress-circle,
+  .checkout-progress-label,
+  .checkout-progress-line {
+    animation: none;
+    transition: none;
+  }
+}
+
+.checkout-progress-circle:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}

@@ -1,0 +1,178 @@
+/* ============================================================================
+   SHIPPING THRESHOLD INDICATOR — CONVERSION OPTIMIZATION
+   Visual indicator for free shipping progress
+   ============================================================================ */
+
+.shipping-indicator {
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-base);
+}
+
+/* Free Shipping Unlocked State */
+.shipping-indicator-free {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-color: var(--color-gold);
+}
+
+/* Progress State */
+.shipping-indicator-progress {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.shipping-indicator-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ========== FREE SHIPPING STATE ========== */
+
+.shipping-indicator-free .shipping-indicator-content {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.shipping-indicator-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn var(--transition-base);
+}
+
+.shipping-indicator-free .shipping-indicator-label {
+  color: var(--color-gold);
+  font-weight: var(--weight-semibold);
+  margin: 0;
+}
+
+.shipping-indicator-free .shipping-indicator-message {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+/* ========== PROGRESS STATE ========== */
+
+.shipping-indicator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.shipping-indicator-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.shipping-indicator-amount {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-gold);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ========== PROGRESS BAR ========== */
+
+.shipping-indicator-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-surface-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.shipping-indicator-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  border-radius: var(--radius-lg);
+  transition: width 0.4s ease-out;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* When almost there (>80% filled) */
+.shipping-indicator-fill[style*="width: 8"],
+.shipping-indicator-fill[style*="width: 9"] {
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+}
+
+/* ========== MESSAGE ========== */
+
+.shipping-indicator-message {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+.shipping-indicator-progress .shipping-indicator-message {
+  font-weight: var(--weight-medium);
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 640px) {
+  .shipping-indicator {
+    padding: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+
+  .shipping-indicator-free .shipping-indicator-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .shipping-indicator-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .shipping-indicator-header {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .shipping-indicator-label {
+    font-size: var(--text-xs);
+  }
+
+  .shipping-indicator-amount {
+    font-size: var(--text-xs);
+  }
+}
+
+/* ========== DARK MODE & ACCESSIBILITY ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .shipping-indicator-fill,
+  .shipping-indicator-icon {
+    animation: none;
+    transition: none;
+  }
+}
+
+.shipping-indicator:focus-within {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
