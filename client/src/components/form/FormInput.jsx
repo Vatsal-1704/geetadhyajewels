@@ -72,10 +72,15 @@ const FormInput = forwardRef((props, ref) => {
           placeholder={placeholder}
           value={value}
           onChange={(e) => {
-            // Sanitize input before passing to parent
             const sanitized = sanitizeInput(e.target.value, type);
-            const syntheticEvent = { ...e, target: { ...e.target, value: sanitized } };
-            onChange(syntheticEvent);
+            onChange({
+              target: {
+                name: e.target.name,
+                value: sanitized,
+                type: e.target.type,
+                checked: e.target.checked,
+              },
+            });
           }}
           onBlur={onBlur}
           disabled={disabled}
