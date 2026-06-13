@@ -12,6 +12,20 @@ module.exports = {
           "gold-dark": "#d4af37",
           "gray-soft": "#f5f0e8",
         },
+        luxury: {
+          bg: "#FAF7F2",        // Warm ivory background
+          "bg-secondary": "#F7F4EF", // Secondary neutral
+          charcoal: "#1C1B19",  // Deep text
+          bronze: "#2E2A25",    // Secondary text
+          gold: "#D4AF37",      // Champagne gold
+          "gold-light": "#E8D9B8", // Lighter gold
+          "gold-dark": "#AA8C2C", // Darker gold
+        },
+        trust: {
+          green: "#2D7A3E",     // Anti-tarnish, waterproof
+          amber: "#D97706",     // Low stock warning
+          emerald: "#10B981",   // Added to cart success
+        },
       },
       fontFamily: {
         serif: ["Cormorant Garamond", "Georgia", "serif"],

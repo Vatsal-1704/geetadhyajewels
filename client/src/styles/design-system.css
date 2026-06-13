@@ -31,6 +31,17 @@
   --color-warning: #e8a838;
   --color-info: #5b9fd8;
 
+  /* Trust Badge Colors */
+  --color-trust-green: #2d7a3e;
+  --color-trust-amber: #d97706;
+  --color-trust-emerald: #10b981;
+
+  /* Luxury Extended Palette */
+  --color-bg-secondary: #f7f4ef;
+  --color-charcoal: #1c1b19;
+  --color-bronze: #2e2a25;
+  --color-gold-dark: #aa8c2c;
+
   /* ========== TYPOGRAPHY ========== */
 
   --font-serif: 'Cormorant Garamond', serif;

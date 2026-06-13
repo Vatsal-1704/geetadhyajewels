@@ -5,6 +5,7 @@ import { FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import ProductCard from "../components/common/ProductCard";
+import TrustBadges from "../components/common/TrustBadges";
 import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
@@ -182,6 +183,12 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Trust Badges */}
+      <section className="product-trust-section">
+        <h2>Why Choose Our Jewelry</h2>
+        <TrustBadges />
+      </section>
 
       {/* Tabs */}
       <div className="product-tabs">

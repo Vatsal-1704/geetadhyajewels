@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import api from "../utils/api";
 import { toast } from "react-toastify";
 import ShippingThresholdIndicator from "../components/cart/ShippingThresholdIndicator";
+import TrustBadges from "../components/common/TrustBadges";
 import "./CartPage.css";
 
 export default function CartPage() {
@@ -121,6 +122,12 @@ export default function CartPage() {
           <Link to="/collections" className="cart-continue-button">← Continue Shopping</Link>
         </div>
       </div>
+
+      {/* Trust Badges */}
+      <section className="cart-trust-section">
+        <h2>Why Shop with Geetadhya Jewels</h2>
+        <TrustBadges />
+      </section>
     </div>
   );
 }
