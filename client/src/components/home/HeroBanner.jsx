@@ -2,22 +2,30 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import api from "../../utils/api";
+import { placeholderImages } from "../../utils/placeholderImages";
 import "./HeroBanner.css";
 
 const DEFAULT_SLIDES = [
   {
-    image: "https://rubans.in/cdn/shop/files/website_banner_f959ab62-9b47-43fd-8931-81ab5c11dae3.png",
+    image: placeholderImages.hero.slide1,
     title: "Elegant Jewellery",
     subtitle: "For Every Occasion",
     cta: "Shop Now",
     link: "/collections",
   },
   {
-    image: "https://rubans.in/cdn/shop/files/desktop_banner_-_2025-03-10T154327.693_540x.jpg",
+    image: placeholderImages.hero.slide2,
     title: "New Arrivals",
     subtitle: "Discover Fresh Designs",
     cta: "Explore",
     link: "/collections?filter=new",
+  },
+  {
+    image: placeholderImages.hero.slide3,
+    title: "Timeless Collection",
+    subtitle: "Premium Quality Jewellery",
+    cta: "View Collection",
+    link: "/collections",
   },
 ];
 

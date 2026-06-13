@@ -1,9 +1,15 @@
 import { FiInstagram } from "react-icons/fi";
+import { placeholderImages } from "../../utils/placeholderImages";
 import "./InstagramStrip.css";
 
-const imgs = Array.from({ length: 6 }, (_, i) =>
-  `https://rubans.in/cdn/shop/products/insta-${i + 1}.jpg`
-);
+const imgs = [
+  placeholderImages.instagram.post1,
+  placeholderImages.instagram.post2,
+  placeholderImages.instagram.post3,
+  placeholderImages.instagram.post4,
+  placeholderImages.instagram.post5,
+  placeholderImages.instagram.post6,
+];
 
 export default function InstagramStrip() {
   return (

@@ -2,14 +2,35 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../common/ProductCard";
 import api from "../../utils/api";
+import { placeholderImages } from "../../utils/placeholderImages";
 import "./FeaturedProducts.css";
 
-const MOCK_PRODUCTS = Array.from({ length: 8 }, (_, i) => ({
-  _id: `mock-${i}`, name: ["Kundan Necklace Set", "Pearl Drop Earrings", "Oxidised Bangles", "Temple Ring", "Bridal Choker", "American Diamond Maang Tikka", "Gold Plated Anklet", "Ethnic Jhumkas"][i],
-  slug: `product-${i + 1}`, price: [999, 599, 799, 449, 2499, 1299, 399, 699][i], mrp: [1499, 899, 1199, 699, 3999, 1999, 599, 999][i],
-  discount: 30, images: [`https://rubans.in/cdn/shop/products/product-${(i % 5) + 1}.jpg`],
-  rating: 4.5, isNewArrival: i < 3, isBestSeller: i >= 4 && i < 7,
-}));
+const MOCK_PRODUCTS = Array.from({ length: 8 }, (_, i) => {
+  const productImages = [
+    placeholderImages.product.necklace1,
+    placeholderImages.product.necklace2,
+    placeholderImages.product.earrings1,
+    placeholderImages.product.earrings2,
+    placeholderImages.product.bangles1,
+    placeholderImages.product.bangles2,
+    placeholderImages.product.rings1,
+    placeholderImages.product.rings2,
+  ];
+
+  return {
+    _id: `mock-${i}`,
+    name: ["Kundan Necklace Set", "Pearl Drop Earrings", "Oxidised Bangles", "Temple Ring", "Bridal Choker", "American Diamond Maang Tikka", "Gold Plated Anklet", "Ethnic Jhumkas"][i],
+    slug: `product-${i + 1}`,
+    price: [999, 599, 799, 449, 2499, 1299, 399, 699][i],
+    mrp: [1499, 899, 1199, 699, 3999, 1999, 599, 999][i],
+    discount: 30,
+    images: [productImages[i]],
+    rating: 4.5,
+    numReviews: 12,
+    isNewArrival: i < 3,
+    isBestSeller: i >= 4 && i < 7,
+  };
+});
 
 export default function FeaturedProducts({ type = "bestsellers", title = "Best Sellers" }) {
   const [products, setProducts] = useState(MOCK_PRODUCTS);

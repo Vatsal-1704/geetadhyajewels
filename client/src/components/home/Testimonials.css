@@ -107,6 +107,22 @@
 
 /* ========== AVATAR ========== */
 
+.testimonial-avatar-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-gold);
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .testimonial-avatar-image {
+    width: 56px;
+    height: 56px;
+  }
+}
+
 .testimonial-avatar {
   width: 48px;
   height: 48px;
@@ -120,6 +136,7 @@
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   flex-shrink: 0;
+  position: absolute;
 }
 
 @media (min-width: 768px) {
