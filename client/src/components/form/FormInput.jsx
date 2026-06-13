@@ -3,6 +3,30 @@ import { FiEye, FiEyeOff, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import "./FormInput.css";
 
 /**
+ * Sanitize input to prevent XSS attacks
+ * Removes dangerous characters but preserves legitimate input
+ */
+const sanitizeInput = (value, type) => {
+  if (!value) return value;
+  if (typeof value !== "string") return value;
+
+  // For different field types, apply appropriate sanitization
+  switch (type) {
+    case "email":
+      // Allow standard email characters
+      return value.replace(/[<>\"';]/g, "");
+    case "tel":
+      // Allow numbers, spaces, hyphens, parentheses, plus
+      return value.replace(/[^0-9\s\-\(\)\+]/g, "");
+    case "number":
+      return value.replace(/[^0-9\.\-]/g, "");
+    default:
+      // General sanitization: remove HTML/JS tags
+      return value.replace(/[<>\"']/g, "");
+  }
+};
+
+/**
  * Reusable form input component with validation
  * Shows inline error messages and validation state
  */
@@ -47,11 +71,17 @@ const FormInput = forwardRef((props, ref) => {
           type={isPassword && showPassword ? "text" : type}
           placeholder={placeholder}
           value={value}
-          onChange={onChange}
+          onChange={(e) => {
+            // Sanitize input before passing to parent
+            const sanitized = sanitizeInput(e.target.value, type);
+            const syntheticEvent = { ...e, target: { ...e.target, value: sanitized } };
+            onChange(syntheticEvent);
+          }}
           onBlur={onBlur}
           disabled={disabled}
           data-error={hasError}
           className={`form-input ${hasError ? "error" : ""} ${isValid ? "success" : ""} ${className}`}
+          autoComplete={type === "password" ? "current-password" : "on"}
           {...rest}
         />
 

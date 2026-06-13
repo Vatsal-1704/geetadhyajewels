@@ -34,7 +34,7 @@ export default function Footer() {
           <div className="footer-section">
             <h4>Customer Care</h4>
             <ul className="footer-links">
-              {[["FAQ", "/faq"], ["Shipping Policy", "/shipping-policy"], ["Return & Exchange", "/return-policy"], ["Privacy Policy", "/privacy-policy"], ["Terms & Conditions", "/terms"]].map(([label, to]) => (
+              {[["FAQ", "/faq"], ["Shipping Policy", "/shipping-policy"], ["Return Policy", "/return-policy"], ["Privacy Policy", "/privacy-policy"], ["Terms & Conditions", "/terms"]].map(([label, to]) => (
                 <li key={to}><Link to={to} className="footer-link">{label}</Link></li>
               ))}
             </ul>

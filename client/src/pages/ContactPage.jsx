@@ -24,13 +24,16 @@ export default function ContactPage() {
 
   async function handleFormSubmit(values) {
     try {
-      // Send to backend (optional - can also just show success)
-      await api.post("/contact", values);
+      // Send to backend with validation (FormInput sanitizes user input)
+      const response = await api.post("/contact", values);
       toast.success("Message sent! We'll reply within 24 hours. ✨");
       form.resetForm();
+      console.log("Contact message sent successfully");
     } catch (err) {
-      form.setFormError(err.response?.data?.message || "Failed to send message");
-      toast.error("Failed to send message");
+      const errorMsg = err.response?.data?.message || "Failed to send message. Please try again.";
+      form.setFormError(errorMsg);
+      toast.error(errorMsg);
+      console.error("Contact form error:", err.message);
     }
   }
 
@@ -43,13 +46,21 @@ export default function ContactPage() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="space-y-4">
-          {[{ icon: FiPhone, title: "Call Us", info: "+91 XXXXXXXXXX", sub: "Mon–Sat, 10am–7pm" }, { icon: FiMail, title: "Email Us", info: "hello@geetadhyajewels.com", sub: "We reply within 24h" }, { icon: FiMapPin, title: "Visit Us", info: "GeetadhyaJewels Store", sub: "Your City, India" }].map(({ icon: Icon, title, info, sub }) => (
-            <div key={title} className="bg-white rounded-2xl p-5 shadow-sm flex gap-4">
+          {[
+            { icon: FiPhone, title: "Call Us", info: "TODO: Owner phone number", sub: "TODO: Owner working hours", isTodo: true },
+            { icon: FiMail, title: "Email Us", info: "TODO: Owner email address", sub: "We reply within 24h", isTodo: true },
+            { icon: FiMapPin, title: "Visit Us", info: "TODO: Store address", sub: "TODO: City, State", isTodo: true }
+          ].map(({ icon: Icon, title, info, sub, isTodo }) => (
+            <div key={title} className={`rounded-2xl p-5 shadow-sm flex gap-4 ${isTodo ? 'bg-yellow-50 border border-yellow-200' : 'bg-white'}`}>
               <div className="w-12 h-12 bg-brand-cream rounded-xl flex items-center justify-center flex-shrink-0"><Icon className="text-brand-gold" size={20} /></div>
-              <div><p className="font-semibold text-sm">{title}</p><p className="text-brand-black text-sm font-medium">{info}</p><p className="text-gray-400 text-xs">{sub}</p></div>
+              <div>
+                <p className="font-semibold text-sm">{title}</p>
+                <p className={`text-sm font-medium ${isTodo ? 'text-yellow-600' : 'text-brand-black'}`}>{info}</p>
+                <p className={`text-xs ${isTodo ? 'text-yellow-500' : 'text-gray-400'}`}>{sub}</p>
+              </div>
             </div>
           ))}
-          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-green-500 text-white rounded-2xl p-4 hover:bg-green-600 transition-colors">
+          <a href="https://wa.me/?text=Hi%20GeetadhyaJewels%20-%20I%20have%20a%20question" target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-green-500 text-white rounded-2xl p-4 hover:bg-green-600 transition-colors">
             <FaWhatsapp size={24} /><div><p className="font-semibold">WhatsApp Us</p><p className="text-xs text-green-100">Fastest response!</p></div>
           </a>
         </div>

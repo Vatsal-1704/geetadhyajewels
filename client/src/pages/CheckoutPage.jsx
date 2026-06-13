@@ -208,18 +208,33 @@ export default function CheckoutPage() {
               await api.post("/orders/verify-payment", { ...response, orderId: data.order._id });
               clearCart();
               navigate(`/order-confirmation/${data.order.orderId}`);
-            } catch { toast.error("Payment verification failed"); }
+              toast.success("Payment successful! Your order has been placed.");
+            } catch (error) {
+              console.error("Payment verification error:", error);
+              toast.error(error.response?.data?.message || "Payment verification failed");
+            }
+          },
+          modal: {
+            ondismiss: () => {
+              toast.warning("Payment cancelled. Please try again.");
+              console.warn("User dismissed Razorpay modal");
+            }
           },
           prefill: { name: address.name, contact: address.phone, email: user?.email || "" },
           theme: { color: "#C9A84C" },
         };
         const rzp = new window.Razorpay(rzOptions);
         rzp.open();
-      } else {
+      } else if (payment === "cod") {
         clearCart();
         navigate(`/order-confirmation/${data.order.orderId}`);
+        toast.success("Order placed successfully! You will pay on delivery.");
       }
-    } catch (err) { toast.error(err.response?.data?.message || "Order failed"); }
+    } catch (err) {
+      console.error("Order placement error:", err);
+      const errorMsg = err.response?.data?.message || err.message || "Failed to place order. Please try again.";
+      toast.error(errorMsg);
+    }
     finally { setLoading(false); }
   };
 
