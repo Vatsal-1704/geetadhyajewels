@@ -6,7 +6,14 @@ import api from "../utils/api";
 import "./CollectionsPage.css";
 
 const STYLES = ["Gold Plated", "Oxidised", "Kundan", "American Diamond", "Temple", "Silver Plated"];
-const SORT_OPTIONS = [{ label: "Newest First", value: "newest" }, { label: "Price: Low to High", value: "price-asc" }, { label: "Price: High to Low", value: "price-desc" }, { label: "Top Rated", value: "rating" }];
+const SORT_OPTIONS = [
+  { label: "Trending", value: "trending" },
+  { label: "Popularity", value: "popularity" },
+  { label: "Newest First", value: "newest" },
+  { label: "Top Rated", value: "rating" },
+  { label: "Price: Low to High", value: "price-asc" },
+  { label: "Price: High to Low", value: "price-desc" }
+];
 const PRICE_RANGES = [{ label: "Under ₹500", min: 0, max: 500 }, { label: "₹500–₹1000", min: 500, max: 1000 }, { label: "₹1000–₹2000", min: 1000, max: 2000 }, { label: "Above ₹2000", min: 2000, max: 99999 }];
 
 const MOCK_PRODUCTS = Array.from({ length: 12 }, (_, i) => ({

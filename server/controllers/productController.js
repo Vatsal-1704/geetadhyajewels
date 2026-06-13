@@ -22,7 +22,14 @@ exports.getProducts = async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 12;
     const skip = (page - 1) * limit;
-    const sortMap = { "price-asc": { price: 1 }, "price-desc": { price: -1 }, "newest": { createdAt: -1 }, "rating": { rating: -1 } };
+    const sortMap = {
+      "trending": { isBestSeller: -1, isNewArrival: -1, createdAt: -1 },
+      "popularity": { numReviews: -1, rating: -1 },
+      "price-asc": { price: 1 },
+      "price-desc": { price: -1 },
+      "newest": { createdAt: -1 },
+      "rating": { rating: -1 }
+    };
     const sort = sortMap[req.query.sort] || { createdAt: -1 };
     const q = { status: "published" };
 
