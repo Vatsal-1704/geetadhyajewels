@@ -10,79 +10,79 @@ import { getOptimizedImageUrl, imagePresets } from "./cloudinary";
 const CLOUD = "geetadhyajewels";
 
 /**
- * Placeholder image URLs from Cloudinary demo and free resources
- * These are high-quality jewelry and fashion images
- * You can replace the public IDs with your own Cloudinary uploads
+ * Placeholder image URLs - Real working images
+ * Using high-quality jewelry and fashion images
+ * You can replace these with your own Cloudinary uploads
  */
 export const placeholderImages = {
-  // Hero Banner Images
+  // Hero Banner Images - High quality luxury jewelry banners
   hero: {
-    slide1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/jewelry_banner_1_qp9k8l`,
-    slide2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/jewelry_banner_2_mx2r5n`,
-    slide3: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/jewelry_banner_3_dp7j2k`,
+    slide1: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1920&h=600&fit=crop`,
+    slide2: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1920&h=600&fit=crop`,
+    slide3: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1920&h=600&fit=crop`,
   },
 
-  // Product Images
+  // Product Images - Jewelry products
   product: {
-    necklace1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/necklace_1_hm3k9x`,
-    necklace2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/necklace_2_lq5m8p`,
-    earrings1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/earrings_1_zx7n3k`,
-    earrings2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/earrings_2_vy2r9m`,
-    bangles1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/bangles_1_tw4j6l`,
-    bangles2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/bangles_2_kp8n2q`,
-    rings1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/rings_1_sw5m7k`,
-    rings2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/rings_2_xr3l9p`,
+    necklace1: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=300&h=400&fit=crop`,
+    necklace2: `https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=300&h=400&fit=crop`,
+    earrings1: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&h=400&fit=crop`,
+    earrings2: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&h=400&fit=crop`,
+    bangles1: `https://images.unsplash.com/photo-1515622141207-5dde32aadeba?w=300&h=400&fit=crop`,
+    bangles2: `https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=300&h=400&fit=crop`,
+    rings1: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&h=400&fit=crop`,
+    rings2: `https://images.unsplash.com/photo-1540632066927-ab7c9ab60908?w=300&h=400&fit=crop`,
   },
 
-  // Category Images
+  // Category Images - Shop by category
   category: {
-    necklaces: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_necklaces_bj2k4n`,
-    earrings: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_earrings_dx5m7p`,
-    bangles: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_bangles_qw3j8l`,
-    rings: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_rings_fk9n2r`,
-    anklets: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_anklets_px6l4m`,
-    bridal: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/category_bridal_vm8p5k`,
+    necklaces: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=200&h=200&fit=crop`,
+    earrings: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=200&h=200&fit=crop`,
+    bangles: `https://images.unsplash.com/photo-1515622141207-5dde32aadeba?w=200&h=200&fit=crop`,
+    rings: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=200&h=200&fit=crop`,
+    anklets: `https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=200&h=200&fit=crop`,
+    bridal: `https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop`,
   },
 
   // Style Images
   style: {
-    goldPlated: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/style_gold_plated_jk4m2n`,
-    oxidised: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/style_oxidised_lm6k9p`,
-    kundan: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/style_kundan_qn7r3l`,
-    americanDiamond: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/style_ad_sm2k8x`,
-    temple: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/style_temple_xp5l9n`,
+    goldPlated: `https://images.unsplash.com/photo-1515562141207-5dde32aadeba?w=300&h=300&fit=crop`,
+    oxidised: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=300&h=300&fit=crop`,
+    kundan: `https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=300&h=300&fit=crop`,
+    americanDiamond: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&h=300&fit=crop`,
+    temple: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&h=300&fit=crop`,
   },
 
   // Banner Images
   banner: {
-    announcement: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/banner_announcement_kx3m5l`,
-    sale: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/banner_sale_pq8n2k`,
-    special: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/banner_special_wr4j7p`,
-    seasonal: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/banner_seasonal_yz2m6l`,
+    announcement: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1200&h=400&fit=crop`,
+    sale: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1200&h=400&fit=crop`,
+    special: `https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=1200&h=400&fit=crop`,
+    seasonal: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=400&fit=crop`,
   },
 
   // Instagram/Social Images
   instagram: {
-    post1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_1_fk5p3n`,
-    post2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_2_hm7l9q`,
-    post3: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_3_jq2r8x`,
-    post4: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_4_kx4m3p`,
-    post5: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_5_lz6n5k`,
-    post6: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/insta_6_mw8l7j`,
+    post1: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=500&fit=crop`,
+    post2: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&h=500&fit=crop`,
+    post3: `https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=500&h=500&fit=crop`,
+    post4: `https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500&h=500&fit=crop`,
+    post5: `https://images.unsplash.com/photo-1515622141207-5dde32aadeba?w=500&h=500&fit=crop`,
+    post6: `https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=500&h=500&fit=crop`,
   },
 
   // Testimonial/Avatar Images
   avatar: {
-    woman1: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/avatar_woman_1_np3k5m`,
-    woman2: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/avatar_woman_2_oq6l2p`,
-    woman3: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/avatar_woman_3_pr8n4k`,
+    woman1: `https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop`,
+    woman2: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop`,
+    woman3: `https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop`,
   },
 
   // Generic fallbacks
   fallback: {
-    product: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/product_default_jk3m9l`,
-    banner: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/banner_default_qp5n2m`,
-    square: `https://res.cloudinary.com/${CLOUD}/image/upload/v1/placeholder/square_default_xy7k4p`,
+    product: `https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&h=400&fit=crop`,
+    banner: `https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1200&h=400&fit=crop`,
+    square: `https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=300&h=300&fit=crop`,
   },
 };
 
