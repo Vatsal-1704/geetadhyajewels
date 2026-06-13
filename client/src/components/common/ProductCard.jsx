@@ -3,6 +3,8 @@ import { FiHeart, FiShoppingBag, FiEye } from "react-icons/fi";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useState } from "react";
+import OptimizedImage from "./OptimizedImage";
+import { imagePresets } from "../../utils/cloudinary";
 import "./ProductCard.css";
 
 export default function ProductCard({ product, onQuickView }) {
@@ -16,16 +18,15 @@ export default function ProductCard({ product, onQuickView }) {
   return (
     <div className="product-card">
       <Link to={`/product/${product.slug}`} className="product-card-link">
-        {/* Image */}
+        {/* Image - Optimized with Cloudinary */}
         <div className="product-image-container">
-          {!imgLoaded && <div className="product-image-skeleton" />}
-          <img src={img} alt={product.name} loading="lazy" decoding="async"
-            className={`product-image ${imgLoaded ? "product-image-visible" : "product-image-hidden"}`}
+          <OptimizedImage
+            src={img}
+            alt={product.name}
+            preset="productCard"
+            className="product-image"
             onLoad={() => setImgLoaded(true)}
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/300x300?text=Image+Not+Found";
-              setImgLoaded(true);
-            }} />
+          />
         </div>
         {/* Badges */}
         <div className="product-badges">
