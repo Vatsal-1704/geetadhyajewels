@@ -5,6 +5,28 @@ import ProductCard from "../components/common/ProductCard";
 import api from "../utils/api";
 import "./CollectionsPage.css";
 
+const CATEGORY_META = {
+  "necklaces":      { emoji: "📿", desc: "Chains, pendants & statement sets for every look" },
+  "earrings":       { emoji: "✨", desc: "Studs, hoops, jhumkas & drops for every occasion" },
+  "bangles":        { emoji: "⭕", desc: "Ethnic & modern bangles in every style & finish" },
+  "rings":          { emoji: "💍", desc: "Statement rings & everyday elegance" },
+  "anklets":        { emoji: "🌸", desc: "Delicate & bold anklet designs for every vibe" },
+  "bridal-sets":    { emoji: "👑", desc: "Complete bridal jewellery for your special day" },
+  "hair-jewellery": { emoji: "🌺", desc: "Maang tikkas, juda pins, clips & more" },
+  "bracelets":      { emoji: "💎", desc: "Charm bracelets, cuffs & chain sets" },
+};
+
+const CATEGORY_CHIPS = {
+  "necklaces":      ["Chains", "Pendants", "Sets", "Chokers", "Layered"],
+  "earrings":       ["Studs", "Hoops", "Jhumkas", "Drops", "Chandbalis"],
+  "bangles":        ["Kadas", "Sets", "Cuffs", "Oxidised", "Gold Plated"],
+  "rings":          ["Statement", "Stackable", "Adjustable", "Midi", "Cocktail"],
+  "anklets":        ["Beaded", "Chain", "Charms", "Payals", "Bold"],
+  "bridal-sets":    ["Necklace Sets", "Full Bridal", "Layered", "Matha Patti"],
+  "hair-jewellery": ["Maang Tikka", "Juda Pins", "Hair Clips", "Passa"],
+  "bracelets":      ["Charm", "Chain", "Cuffs", "Sets", "Beaded"],
+};
+
 const STYLES = ["Gold Plated", "Oxidised", "Kundan", "American Diamond", "Temple", "Silver Plated"];
 const SORT_OPTIONS = [
   { label: "Trending", value: "trending" },
@@ -12,35 +34,38 @@ const SORT_OPTIONS = [
   { label: "Newest First", value: "newest" },
   { label: "Top Rated", value: "rating" },
   { label: "Price: Low to High", value: "price-asc" },
-  { label: "Price: High to Low", value: "price-desc" }
+  { label: "Price: High to Low", value: "price-desc" },
 ];
-const PRICE_RANGES = [{ label: "Under ₹500", min: 0, max: 500 }, { label: "₹500–₹1000", min: 500, max: 1000 }, { label: "₹1000–₹2000", min: 1000, max: 2000 }, { label: "Above ₹2000", min: 2000, max: 99999 }];
-
-const MOCK_PRODUCTS = Array.from({ length: 12 }, (_, i) => ({
-  _id: `mock-${i}`, slug: `product-${i + 1}`, name: ["Kundan Necklace", "Pearl Earrings", "Oxidised Bangle", "Temple Ring", "Bridal Choker", "AD Tikka", "Gold Anklet", "Ethnic Jhumka", "Silver Bracelet", "Floral Maang Tikka", "Layered Necklace", "Emerald Earrings"][i],
-  price: [999, 599, 799, 449, 2499, 1299, 399, 699, 549, 899, 1199, 749][i],
-  mrp: [1499, 899, 1199, 699, 3999, 1999, 599, 999, 799, 1299, 1799, 1099][i], discount: 30,
-  images: ["https://rubans.in/cdn/shop/files/website_banner_f959ab62-9b47-43fd-8931-81ab5c11dae3.png"], rating: 4 + Math.random(),
-}));
+const PRICE_RANGES = [
+  { label: "Under ₹500", min: 0, max: 500 },
+  { label: "₹500–₹1000", min: 500, max: 1000 },
+  { label: "₹1000–₹2000", min: 1000, max: 2000 },
+  { label: "Above ₹2000", min: 2000, max: 99999 },
+];
 
 export default function CollectionsPage() {
   const { slug } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
-  const [filters, setFilters] = useState({ style: searchParams.get("style") || "", sort: "newest", priceMin: "", priceMax: "" });
+  const [filters, setFilters] = useState({
+    style: searchParams.get("style") || "",
+    sort: "newest",
+    priceMin: searchParams.get("minPrice") || "",
+    priceMax: searchParams.get("maxPrice") || "",
+  });
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [openSections, setOpenSections] = useState({ style: true, price: true });
+
   const searchDebounceRef = useCallback((query) => {
     setSearchQuery(query);
     setPage(1);
   }, []);
 
-  // Reset page to 1 when filters/search change (but not when page changes)
   useEffect(() => {
     setPage(1);
   }, [filters.style, filters.priceMin, filters.priceMax, filters.sort, slug, searchQuery]);
@@ -76,7 +101,6 @@ export default function CollectionsPage() {
 
   const Sidebar = () => (
     <aside className="collections-sidebar">
-      {/* Sort */}
       <div className="filter-section">
         <h3 className="filter-section-title">Sort By</h3>
         <div className="filter-options">
@@ -88,9 +112,10 @@ export default function CollectionsPage() {
           ))}
         </div>
       </div>
-      {/* Style */}
       <div className="filter-section">
-        <button onClick={() => toggleSection("style")} className="filter-section-title">Style {openSections.style ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
+        <button onClick={() => toggleSection("style")} className="filter-section-title">
+          Style {openSections.style ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
+        </button>
         {openSections.style && (
           <div className="filter-options">
             {STYLES.map(s => (
@@ -102,9 +127,10 @@ export default function CollectionsPage() {
           </div>
         )}
       </div>
-      {/* Price */}
       <div className="filter-section">
-        <button onClick={() => toggleSection("price")} className="filter-section-title">Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}</button>
+        <button onClick={() => toggleSection("price")} className="filter-section-title">
+          Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
+        </button>
         {openSections.price && (
           <div className="filter-options">
             {PRICE_RANGES.map(r => (
@@ -129,17 +155,64 @@ export default function CollectionsPage() {
         <Link to="/" className="collections-breadcrumb-link">Home</Link>
         <span>/</span>
         <Link to="/collections" className="collections-breadcrumb-link">Collections</Link>
-        {slug && <><span>/</span><span className="capitalize" style={{ color: "var(--color-text-primary)" }}>{slug.replace(/-/g, " ")}</span></>}
+        {slug && (
+          <>
+            <span>/</span>
+            <span className="capitalize" style={{ color: "var(--color-text-primary)" }}>
+              {slug.replace(/-/g, " ")}
+            </span>
+          </>
+        )}
       </nav>
-      <div className="collections-header">
-        <h1 className="collections-title">{slug ? slug.replace(/-/g, " ") : "All Collections"}</h1>
-        <div className="collections-header-controls">
-          <span className="collections-product-count">{total} products</span>
-          <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
-            <FiFilter size={14} /> Filters
-          </button>
+
+      {/* Header / Category Banner */}
+      {slug ? (
+        <div className="category-banner">
+          <div className="category-banner-inner">
+            <div className="category-banner-left">
+              <span className="category-banner-emoji">{CATEGORY_META[slug]?.emoji || "💎"}</span>
+              <div>
+                <h1 className="category-banner-title">
+                  {slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
+                </h1>
+                <p className="category-banner-desc">
+                  {CATEGORY_META[slug]?.desc || "Explore our exclusive collection"}
+                </p>
+                <p className="category-banner-count">{total} products</p>
+              </div>
+            </div>
+            <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
+              <FiFilter size={16} /> Filters
+            </button>
+          </div>
+          {CATEGORY_CHIPS[slug] && (
+            <div className="category-chips-strip">
+              {CATEGORY_CHIPS[slug].map(chip => (
+                <button
+                  key={chip}
+                  className={`category-chip${filters.style === chip ? " active" : ""}`}
+                  onClick={() => setFilters(prev => ({
+                    ...prev,
+                    style: prev.style === chip ? "" : chip,
+                  }))}
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <div className="collections-header">
+          <h1 className="collections-title">{filters.style || "All Collections"}</h1>
+          <div className="collections-header-controls">
+            <span className="collections-product-count">{total} products</span>
+            <button onClick={() => setFiltersOpen(true)} className="collections-filter-button">
+              <FiFilter size={14} /> Filters
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Search Bar */}
       <div className="collections-search-bar">
@@ -159,21 +232,23 @@ export default function CollectionsPage() {
       </div>
 
       {error && (
-        <div style={{ padding: "var(--space-4)", backgroundColor: "#fef3c7", borderLeft: "4px solid #f59e0b", borderRadius: "var(--rounded-lg)", margin: "0 var(--space-4) var(--space-4)" }}>
-          <p style={{ color: "#92400e", fontSize: "var(--text-sm)" }}>{error}</p>
+        <div style={{ padding: "var(--space-4)", backgroundColor: "rgba(224,92,92,0.1)", borderLeft: "4px solid var(--color-error)", borderRadius: "var(--radius-md)", marginBottom: "var(--space-4)" }}>
+          <p style={{ color: "var(--color-error)", fontSize: "var(--text-sm)", margin: 0 }}>{error}</p>
         </div>
       )}
+
       <div className="collections-container">
-        {/* Desktop Sidebar */}
         <Sidebar />
-        {/* Products Grid */}
         <div className="collections-products">
           {loading ? (
             <div className="products-grid">
               {Array.from({ length: 9 }).map((_, i) => (
                 <div key={i} className="product-skeleton">
                   <div className="product-skeleton-image" />
-                  <div className="product-skeleton-content"><div className="product-skeleton-line" /><div className="product-skeleton-line" style={{ width: "60%" }} /></div>
+                  <div className="product-skeleton-content">
+                    <div className="product-skeleton-line" />
+                    <div className="product-skeleton-line" style={{ width: "60%" }} />
+                  </div>
                 </div>
               ))}
             </div>
@@ -182,7 +257,9 @@ export default function CollectionsPage() {
               <div className="collections-empty-icon">◆</div>
               <h3 className="collections-empty-title">No Products Found</h3>
               <p className="collections-empty-message">
-                {searchQuery ? `We couldn't find any jewellery matching "${searchQuery}".` : "Try adjusting your filters or search terms."}
+                {searchQuery
+                  ? `We couldn't find any jewellery matching "${searchQuery}".`
+                  : "Try adjusting your filters or search terms."}
               </p>
               <button onClick={() => { searchDebounceRef(""); clearFilters(); }} className="collections-empty-button">
                 Clear Filters
@@ -196,7 +273,9 @@ export default function CollectionsPage() {
               {total > 12 && (
                 <div className="pagination">
                   {Array.from({ length: Math.ceil(total / 12) }, (_, i) => (
-                    <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>{i + 1}</button>
+                    <button key={i} onClick={() => setPage(i + 1)} className={`pagination-button ${page === i + 1 ? "active" : ""}`}>
+                      {i + 1}
+                    </button>
                   ))}
                 </div>
               )}
@@ -205,14 +284,15 @@ export default function CollectionsPage() {
         </div>
       </div>
 
-      {/* Mobile Filter Drawer */}
       {filtersOpen && (
         <>
           <div className="collections-filter-drawer-overlay" onClick={() => setFiltersOpen(false)} />
           <div className="collections-filter-drawer">
             <div className="collections-filter-drawer-header">
               <h3>Filters</h3>
-              <button onClick={() => setFiltersOpen(false)} className="collections-filter-drawer-close"><FiX size={20} /></button>
+              <button onClick={() => setFiltersOpen(false)} className="collections-filter-drawer-close">
+                <FiX size={20} />
+              </button>
             </div>
             <Sidebar />
             <button onClick={() => setFiltersOpen(false)} className="collections-apply-button">Apply Filters</button>

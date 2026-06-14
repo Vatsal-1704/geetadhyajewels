@@ -8,6 +8,8 @@ import StripBanner from "../components/home/StripBanner";
 import Testimonials from "../components/home/Testimonials";
 import InstagramStrip from "../components/home/InstagramStrip";
 import TrustBadges from "../components/home/TrustBadges";
+import DealOfTheDay from "../components/home/DealOfTheDay";
+import NewsletterSection from "../components/home/NewsletterSection";
 
 export default function HomePage() {
   return (
@@ -18,10 +20,12 @@ export default function HomePage() {
       <ShopByCategory />
       <FeaturedProducts type="new" title="What's New ✨" />
       <SaleBanner />
-      <StripBanner />
       <FeaturedProducts type="bestsellers" title="Best Sellers 🔥" />
       <ShopByStyle />
+      <DealOfTheDay />
+      <StripBanner />
       <Testimonials />
+      <NewsletterSection />
       <InstagramStrip />
     </div>
   );

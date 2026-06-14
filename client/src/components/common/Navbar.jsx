@@ -7,10 +7,14 @@ import { useWishlist } from "../../context/WishlistContext";
 import "./Navbar.css";
 
 const categories = [
-  { name: "Necklaces", slug: "necklaces" }, { name: "Earrings", slug: "earrings" },
-  { name: "Bangles", slug: "bangles" }, { name: "Rings", slug: "rings" },
-  { name: "Anklets", slug: "anklets" }, { name: "Bridal Sets", slug: "bridal-sets" },
-  { name: "Hair Jewellery", slug: "hair-jewellery" }, { name: "Bracelets", slug: "bracelets" },
+  { name: "Necklaces", slug: "necklaces", emoji: "📿", desc: "Chains, pendants & sets" },
+  { name: "Earrings", slug: "earrings", emoji: "✨", desc: "Studs, hoops & jhumkas" },
+  { name: "Bangles", slug: "bangles", emoji: "⭕", desc: "Ethnic & modern styles" },
+  { name: "Rings", slug: "rings", emoji: "💍", desc: "Statement & daily wear" },
+  { name: "Anklets", slug: "anklets", emoji: "🌸", desc: "Delicate & bold designs" },
+  { name: "Bridal Sets", slug: "bridal-sets", emoji: "👑", desc: "Complete bridal looks" },
+  { name: "Hair Jewellery", slug: "hair-jewellery", emoji: "🌺", desc: "Maang tikkas & clips" },
+  { name: "Bracelets", slug: "bracelets", emoji: "💎", desc: "Chains & charm sets" },
 ];
 
 export default function Navbar() {
@@ -65,15 +69,27 @@ export default function Navbar() {
           {/* Desktop Nav Links */}
           <div className="navbar-links">
             <Link to="/" className="navbar-link">Home</Link>
-            <div className="relative group">
-              <button onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)} className="navbar-link">
+            <div className="navbar-mega-wrapper" onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)}>
+              <button className="navbar-link">
                 Shop <FiChevronDown size={14} />
               </button>
               {shopOpen && (
-                <div className="navbar-dropdown" style={{ display: 'block' }}>
-                  {categories.map(c => (
-                    <Link key={c.slug} to={`/collections/${c.slug}`} className="navbar-dropdown-item" onClick={() => setShopOpen(false)}>{c.name}</Link>
-                  ))}
+                <div className="navbar-mega-menu">
+                  <div className="navbar-mega-grid">
+                    {categories.map(c => (
+                      <Link key={c.slug} to={`/collections/${c.slug}`} className="navbar-mega-item" onClick={() => setShopOpen(false)}>
+                        <span className="navbar-mega-emoji">{c.emoji}</span>
+                        <div>
+                          <div className="navbar-mega-name">{c.name}</div>
+                          <div className="navbar-mega-desc">{c.desc}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="navbar-mega-footer">
+                    <Link to="/collections" className="navbar-mega-all" onClick={() => setShopOpen(false)}>View All Collections →</Link>
+                    <Link to="/sales" className="navbar-mega-sale" onClick={() => setShopOpen(false)}>🔥 Sale Items</Link>
+                  </div>
                 </div>
               )}
             </div>
