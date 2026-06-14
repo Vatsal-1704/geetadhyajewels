@@ -175,9 +175,20 @@
   background-color: var(--color-gold-light);
 }
 
+.product-wishlist-button::before {
+  content: "♡";
+  font-size: 20px;
+  color: white;
+  line-height: 1;
+}
+
 .product-wishlist-button.wishlisted {
   background-color: var(--color-error);
   color: white;
+}
+
+.product-wishlist-button.wishlisted::before {
+  content: "♥";
 }
 
 /* ========== PRODUCT INFO ========== */
