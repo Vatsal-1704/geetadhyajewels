@@ -87,7 +87,7 @@ export default function ProductDetailPage() {
       localStorage.setItem("rv_gj", JSON.stringify(next));
       setRecentlyViewed(stored.filter(p => p._id !== product._id).slice(0, 4));
     } catch {}
-  }, [product._id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [product._id]);
 
   const checkPincode = () => {
     if (!/^\d{6}$/.test(pincode)) return;
