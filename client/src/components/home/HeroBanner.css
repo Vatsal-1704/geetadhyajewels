@@ -32,11 +32,13 @@
   transition: opacity var(--transition-slow);
   display: flex;
   align-items: center;
+  pointer-events: none;
 }
 
 .hero-slide-active {
   opacity: 1;
   z-index: 10;
+  pointer-events: none;
 }
 
 /* Background Image */
@@ -72,6 +74,7 @@
   display: flex;
   align-items: center;
   z-index: 2;
+  pointer-events: none;
 }
 
 .hero-content-wrapper {
@@ -164,6 +167,7 @@
   min-height: 44px;
   animation: slideDown 600ms var(--ease-out) both;
   animation-delay: 500ms;
+  pointer-events: auto;
 }
 
 .hero-cta-button:hover {
@@ -248,33 +252,35 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 20;
+  pointer-events: auto;
 }
 
 .hero-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background-color: rgba(255, 255, 255, 0.35);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
   flex-shrink: 0;
+  pointer-events: auto;
 }
 
 .hero-dot:hover {
-  background-color: rgba(255, 255, 255, 0.65);
-  transform: scale(1.2);
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.3);
 }
 
 .hero-dot-active {
-  width: 24px;
-  height: 4px;
-  border-radius: 2px;
+  width: 10px;
+  height: 10px;
   background-color: var(--color-gold);
-  box-shadow: 0 0 6px rgba(201, 168, 76, 0.6);
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.7);
+  transform: scale(1.1);
 }
 
 /* ========== ANIMATIONS ========== */
