@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { FiFilter, FiX } from "react-icons/fi";
 import ProductCard from "../components/common/ProductCard";
 import ProductFilters from "../components/collections/ProductFilters";
@@ -25,16 +25,23 @@ const POPULAR_SEARCHES = [
 
 export default function CollectionsPage() {
   const { slug } = useParams();
+  const [searchParams] = useSearchParams();
 
-  // Filter state
-  const [filters, setFilters] = useState({
-    sort: "trending",
-    styles: [],
-    materials: [],
-    occasions: [],
-    care: "",
-    priceMin: "",
-    priceMax: "",
+  // Filter state — seeded from URL query params on first load
+  const [filters, setFilters] = useState(() => {
+    const occasion = searchParams.get("occasion");
+    const style = searchParams.get("style");
+    const maxPrice = searchParams.get("maxPrice");
+    const minPrice = searchParams.get("minPrice");
+    return {
+      sort: "trending",
+      styles: style ? [style] : [],
+      materials: [],
+      occasions: occasion ? [occasion] : [],
+      care: "",
+      priceMin: minPrice || "",
+      priceMax: maxPrice || "",
+    };
   });
 
   // Search and UI state
@@ -149,7 +156,15 @@ export default function CollectionsPage() {
       <div className="collections-header">
         <div>
           <h1 className="collections-title">
-            {slug ? slug.replace(/-/g, " ").charAt(0).toUpperCase() + slug.replace(/-/g, " ").slice(1) : "All Collections"}
+            {slug
+              ? slug.replace(/-/g, " ").charAt(0).toUpperCase() + slug.replace(/-/g, " ").slice(1)
+              : filters.occasions?.length
+              ? filters.occasions[0].charAt(0).toUpperCase() + filters.occasions[0].slice(1) + " Collection"
+              : filters.priceMax
+              ? `Under ₹${filters.priceMax}`
+              : filters.styles?.length
+              ? filters.styles[0]
+              : "All Collections"}
           </h1>
           <p className="collections-subtitle">{total} products available</p>
         </div>
