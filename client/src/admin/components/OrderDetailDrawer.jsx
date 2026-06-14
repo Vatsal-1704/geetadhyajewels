@@ -61,7 +61,7 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
           <div>
             <h2 className="font-bold text-lg">{order.orderId}</h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-700">
               {order.user?.name} · ₹{order.totalPrice?.toLocaleString?.()}
             </p>
           </div>
@@ -79,19 +79,19 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
             <h3 className="font-semibold text-sm text-gray-700 mb-3">Customer Information</h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <p className="text-gray-500 text-xs">Name</p>
+                <p className="text-gray-700 text-xs">Name</p>
                 <p className="font-medium">{order.user?.name || "N/A"}</p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs">Email</p>
+                <p className="text-gray-700 text-xs">Email</p>
                 <p className="font-medium text-blue-600">{order.user?.email || "N/A"}</p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs">Phone</p>
+                <p className="text-gray-700 text-xs">Phone</p>
                 <p className="font-medium">{order.shippingAddress?.phone || "N/A"}</p>
               </div>
               <div>
-                <p className="text-gray-500 text-xs">Delivery Method</p>
+                <p className="text-gray-700 text-xs">Delivery Method</p>
                 <p className="font-medium capitalize">{order.deliveryMethod}</p>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
             {/* Delivery Address */}
             {order.shippingAddress && (
               <div className="mt-4 pt-4 border-t border-gray-200">
-                <p className="text-gray-500 text-xs font-medium mb-1">Delivery Address</p>
+                <p className="text-gray-700 text-xs font-medium mb-1">Delivery Address</p>
                 <p className="text-sm font-medium">{order.shippingAddress.name}</p>
                 <p className="text-sm text-gray-600">
                   {order.shippingAddress.addressLine1}
@@ -120,7 +120,7 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
                 <div key={idx} className="flex justify-between items-start pb-2 border-b border-gray-200 last:border-b-0">
                   <div className="flex-1">
                     <p className="text-sm font-medium">{item.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-700">
                       {item.quantity} × ₹{item.price?.toLocaleString?.()}
                     </p>
                   </div>
@@ -137,11 +137,11 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
           {/* Payment & Order Status */}
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-gray-500 text-xs font-medium mb-2">Payment Method</p>
+              <p className="text-gray-700 text-xs font-medium mb-2">Payment Method</p>
               <p className="text-sm font-medium capitalize">
                 {order.paymentMethod === "cod" ? "Cash on Delivery" : "Online Payment"}
               </p>
-              <p className="text-gray-500 text-xs mt-2">Status</p>
+              <p className="text-gray-700 text-xs mt-2">Status</p>
               <span className={`inline-block text-xs px-2 py-1 rounded-full mt-1 font-medium ${
                 order.paymentStatus === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
               }`}>
@@ -150,11 +150,11 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
             </div>
 
             <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-gray-500 text-xs font-medium mb-2">Order Status</p>
+              <p className="text-gray-700 text-xs font-medium mb-2">Order Status</p>
               <span className={`inline-block text-xs px-2.5 py-1 rounded-full font-medium capitalize ${STATUS_COLORS[order.orderStatus]}`}>
                 {order.orderStatus}
               </span>
-              <p className="text-gray-500 text-xs mt-2">Created</p>
+              <p className="text-gray-700 text-xs mt-2">Created</p>
               <p className="text-sm font-medium">
                 {new Date(order.createdAt).toLocaleDateString("en-IN")}
               </p>

@@ -68,7 +68,7 @@ export default function AdminReports() {
         ].map(([label, value, icon]) => (
           <div key={label} className="bg-white rounded-2xl p-5 shadow-sm">
             <div className="text-2xl mb-2">{icon}</div>
-            <p className="text-xs text-gray-500 mb-1">{label}</p>
+            <p className="text-xs text-gray-700 mb-1">{label}</p>
             <p className="text-xl font-bold text-brand-black">{loading ? "—" : value}</p>
           </div>
         ))}
@@ -134,7 +134,7 @@ export default function AdminReports() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50">
               <tr>{["#", "Product", "Units Sold", "Revenue", "Stock"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">{h}</th>
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">{h}</th>
               ))}</tr>
             </thead>
             <tbody className="divide-y divide-gray-50">

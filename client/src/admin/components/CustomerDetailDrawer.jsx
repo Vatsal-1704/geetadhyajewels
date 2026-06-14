@@ -91,7 +91,7 @@ export default function CustomerDetailDrawer({ customerId, onClose, onUpdate }) 
             <button onClick={onClose} className="text-gray-400"><FiX size={24} /></button>
           </div>
           <div className="flex-1 p-6 flex items-center justify-center">
-            <p className="text-gray-500 text-center">{error || "Failed to load customer"}</p>
+            <p className="text-gray-700 text-center">{error || "Failed to load customer"}</p>
           </div>
         </div>
       </div>

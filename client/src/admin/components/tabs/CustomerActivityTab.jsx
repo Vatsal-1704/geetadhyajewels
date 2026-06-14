@@ -73,7 +73,7 @@ export default function CustomerActivityTab({
             <div>
               <p className="font-semibold text-gray-900">Account Created</p>
               <p className="text-sm text-gray-600">{joinDate}</p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-700 mt-1">
                 {accountAgeYears > 0
                   ? `${accountAgeYears} year${accountAgeYears > 1 ? "s" : ""} ago`
                   : accountAgeMonths > 0
@@ -109,7 +109,7 @@ export default function CustomerActivityTab({
                 <p className="font-semibold text-gray-900">Most Recent Order</p>
                 <p className="text-sm text-gray-600">{lastOrderDate}</p>
                 {daysSinceLastOrder && (
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-700 mt-1">
                     {daysSinceLastOrder === 0
                       ? "Today"
                       : daysSinceLastOrder === 1

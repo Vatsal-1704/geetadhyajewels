@@ -38,7 +38,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
           <thead className="bg-gray-50">
             <tr>
               {["", "Order ID", "Customer", "Amount", "Payment", "Status", "Date", "Actions"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   {h}
                 </th>
               ))}
@@ -85,7 +85,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
         <table className="w-full text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 <input
                   type="checkbox"
                   checked={allSelected}
@@ -95,7 +95,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                 />
               </th>
               {["Order ID", "Customer", "Amount", "Payment", "Status", "Date", "Actions"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   {h}
                 </th>
               ))}
@@ -141,7 +141,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="px-5 py-8 text-center text-gray-500">
+                <td colSpan="8" className="px-5 py-8 text-center text-gray-700">
                   No orders found
                 </td>
               </tr>

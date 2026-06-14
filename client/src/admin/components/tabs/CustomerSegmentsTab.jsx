@@ -174,7 +174,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
           </div>
         ) : (
           <div className="text-center py-8 border border-dashed border-gray-300 rounded-lg">
-            <p className="text-gray-500 text-sm">No auto segments generated yet</p>
+            <p className="text-gray-700 text-sm">No auto segments generated yet</p>
             <p className="text-xs text-gray-600 mt-1">Customer may qualify after more activity</p>
           </div>
         )}
@@ -207,7 +207,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 mb-4">No custom segments yet</p>
+          <p className="text-sm text-gray-700 mb-4">No custom segments yet</p>
         )}
 
         {/* Add New Segment */}

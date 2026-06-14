@@ -20,7 +20,7 @@ export default function CustomerOrdersTab({ orders }) {
     return (
       <div className="p-6 text-center py-12">
         <div className="text-4xl mb-3">📦</div>
-        <p className="text-gray-500">No orders yet</p>
+        <p className="text-gray-700">No orders yet</p>
       </div>
     );
   }
@@ -32,7 +32,7 @@ export default function CustomerOrdersTab({ orders }) {
           <div className="flex items-start justify-between mb-3">
             <div>
               <p className="font-semibold text-gray-900">{order.orderId}</p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-700 mt-1">
                 {new Date(order.createdAt).toLocaleDateString("en-IN", {
                   year: "numeric",
                   month: "short",
@@ -50,11 +50,11 @@ export default function CustomerOrdersTab({ orders }) {
               {order.items?.slice(0, 2).map((item, i) => (
                 <div key={i} className="text-sm text-gray-700">
                   <span className="font-medium">{item.name}</span>
-                  <span className="text-gray-500 ml-2">x{item.quantity}</span>
+                  <span className="text-gray-700 ml-2">x{item.quantity}</span>
                 </div>
               ))}
               {order.items?.length > 2 && (
-                <p className="text-xs text-gray-500 mt-1">+{order.items.length - 2} more items</p>
+                <p className="text-xs text-gray-700 mt-1">+{order.items.length - 2} more items</p>
               )}
             </div>
           </div>

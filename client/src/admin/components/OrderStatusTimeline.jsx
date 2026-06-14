@@ -50,7 +50,7 @@ export default function OrderStatusTimeline({ statusHistory = [] }) {
               <span className="font-medium">{entry.changedByName || "System"}</span>
             </p>
             {entry.notes && (
-              <p className="text-xs text-gray-500 mt-1 italic">"{entry.notes}"</p>
+              <p className="text-xs text-gray-700 mt-1 italic">"{entry.notes}"</p>
             )}
           </div>
         </div>

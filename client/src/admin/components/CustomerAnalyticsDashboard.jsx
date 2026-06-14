@@ -53,7 +53,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
   if (!stats) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500">Loading analytics...</p>
+        <p className="text-gray-700">Loading analytics...</p>
       </div>
     );
   }
@@ -115,7 +115,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <p className="text-sm text-gray-600">
               {stats.totalCustomers > 0 ? Math.round((stats.customersNoOrders / stats.totalCustomers) * 100) : 0}% of total
             </p>
-            <p className="text-xs text-gray-500">Potential for nurturing</p>
+            <p className="text-xs text-gray-700">Potential for nurturing</p>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <p className="text-sm text-gray-600">
               {stats.totalCustomers > 0 ? Math.round((stats.blockedCustomers / stats.totalCustomers) * 100) : 0}% of total
             </p>
-            <p className="text-xs text-gray-500">Inactive/Problematic</p>
+            <p className="text-xs text-gray-700">Inactive/Problematic</p>
           </div>
         </div>
 
@@ -135,7 +135,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
           <div className="mt-3 space-y-2">
             <p className="text-3xl font-bold text-green-600">₹{Math.round(insights.lifetimeValue).toLocaleString()}</p>
             <p className="text-sm text-gray-600">Per customer</p>
-            <p className="text-xs text-gray-500">Total CLV: ₹{(stats.totalRevenue / 100000).toFixed(1)}L</p>
+            <p className="text-xs text-gray-700">Total CLV: ₹{(stats.totalRevenue / 100000).toFixed(1)}L</p>
           </div>
         </div>
       </div>

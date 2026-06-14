@@ -53,7 +53,7 @@ export default function AdminBanners() {
                 {b.image ? <img src={b.image} alt="" className="w-16 h-10 object-cover rounded-lg" /> : <div className="w-16 h-10 bg-brand-cream rounded-lg flex items-center justify-center"><FiImage className="text-gray-600" /></div>}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{b.title || b.text || "Banner"}</p>
-                  {b.subtitle && <p className="text-xs text-gray-500 truncate">{b.subtitle}</p>}
+                  {b.subtitle && <p className="text-xs text-gray-700 truncate">{b.subtitle}</p>}
                 </div>
                 <div className="flex items-center gap-3">
                   <button onClick={() => toggle(b._id, b.isActive)}>{b.isActive ? <FiToggleRight size={24} className="text-green-500" /> : <FiToggleLeft size={24} className="text-gray-600" />}</button>

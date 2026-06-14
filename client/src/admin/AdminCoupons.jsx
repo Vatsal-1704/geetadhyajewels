@@ -49,7 +49,7 @@ export default function AdminCoupons() {
             <div className="flex items-start justify-between mb-3">
               <div>
                 <span className="font-bold text-lg text-brand-gold font-mono">{c.code}</span>
-                <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${c.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>{c.isActive ? "Active" : "Inactive"}</span>
+                <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${c.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}>{c.isActive ? "Active" : "Inactive"}</span>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => toggleActive(c._id, c.isActive)}>{c.isActive ? <FiToggleRight size={22} className="text-green-500" /> : <FiToggleLeft size={22} className="text-gray-600" />}</button>
@@ -80,8 +80,8 @@ export default function AdminCoupons() {
               <div className="grid grid-cols-2 gap-3">
                 <input type="number" placeholder="Min Order Value (₹)" value={form.minOrderValue} onChange={e => setForm(p => ({ ...p, minOrderValue: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
                 <input type="number" placeholder="Usage Limit" value={form.usageLimit} onChange={e => setForm(p => ({ ...p, usageLimit: e.target.value }))} className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
-                <div><label className="text-xs text-gray-500 mb-1 block">Valid From</label><input type="date" value={form.validFrom} onChange={e => setForm(p => ({ ...p, validFrom: e.target.value }))} required className="w-full border rounded-xl px-3 py-2.5 text-sm outline-none focus:border-brand-gold" /></div>
-                <div><label className="text-xs text-gray-500 mb-1 block">Valid To</label><input type="date" value={form.validTo} onChange={e => setForm(p => ({ ...p, validTo: e.target.value }))} required className="w-full border rounded-xl px-3 py-2.5 text-sm outline-none focus:border-brand-gold" /></div>
+                <div><label className="text-xs text-gray-700 mb-1 block">Valid From</label><input type="date" value={form.validFrom} onChange={e => setForm(p => ({ ...p, validFrom: e.target.value }))} required className="w-full border rounded-xl px-3 py-2.5 text-sm outline-none focus:border-brand-gold" /></div>
+                <div><label className="text-xs text-gray-700 mb-1 block">Valid To</label><input type="date" value={form.validTo} onChange={e => setForm(p => ({ ...p, validTo: e.target.value }))} required className="w-full border rounded-xl px-3 py-2.5 text-sm outline-none focus:border-brand-gold" /></div>
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-gray-200 rounded-xl py-2.5 text-sm">Cancel</button>

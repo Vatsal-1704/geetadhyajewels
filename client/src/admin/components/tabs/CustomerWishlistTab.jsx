@@ -5,7 +5,7 @@ export default function CustomerWishlistTab({ wishlist }) {
     return (
       <div className="p-6 text-center py-12">
         <div className="text-4xl mb-3">❤️</div>
-        <p className="text-gray-500">No wishlist items</p>
+        <p className="text-gray-700">No wishlist items</p>
       </div>
     );
   }
@@ -48,7 +48,7 @@ export default function CustomerWishlistTab({ wishlist }) {
               </div>
 
               {/* Badge */}
-              <p className="text-xs text-gray-500 mt-2">🛍️ In wishlist</p>
+              <p className="text-xs text-gray-700 mt-2">🛍️ In wishlist</p>
             </div>
 
             {/* Heart Icon */}

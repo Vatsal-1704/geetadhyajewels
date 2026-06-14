@@ -199,7 +199,7 @@ export default function AdminCustomers() {
         ].map((stat, i) => (
           <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
             <div className="text-2xl mb-2">{stat.icon}</div>
-            <div className="text-sm text-gray-500">{stat.label}</div>
+            <div className="text-sm text-gray-700">{stat.label}</div>
             <div className="text-2xl font-bold text-brand-gold">{stat.value}</div>
           </div>
         ))}
@@ -345,14 +345,14 @@ export default function AdminCustomers() {
                         className="rounded cursor-pointer"
                       />
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Customer</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Phone</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Orders</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Total Spent</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Joined</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Action</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Customer</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Email</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Phone</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Orders</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Total Spent</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Joined</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Status</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
@@ -411,7 +411,7 @@ export default function AdminCustomers() {
 
             {/* Pagination */}
             <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-700">
                 Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of {total} customers
               </div>
               <div className="flex items-center gap-3">

@@ -175,7 +175,7 @@ export default function ProductBulkUpload({ onClose, onSuccess }) {
             >
               <FiUpload className="mx-auto mb-3 text-gray-400" size={32} />
               <p className="font-medium text-gray-700 mb-1">Drag and drop your file here</p>
-              <p className="text-sm text-gray-500">or click to browse (Max 10MB)</p>
+              <p className="text-sm text-gray-700">or click to browse (Max 10MB)</p>
               <p className="text-xs text-gray-400 mt-2">Supported: .xlsx, .csv, .json</p>
             </label>
           </div>
