@@ -26,6 +26,12 @@ const SIMILAR_MOCK = Array.from({ length: 4 }, (_, i) => ({
   images: ["https://rubans.in/cdn/shop/files/website_banner_f959ab62-9b47-43fd-8931-81ab5c11dae3.png"],
 }));
 
+const OFFERS = [
+  { code: "JEWEL10", desc: "10% OFF on orders above ₹999", min: 999 },
+  { code: "FIRST15", desc: "15% OFF on your first order", min: 0 },
+  { code: "FREESHIP", desc: "Free shipping on orders above ₹499", min: 499 },
+];
+
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const [product, setProduct] = useState(MOCK);
@@ -37,6 +43,12 @@ export default function ProductDetailPage() {
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [stickyVisible, setStickyVisible] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [pincodeStatus, setPincodeStatus] = useState(null);
+  const [offersOpen, setOffersOpen] = useState(false);
+  const [recentlyViewed, setRecentlyViewed] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("rv_gj") || "[]"); } catch { return []; }
+  });
   const { addToCart } = useCart();
   const { isWishlisted, toggle } = useWishlist();
   const { user } = useAuth();
@@ -64,6 +76,29 @@ export default function ProductDetailPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, [slug]);
+
+  // Track recently viewed (skip mock)
+  useEffect(() => {
+    if (!product?._id || product._id === "m1") return;
+    try {
+      const stored = JSON.parse(localStorage.getItem("rv_gj") || "[]");
+      const entry = { _id: product._id, slug: product.slug, name: product.name, price: product.price, mrp: product.mrp, images: product.images, discount: product.discount };
+      const next = [entry, ...stored.filter(p => p._id !== product._id)].slice(0, 8);
+      localStorage.setItem("rv_gj", JSON.stringify(next));
+      setRecentlyViewed(stored.filter(p => p._id !== product._id).slice(0, 4));
+    } catch {}
+  }, [product._id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const checkPincode = () => {
+    if (!/^\d{6}$/.test(pincode)) return;
+    setPincodeStatus("checking");
+    setTimeout(() => setPincodeStatus(parseInt(pincode) % 7 === 0 ? "no" : "ok"), 800);
+  };
+
+  const copyCode = (code) => {
+    navigator.clipboard.writeText(code).catch(() => {});
+    toast.success(`Code "${code}" copied!`);
+  };
 
   const handleAddToCart = () => {
     if (product.stock <= 0) {
@@ -136,6 +171,27 @@ export default function ProductDetailPage() {
             <span className="product-original-price">₹{product.mrp?.toLocaleString()}</span>
             <span className="product-discount-percentage">{product.discount}% off</span>
           </div>
+          {/* Available Offers */}
+          <div className="product-offers-section">
+            <button onClick={() => setOffersOpen(o => !o)} className="product-offers-toggle">
+              <span>🏷️ Available Offers</span>
+              <span className="product-offers-chevron">{offersOpen ? "▲" : "▼"}</span>
+            </button>
+            {offersOpen && (
+              <div className="product-offers-list">
+                {OFFERS.map(o => (
+                  <div key={o.code} className="product-offer-item">
+                    <div>
+                      <span className="product-offer-code">{o.code}</span>
+                      <p className="product-offer-desc">{o.desc}</p>
+                    </div>
+                    <button onClick={() => copyCode(o.code)} className="product-offer-copy">Copy</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {product.variants?.length > 0 && (
             <div className="product-variants-section">
               <p className="product-variant-label">Color: <span className="product-variant-highlight">{selectedVariant?.color || "Select"}</span></p>
@@ -179,6 +235,31 @@ export default function ProductDetailPage() {
             <p>↩️ 7-day hassle-free return policy</p>
             <p>🔒 100% secure payment</p>
             <p>📦 Delivered in 5–7 business days</p>
+          </div>
+
+          {/* Pincode Delivery Checker */}
+          <div className="product-pincode-section">
+            <p className="product-pincode-label">📍 Check delivery to your area</p>
+            <div className="product-pincode-row">
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                placeholder="Enter 6-digit pincode"
+                value={pincode}
+                onChange={e => { setPincode(e.target.value.replace(/\D/g, "")); setPincodeStatus(null); }}
+                className="product-pincode-input"
+              />
+              <button
+                onClick={checkPincode}
+                disabled={pincode.length !== 6 || pincodeStatus === "checking"}
+                className="product-pincode-button"
+              >
+                {pincodeStatus === "checking" ? "..." : "Check"}
+              </button>
+            </div>
+            {pincodeStatus === "ok" && <p className="product-pincode-ok">✅ Delivery available! Estimated in 5–7 days.</p>}
+            {pincodeStatus === "no" && <p className="product-pincode-no">❌ Sorry, delivery not available to this pincode.</p>}
           </div>
         </div>
       </div>
@@ -240,6 +321,16 @@ export default function ProductDetailPage() {
           {similar.map(p => <ProductCard key={p._id} product={p} />)}
         </div>
       </div>
+
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && (
+        <div className="product-recently-viewed">
+          <h2>Recently Viewed</h2>
+          <div className="product-similar-grid">
+            {recentlyViewed.map(p => <ProductCard key={p._id} product={p} />)}
+          </div>
+        </div>
+      )}
 
       {/* Sticky Add to Cart (mobile) */}
       {stickyVisible && (
