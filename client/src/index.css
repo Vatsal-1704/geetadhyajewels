@@ -55,3 +55,13 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16p
   font-family: inherit;
 }
 .admin-content p { color: inherit; }
+
+/* Reset dark-theme form element styles inside admin */
+.admin-content input,
+.admin-content textarea,
+.admin-content select {
+  background-color: #ffffff;
+  color: #111827;
+  border-color: #e5e7eb;
+  min-height: unset;
+}
