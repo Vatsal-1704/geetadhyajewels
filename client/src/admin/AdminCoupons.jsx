@@ -38,7 +38,7 @@ export default function AdminCoupons() {
       </div>
 
       {coupons.length === 0 && (
-        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-400">
+        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-600">
           <div className="text-4xl mb-3">🎟️</div>
           <p>No coupons yet. Click "Create Coupon" to add one.</p>
         </div>
@@ -52,14 +52,14 @@ export default function AdminCoupons() {
                 <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${c.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>{c.isActive ? "Active" : "Inactive"}</span>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => toggleActive(c._id, c.isActive)}>{c.isActive ? <FiToggleRight size={22} className="text-green-500" /> : <FiToggleLeft size={22} className="text-gray-400" />}</button>
+                <button onClick={() => toggleActive(c._id, c.isActive)}>{c.isActive ? <FiToggleRight size={22} className="text-green-500" /> : <FiToggleLeft size={22} className="text-gray-600" />}</button>
                 <button onClick={() => deleteCoupon(c._id)}><FiTrash2 size={16} className="text-red-400 hover:text-red-600" /></button>
               </div>
             </div>
             <p className="text-sm text-gray-600 mb-2">
               {c.type === "percentage" ? `${c.value}% off` : c.type === "flat" ? `₹${c.value} off` : "Free shipping"} · Min ₹{c.minOrderValue}
             </p>
-            <div className="text-xs text-gray-400">
+            <div className="text-xs text-gray-600">
               <p>Used: {c.usedCount}/{c.usageLimit || "∞"}</p>
               <p>Valid till: {new Date(c.validTo).toLocaleDateString("en-IN")}</p>
             </div>

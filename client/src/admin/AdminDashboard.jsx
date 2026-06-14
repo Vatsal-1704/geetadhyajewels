@@ -86,7 +86,7 @@ export default function AdminDashboard() {
                   <td className="px-5 py-3.5 text-gray-600">{o.user?.name}</td>
                   <td className="px-5 py-3.5 font-semibold">₹{o.totalPrice?.toLocaleString()}</td>
                   <td className="px-5 py-3.5"><span className={`text-xs px-2.5 py-1 rounded-full font-medium capitalize ${STATUS_COLORS[o.orderStatus]}`}>{o.orderStatus}</span></td>
-                  <td className="px-5 py-3.5 text-gray-400 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
+                  <td className="px-5 py-3.5 text-gray-600 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
                   <td className="px-5 py-3.5"><Link to={`/admin/orders/${o._id}`} className="text-brand-gold hover:underline text-xs">View</Link></td>
                 </tr>
               ))}

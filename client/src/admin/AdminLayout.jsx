@@ -63,7 +63,7 @@ export default function AdminLayout({ children }) {
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-600"><FiMenu size={22} /></button>
           <h1 className="font-semibold text-gray-800">{NAV.find(n => pathname === n.to || (n.to !== "/admin" && pathname.startsWith(n.to)))?.label || "Dashboard"}</h1>
           <div className="ml-auto flex items-center gap-2">
-            <Link to="/" target="_blank" className="text-xs text-gray-400 hover:text-brand-gold transition-colors">View Store →</Link>
+            <Link to="/" target="_blank" className="text-xs text-gray-600 hover:text-brand-gold transition-colors">View Store →</Link>
           </div>
         </header>
         <main className="flex-1 overflow-y-auto p-6">{children}</main>

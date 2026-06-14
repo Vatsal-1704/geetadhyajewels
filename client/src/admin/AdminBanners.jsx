@@ -37,7 +37,7 @@ export default function AdminBanners() {
         <button onClick={() => setShowForm(true)} className="flex items-center gap-2 bg-brand-gold text-white px-4 py-2.5 rounded-xl text-sm font-medium"><FiPlus size={16} />Add Banner</button>
       </div>
       {banners.length === 0 && (
-        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-400">
+        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-600">
           <div className="text-4xl mb-3">🖼️</div>
           <p>No banners yet. Click "Add Banner" to create one.</p>
         </div>
@@ -50,13 +50,13 @@ export default function AdminBanners() {
             <div className="px-5 py-3 border-b bg-gray-50"><h3 className="font-semibold capitalize">{type} Banners</h3></div>
             {typeBanners.map(b => (
               <div key={b._id} className="flex items-center gap-4 px-5 py-4 border-b last:border-0">
-                {b.image ? <img src={b.image} alt="" className="w-16 h-10 object-cover rounded-lg" /> : <div className="w-16 h-10 bg-brand-cream rounded-lg flex items-center justify-center"><FiImage className="text-gray-400" /></div>}
+                {b.image ? <img src={b.image} alt="" className="w-16 h-10 object-cover rounded-lg" /> : <div className="w-16 h-10 bg-brand-cream rounded-lg flex items-center justify-center"><FiImage className="text-gray-600" /></div>}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{b.title || b.text || "Banner"}</p>
                   {b.subtitle && <p className="text-xs text-gray-500 truncate">{b.subtitle}</p>}
                 </div>
                 <div className="flex items-center gap-3">
-                  <button onClick={() => toggle(b._id, b.isActive)}>{b.isActive ? <FiToggleRight size={24} className="text-green-500" /> : <FiToggleLeft size={24} className="text-gray-400" />}</button>
+                  <button onClick={() => toggle(b._id, b.isActive)}>{b.isActive ? <FiToggleRight size={24} className="text-green-500" /> : <FiToggleLeft size={24} className="text-gray-600" />}</button>
                   <button onClick={() => del(b._id)}><FiTrash2 size={16} className="text-red-400 hover:text-red-600" /></button>
                 </div>
               </div>

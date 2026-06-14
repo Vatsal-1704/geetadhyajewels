@@ -66,7 +66,7 @@ export default function AdminInventory() {
           <h3 className="font-semibold">Inventory Levels</h3>
         </div>
         {products.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             <div className="text-4xl mb-3">📦</div>
             <p>No products found. Add products first.</p>
           </div>
@@ -96,7 +96,7 @@ export default function AdminInventory() {
                           <input type="number" min="0" value={stockVal} onChange={e => setStockVal(e.target.value)}
                             className="w-20 border rounded-lg px-2 py-1 text-sm outline-none focus:border-brand-gold" autoFocus />
                           <button onClick={() => updateStock(p._id)} className="text-green-600 hover:text-green-800 text-xs font-medium">Save</button>
-                          <button onClick={() => setEditing(null)} className="text-gray-400 text-xs">✕</button>
+                          <button onClick={() => setEditing(null)} className="text-gray-600 text-xs">✕</button>
                         </div>
                       ) : (
                         <span className={`font-bold ${p.stock === 0 ? "text-red-600" : p.stock <= threshold ? "text-orange-500" : "text-green-600"}`}>{p.stock}</span>

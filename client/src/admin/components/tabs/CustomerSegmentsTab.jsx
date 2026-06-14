@@ -175,7 +175,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
         ) : (
           <div className="text-center py-8 border border-dashed border-gray-300 rounded-lg">
             <p className="text-gray-500 text-sm">No auto segments generated yet</p>
-            <p className="text-xs text-gray-400 mt-1">Customer may qualify after more activity</p>
+            <p className="text-xs text-gray-600 mt-1">Customer may qualify after more activity</p>
           </div>
         )}
       </div>
@@ -199,7 +199,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
                 <span className="text-sm font-medium text-gray-900">{segment.name}</span>
                 <button
                   onClick={() => handleRemoveSegment(segment.id)}
-                  className="text-gray-400 hover:text-gray-600 ml-1"
+                  className="text-gray-600 hover:text-gray-600 ml-1"
                 >
                   <FiX size={14} />
                 </button>

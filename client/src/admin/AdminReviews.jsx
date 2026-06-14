@@ -37,7 +37,7 @@ export default function AdminReviews() {
               <p className="text-xs text-brand-gold">{r.productName}</p>
               <div className="flex text-amber-400 text-sm mt-1">{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</div>
             </div>
-            <span className="text-xs text-gray-400">{new Date(r.createdAt).toLocaleDateString("en-IN")}</span>
+            <span className="text-xs text-gray-600">{new Date(r.createdAt).toLocaleDateString("en-IN")}</span>
           </div>
           <p className="text-gray-700 text-sm mb-4 italic">"{r.comment}"</p>
           <div className="flex gap-2">

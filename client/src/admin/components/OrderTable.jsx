@@ -118,7 +118,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                   </td>
                   <td className="px-5 py-3.5">
                     <p className="font-medium">{o.user?.name}</p>
-                    <p className="text-xs text-gray-400">{o.user?.email}</p>
+                    <p className="text-xs text-gray-600">{o.user?.email}</p>
                   </td>
                   <td className="px-5 py-3.5 font-bold">₹{o.totalPrice?.toLocaleString()}</td>
                   <td className="px-5 py-3.5">
@@ -131,7 +131,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                       {o.orderStatus}
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-gray-400 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
+                  <td className="px-5 py-3.5 text-gray-600 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
                   <td className="px-5 py-3.5">
                     <button onClick={() => onSelectOrder(o)} className="text-brand-gold hover:text-brand-gold-dark transition">
                       <FiEye size={16} />

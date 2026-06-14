@@ -89,7 +89,7 @@ export default function AdminProducts() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3 flex-1">
           <div className="relative max-w-xs w-full">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={15} />
             <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Search products..."
               className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
           </div>
@@ -107,7 +107,7 @@ export default function AdminProducts() {
 
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         {products.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             <div className="text-4xl mb-3">📦</div>
             <p>No products yet. Click "Add Product" to get started.</p>
           </div>
@@ -182,7 +182,7 @@ export default function AdminProducts() {
           <div className="bg-white rounded-2xl p-6 w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-semibold text-lg">{editProduct ? "Edit Product" : "Add New Product"}</h2>
-              <button onClick={() => setShowForm(false)}><FiX size={20} className="text-gray-400" /></button>
+              <button onClick={() => setShowForm(false)}><FiX size={20} className="text-gray-600" /></button>
             </div>
             <form onSubmit={handleSave} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Name */}

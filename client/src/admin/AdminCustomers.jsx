@@ -226,7 +226,7 @@ export default function AdminCustomers() {
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="flex-1 relative">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
             <input
               value={search}
               onChange={e => { setSearch(e.target.value); setPage(1); }}
@@ -326,9 +326,9 @@ export default function AdminCustomers() {
       {/* Customers Table */}
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         {loading ? (
-          <div className="p-12 text-center text-gray-400">Loading customers...</div>
+          <div className="p-12 text-center text-gray-600">Loading customers...</div>
         ) : customers.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             No customers found. {(search || status) && "Try adjusting your filters."}
           </div>
         ) : (
@@ -378,7 +378,7 @@ export default function AdminCustomers() {
                       <td className="px-5 py-3 text-gray-600 text-sm">{c.phone || "N/A"}</td>
                       <td className="px-5 py-3 text-sm font-medium">{c.totalOrders}</td>
                       <td className="px-5 py-3 text-sm font-medium">₹{c.totalSpent?.toFixed(0) || 0}</td>
-                      <td className="px-5 py-3 text-gray-400 text-xs">
+                      <td className="px-5 py-3 text-gray-600 text-xs">
                         {new Date(c.createdAt).toLocaleDateString("en-IN")}
                       </td>
                       <td className="px-5 py-3">

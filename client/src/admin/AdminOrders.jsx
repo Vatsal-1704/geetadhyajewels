@@ -189,7 +189,7 @@ export default function AdminOrders() {
       {!loading && orders.length === 0 && !error && (
         <div className="p-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 text-center">
           <div className="text-gray-500 font-medium mb-2">No orders found</div>
-          <p className="text-gray-400 text-sm mb-4">
+          <p className="text-gray-600 text-sm mb-4">
             {search || filter !== "" || paymentFilter !== "all" || dateFrom || dateTo
               ? "Try adjusting your filters or search terms"
               : "Orders will appear here once customers place orders"}
