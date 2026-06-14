@@ -54,7 +54,6 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16p
   color: inherit;
   font-family: inherit;
 }
-.admin-content p { color: inherit; }
 
 /* Reset dark-theme form element styles inside admin */
 .admin-content input,

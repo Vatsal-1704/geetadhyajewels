@@ -33,7 +33,7 @@ export default function AdminReviews() {
         <div key={r._id} className="bg-white rounded-2xl p-5 shadow-sm">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <p className="font-medium">{r.name}</p>
+              <p className="font-medium text-gray-900">{r.name}</p>
               <p className="text-xs text-brand-gold">{r.productName}</p>
               <div className="flex text-amber-400 text-sm mt-1">{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</div>
             </div>

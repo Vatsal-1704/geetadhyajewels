@@ -83,7 +83,7 @@ export default function AdminDashboard() {
               {(data.recentOrders?.length ? data.recentOrders : Array.from({ length: 4 }, (_, i) => ({ _id: `m${i}`, orderId: `GJ${1000+i}`, user: { name: ["Priya S.", "Ananya R.", "Meera P.", "Deepika N."][i] }, totalPrice: [1299, 2499, 899, 1799][i], orderStatus: ["delivered", "shipped", "pending", "confirmed"][i], createdAt: new Date().toISOString() }))).map(o => (
                 <tr key={o._id} className="hover:bg-gray-50">
                   <td className="px-5 py-3.5 font-medium">{o.orderId}</td>
-                  <td className="px-5 py-3.5 text-gray-600">{o.user?.name}</td>
+                  <td className="px-5 py-3.5 text-gray-900">{o.user?.name || "—"}</td>
                   <td className="px-5 py-3.5 font-semibold">₹{o.totalPrice?.toLocaleString()}</td>
                   <td className="px-5 py-3.5"><span className={`text-xs px-2.5 py-1 rounded-full font-medium capitalize ${STATUS_COLORS[o.orderStatus]}`}>{o.orderStatus}</span></td>
                   <td className="px-5 py-3.5 text-gray-600 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>

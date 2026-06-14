@@ -162,7 +162,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">{segment.icon}</span>
                   <div className="flex-1">
-                    <p className="font-semibold">{segment.name}</p>
+                    <p className="font-semibold text-gray-900">{segment.name}</p>
                     <p className="text-sm opacity-75 mt-1">{segment.description}</p>
                   </div>
                   <span className="text-xs font-mono px-2 py-1 bg-white/50 rounded">

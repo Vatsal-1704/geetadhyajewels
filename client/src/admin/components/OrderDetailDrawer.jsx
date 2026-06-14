@@ -80,7 +80,7 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
                 <p className="text-gray-700 text-xs">Name</p>
-                <p className="font-medium">{order.user?.name || "N/A"}</p>
+                <p className="font-medium text-gray-900">{order.user?.name || "N/A"}</p>
               </div>
               <div>
                 <p className="text-gray-700 text-xs">Email</p>
@@ -88,7 +88,7 @@ export default function OrderDetailDrawer({ order, onClose, onUpdate }) {
               </div>
               <div>
                 <p className="text-gray-700 text-xs">Phone</p>
-                <p className="font-medium">{order.shippingAddress?.phone || "N/A"}</p>
+                <p className="font-medium text-gray-900">{order.shippingAddress?.phone || "N/A"}</p>
               </div>
               <div>
                 <p className="text-gray-700 text-xs">Delivery Method</p>
