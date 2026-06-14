@@ -154,8 +154,8 @@
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   border: none;
   display: flex;
@@ -166,7 +166,7 @@
   transition: all var(--transition-base);
   z-index: 4;
   background-color: var(--color-gold);
-  color: var(--color-bg);
+  color: white;
 }
 
 .product-wishlist-button:hover {
