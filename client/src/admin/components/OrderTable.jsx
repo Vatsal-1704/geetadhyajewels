@@ -117,8 +117,8 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                     {o.orderId}
                   </td>
                   <td className="px-5 py-3.5">
-                    <div className="font-medium text-gray-900">{o.user?.name || "—"}</div>
-                    <div className="text-xs text-gray-600">{o.user?.email || ""}</div>
+                    <div className="font-medium text-gray-900">{o.user?.name || o.shippingAddress?.name || "—"}</div>
+                    <div className="text-xs text-gray-600">{o.user?.email || o.shippingAddress?.phone || ""}</div>
                   </td>
                   <td className="px-5 py-3.5 font-bold">₹{o.totalPrice?.toLocaleString()}</td>
                   <td className="px-5 py-3.5">

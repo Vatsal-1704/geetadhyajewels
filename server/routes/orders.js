@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { createOrder, verifyPayment, getMyOrders, getOrderById, trackOrder, adminGetOrders, adminUpdateOrder, getAnalytics, getOrderStats, getOrderDetail, exportOrders } = require("../controllers/orderController");
 const { protect, admin } = require("../middleware/auth");
 
-router.post("/", createOrder);
+router.post("/", protect, createOrder);
 router.post("/verify-payment", verifyPayment);
 router.get("/track", trackOrder);
 router.get("/my-orders", protect, getMyOrders);
