@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, Navigate } from "react-router-dom";
 import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiImage, FiStar, FiBarChart2, FiSettings, FiLogOut, FiMenu, FiX, FiAlertTriangle } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
@@ -21,6 +21,11 @@ export default function AdminLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [pathname]);
 
   if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="w-10 h-10 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" /></div>;
   if (!user) return <Navigate to="/admin/login" replace />;
@@ -66,7 +71,7 @@ export default function AdminLayout({ children }) {
             <Link to="/" target="_blank" className="text-xs text-gray-600 hover:text-brand-gold transition-colors">View Store →</Link>
           </div>
         </header>
-        <main className="admin-content flex-1 overflow-y-auto p-6">{children}</main>
+        <main ref={mainRef} className="admin-content flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );

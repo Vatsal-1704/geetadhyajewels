@@ -16,6 +16,7 @@ import NewsletterPopup from "./components/common/NewsletterPopup";
 import CookieBanner from "./components/common/CookieBanner";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import AdminRoute from "./components/auth/AdminRoute";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 // Customer pages
 import HomePage from "./pages/HomePage";
@@ -77,6 +78,7 @@ export default function App() {
       <CartProvider>
         <WishlistProvider>
           <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover theme="light" toastStyle={{ fontFamily: "Poppins, sans-serif" }} />
+          <ScrollToTop />
           <Routes>
             {/* ===== CUSTOMER ROUTES ===== */}
             {/* Public Routes */}
