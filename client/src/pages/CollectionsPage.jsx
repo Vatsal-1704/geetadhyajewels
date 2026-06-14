@@ -132,13 +132,23 @@ export default function CollectionsPage() {
           Price {openSections.price ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
         </button>
         {openSections.price && (
-          <div className="filter-options">
-            {PRICE_RANGES.map(r => (
-              <label key={r.label} className="filter-option">
-                <input type="radio" name="price" checked={filters.priceMin === String(r.min) && filters.priceMax === String(r.max)} onChange={() => applyPrice(r)} />
-                <span>{r.label}</span>
-              </label>
-            ))}
+          <div>
+            <div className="price-range-row">
+              <input type="number" placeholder="Min ₹" min="0" value={filters.priceMin} onChange={e => setFilters(p => ({ ...p, priceMin: e.target.value }))} className="price-range-input" />
+              <span className="price-range-sep">—</span>
+              <input type="number" placeholder="Max ₹" min="0" value={filters.priceMax} onChange={e => setFilters(p => ({ ...p, priceMax: e.target.value }))} className="price-range-input" />
+            </div>
+            <div className="price-presets">
+              {PRICE_RANGES.map(r => (
+                <button
+                  key={r.label}
+                  onClick={() => applyPrice(r)}
+                  className={`price-preset-btn${filters.priceMin === String(r.min) && filters.priceMax === String(r.max) ? " active" : ""}`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
