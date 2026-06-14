@@ -27,7 +27,7 @@ export default function AdminLayout({ children }) {
   if (user.role !== "admin") return <Navigate to="/" replace />;
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900">
+    <div className="admin-panel flex h-screen bg-gray-50 overflow-hidden text-gray-900">
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-brand-black transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:relative lg:translate-x-0 flex flex-col`}>
         <div className="p-5 border-b border-white/10">
