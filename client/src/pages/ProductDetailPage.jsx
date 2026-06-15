@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FiShoppingBag, FiHeart, FiShare2, FiStar, FiZoomIn, FiMinus, FiPlus } from "react-icons/fi";
+import { FiShoppingBag, FiHeart, FiShare2, FiStar, FiZoomIn, FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
@@ -27,6 +27,15 @@ const SIMILAR_MOCK = Array.from({ length: 4 }, (_, i) => ({
   images: ["https://rubans.in/cdn/shop/files/website_banner_f959ab62-9b47-43fd-8931-81ab5c11dae3.png"],
 }));
 
+const OFFERS = [
+  { code: "JEWEL10", desc: "10% OFF on orders above ₹999", min: 999 },
+  { code: "FIRST15", desc: "15% OFF on your first order", min: 0 },
+  { code: "FREESHIP", desc: "Free shipping on orders above ₹499", min: 499 },
+];
+
+const RING_SIZES = ["6", "8", "10", "12", "14", "16", "18", "20"];
+const BANGLE_SIZES = ['2.2"', '2.4"', '2.6"', '2.8"'];
+
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const [product, setProduct] = useState(MOCK);
@@ -38,6 +47,14 @@ export default function ProductDetailPage() {
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [stickyVisible, setStickyVisible] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [pincodeStatus, setPincodeStatus] = useState(null);
+  const [offersOpen, setOffersOpen] = useState(false);
+  const [recentlyViewed, setRecentlyViewed] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("rv_gj") || "[]"); } catch { return []; }
+  });
   const { addToCart } = useCart();
   const { isWishlisted, toggle } = useWishlist();
   const { user } = useAuth();
@@ -65,6 +82,29 @@ export default function ProductDetailPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, [slug]);
+
+  // Track recently viewed (skip mock)
+  useEffect(() => {
+    if (!product?._id || product._id === "m1") return;
+    try {
+      const stored = JSON.parse(localStorage.getItem("rv_gj") || "[]");
+      const entry = { _id: product._id, slug: product.slug, name: product.name, price: product.price, mrp: product.mrp, images: product.images, discount: product.discount };
+      const next = [entry, ...stored.filter(p => p._id !== product._id)].slice(0, 8);
+      localStorage.setItem("rv_gj", JSON.stringify(next));
+      setRecentlyViewed(stored.filter(p => p._id !== product._id).slice(0, 4));
+    } catch {}
+  }, [product._id]);
+
+  const checkPincode = () => {
+    if (!/^\d{6}$/.test(pincode)) return;
+    setPincodeStatus("checking");
+    setTimeout(() => setPincodeStatus(parseInt(pincode) % 7 === 0 ? "no" : "ok"), 800);
+  };
+
+  const copyCode = (code) => {
+    navigator.clipboard.writeText(code).catch(() => {});
+    toast.success(`Code "${code}" copied!`);
+  };
 
   const handleAddToCart = () => {
     if (product.stock <= 0) {
@@ -137,6 +177,27 @@ export default function ProductDetailPage() {
             <span className="product-original-price">₹{product.mrp?.toLocaleString()}</span>
             <span className="product-discount-percentage">{product.discount}% off</span>
           </div>
+          {/* Available Offers */}
+          <div className="product-offers-section">
+            <button onClick={() => setOffersOpen(o => !o)} className="product-offers-toggle">
+              <span>🏷️ Available Offers</span>
+              <span className="product-offers-chevron">{offersOpen ? "▲" : "▼"}</span>
+            </button>
+            {offersOpen && (
+              <div className="product-offers-list">
+                {OFFERS.map(o => (
+                  <div key={o.code} className="product-offer-item">
+                    <div>
+                      <span className="product-offer-code">{o.code}</span>
+                      <p className="product-offer-desc">{o.desc}</p>
+                    </div>
+                    <button onClick={() => copyCode(o.code)} className="product-offer-copy">Copy</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {product.variants?.length > 0 && (
             <div className="product-variants-section">
               <p className="product-variant-label">Color: <span className="product-variant-highlight">{selectedVariant?.color || "Select"}</span></p>
@@ -145,6 +206,25 @@ export default function ProductDetailPage() {
                   <button key={v.color} onClick={() => setSelectedVariant(v)} title={v.color}
                     style={{ backgroundColor: v.colorHex }}
                     className={`product-color-swatch ${selectedVariant?.color === v.color ? "active" : ""}`} />
+                ))}
+              </div>
+            </div>
+          )}
+          {(product.category?.slug === "rings" || product.category?.slug === "bangles") && (
+            <div className="product-size-section">
+              <div className="product-size-header">
+                <p className="product-variant-label">Size: <span className="product-variant-highlight">{selectedSize || "Select"}</span></p>
+                <button onClick={() => setSizeGuideOpen(true)} className="product-size-guide-link">Size Guide ↗</button>
+              </div>
+              <div className="product-size-options">
+                {(product.category?.slug === "rings" ? RING_SIZES : BANGLE_SIZES).map(size => (
+                  <button
+                    key={size}
+                    className={`product-size-option${selectedSize === size ? " active" : ""}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
                 ))}
               </div>
             </div>
@@ -181,6 +261,31 @@ export default function ProductDetailPage() {
             <p>🔒 100% secure payment</p>
             <p>📦 Delivered in 5–7 business days</p>
           </div>
+
+          {/* Pincode Delivery Checker */}
+          <div className="product-pincode-section">
+            <p className="product-pincode-label">📍 Check delivery to your area</p>
+            <div className="product-pincode-row">
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                placeholder="Enter 6-digit pincode"
+                value={pincode}
+                onChange={e => { setPincode(e.target.value.replace(/\D/g, "")); setPincodeStatus(null); }}
+                className="product-pincode-input"
+              />
+              <button
+                onClick={checkPincode}
+                disabled={pincode.length !== 6 || pincodeStatus === "checking"}
+                className="product-pincode-button"
+              >
+                {pincodeStatus === "checking" ? "..." : "Check"}
+              </button>
+            </div>
+            {pincodeStatus === "ok" && <p className="product-pincode-ok">✅ Delivery available! Estimated in 5–7 days.</p>}
+            {pincodeStatus === "no" && <p className="product-pincode-no">❌ Sorry, delivery not available to this pincode.</p>}
+          </div>
         </div>
       </div>
 
@@ -211,6 +316,29 @@ export default function ProductDetailPage() {
         )}
         {tab === "reviews" && (
           <div>
+            <div className="product-rating-summary">
+              <div className="product-rating-overview">
+                <span className="product-rating-big-number">{product.rating?.toFixed(1)}</span>
+                <div className="product-rating-big-stars">{"★".repeat(Math.round(product.rating || 0))}{"☆".repeat(5 - Math.round(product.rating || 0))}</div>
+                <p className="product-rating-total-label">{product.numReviews} reviews</p>
+              </div>
+              <div className="product-rating-bars">
+                {[5, 4, 3, 2, 1].map(star => {
+                  const count = product.reviews?.filter(r => r.rating === star).length || 0;
+                  const total = Math.max(product.reviews?.length || 1, 1);
+                  const pct = Math.round((count / total) * 100);
+                  return (
+                    <div key={star} className="product-rating-bar-row">
+                      <span className="product-rating-bar-star">{star}★</span>
+                      <div className="product-rating-bar-track">
+                        <div className="product-rating-bar-fill" style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="product-rating-bar-count">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             <div className="product-reviews-list">
               {product.reviews?.filter(r => r.isApproved !== false).map(r => (
                 <div key={r._id} className="product-review-item">
@@ -248,11 +376,56 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && (
+        <div className="product-recently-viewed">
+          <h2>Recently Viewed</h2>
+          <div className="product-similar-grid">
+            {recentlyViewed.map(p => <ProductCard key={p._id} product={p} />)}
+          </div>
+        </div>
+      )}
+
       {/* Sticky Add to Cart (mobile) */}
       {stickyVisible && (
         <div className="product-sticky-bar">
           <div className="product-sticky-info"><p className="product-sticky-name">{product.name}</p><p className="product-sticky-price">₹{product.price?.toLocaleString()}</p></div>
           <button onClick={handleAddToCart} className="product-sticky-button">Add to Cart</button>
+        </div>
+      )}
+      {sizeGuideOpen && (
+        <div className="size-guide-overlay" onClick={() => setSizeGuideOpen(false)}>
+          <div className="size-guide-modal" onClick={e => e.stopPropagation()}>
+            <div className="size-guide-header">
+              <h3>Size Guide</h3>
+              <button onClick={() => setSizeGuideOpen(false)} className="size-guide-close"><FiX size={20} /></button>
+            </div>
+            {product.category?.slug === "rings" ? (
+              <div className="size-guide-content">
+                <p>Measure the inner circumference of your finger in mm to find your size.</p>
+                <table className="size-guide-table">
+                  <thead><tr><th>Indian Size</th><th>Inner Dia (mm)</th><th>Circumference (mm)</th></tr></thead>
+                  <tbody>
+                    {[["6","14.1","44.2"],["8","14.5","45.5"],["10","15.3","48.0"],["12","15.9","49.5"],["14","16.4","51.5"],["16","16.9","53.1"],["18","17.5","54.8"],["20","18.1","56.9"]].map(([s,d,c]) => (
+                      <tr key={s}><td>{s}</td><td>{d}</td><td>{c}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="size-guide-content">
+                <p>Bangle sizes are measured as inner diameter in inches.</p>
+                <table className="size-guide-table">
+                  <thead><tr><th>Size</th><th>Inner Dia (in)</th><th>Fits Wrist (in)</th></tr></thead>
+                  <tbody>
+                    {[['2.2"',"2.2","5.5–6.0"],['2.4"',"2.4","6.0–6.5"],['2.6"',"2.6","6.5–7.0"],['2.8"',"2.8","7.0–7.5"]].map(([s,d,w]) => (
+                      <tr key={s}><td>{s}</td><td>{d}</td><td>{w}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
