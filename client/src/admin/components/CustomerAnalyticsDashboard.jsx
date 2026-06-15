@@ -53,7 +53,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
   if (!stats) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500">Loading analytics...</p>
+        <p className="text-gray-700">Loading analytics...</p>
       </div>
     );
   }
@@ -115,7 +115,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <p className="text-sm text-gray-600">
               {stats.totalCustomers > 0 ? Math.round((stats.customersNoOrders / stats.totalCustomers) * 100) : 0}% of total
             </p>
-            <p className="text-xs text-gray-500">Potential for nurturing</p>
+            <p className="text-xs text-gray-700">Potential for nurturing</p>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <p className="text-sm text-gray-600">
               {stats.totalCustomers > 0 ? Math.round((stats.blockedCustomers / stats.totalCustomers) * 100) : 0}% of total
             </p>
-            <p className="text-xs text-gray-500">Inactive/Problematic</p>
+            <p className="text-xs text-gray-700">Inactive/Problematic</p>
           </div>
         </div>
 
@@ -135,7 +135,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
           <div className="mt-3 space-y-2">
             <p className="text-3xl font-bold text-green-600">₹{Math.round(insights.lifetimeValue).toLocaleString()}</p>
             <p className="text-sm text-gray-600">Per customer</p>
-            <p className="text-xs text-gray-500">Total CLV: ₹{(stats.totalRevenue / 100000).toFixed(1)}L</p>
+            <p className="text-xs text-gray-700">Total CLV: ₹{(stats.totalRevenue / 100000).toFixed(1)}L</p>
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <div className="flex gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
               <span className="text-xl flex-shrink-0">⚠️</span>
               <div className="text-sm text-yellow-900">
-                <p className="font-semibold">{Math.round((stats.customersNoOrders / stats.totalCustomers) * 100)}% of customers haven't made a purchase</p>
+                <p className="font-semibold text-gray-900">{Math.round((stats.customersNoOrders / stats.totalCustomers) * 100)}% of customers haven't made a purchase</p>
                 <p className="text-xs opacity-75">Consider targeted welcome campaigns or special offers</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <div className="flex gap-3 p-3 bg-red-50 border border-red-200 rounded-lg">
               <span className="text-xl flex-shrink-0">🚫</span>
               <div className="text-sm text-red-900">
-                <p className="font-semibold">{stats.blockedCustomers} customers are blocked</p>
+                <p className="font-semibold text-gray-900">{stats.blockedCustomers} customers are blocked</p>
                 <p className="text-xs opacity-75">Review and unblock valid customers to improve engagement</p>
               </div>
             </div>
@@ -189,7 +189,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <div className="flex gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <span className="text-xl flex-shrink-0">📊</span>
               <div className="text-sm text-blue-900">
-                <p className="font-semibold">Low conversion rate: {insights.conversionRate}%</p>
+                <p className="font-semibold text-gray-900">Low conversion rate: {insights.conversionRate}%</p>
                 <p className="text-xs opacity-75">Focus on converting registered customers through email marketing</p>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <div className="flex gap-3 p-3 bg-green-50 border border-green-200 rounded-lg">
               <span className="text-xl flex-shrink-0">🎉</span>
               <div className="text-sm text-green-900">
-                <p className="font-semibold">Strong growth this month ({stats.newThisMonth} new)</p>
+                <p className="font-semibold text-gray-900">Strong growth this month ({stats.newThisMonth} new)</p>
                 <p className="text-xs opacity-75">Ensure onboarding experience is smooth for new customers</p>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function CustomerAnalyticsDashboard({ stats }) {
             <div className="flex gap-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
               <span className="text-xl flex-shrink-0">👑</span>
               <div className="text-sm text-purple-900">
-                <p className="font-semibold">High customer lifetime value: ₹{Math.round(insights.lifetimeValue)}</p>
+                <p className="font-semibold text-gray-900">High customer lifetime value: ₹{Math.round(insights.lifetimeValue)}</p>
                 <p className="text-xs opacity-75">Focus on retention and loyalty programs for existing customers</p>
               </div>
             </div>

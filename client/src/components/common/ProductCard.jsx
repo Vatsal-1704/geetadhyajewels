@@ -48,9 +48,7 @@ export default function ProductCard({ product, onQuickView }) {
       {/* Wishlist btn */}
       <button onClick={() => toggle(product._id)}
         className={`product-wishlist-button ${wishlisted ? "wishlisted" : ""}`}
-        aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}>
-        <FiHeart size={14} fill={wishlisted ? "currentColor" : "none"} />
-      </button>
+        aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"} />
 
       {/* Info */}
       <div className="product-info">

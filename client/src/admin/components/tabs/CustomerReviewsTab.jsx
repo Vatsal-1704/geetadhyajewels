@@ -5,7 +5,7 @@ export default function CustomerReviewsTab({ reviews }) {
     return (
       <div className="p-6 text-center py-12">
         <div className="text-4xl mb-3">⭐</div>
-        <p className="text-gray-500">No reviews yet</p>
+        <p className="text-gray-700">No reviews yet</p>
       </div>
     );
   }
@@ -18,7 +18,7 @@ export default function CustomerReviewsTab({ reviews }) {
           <div className="flex items-start justify-between mb-3">
             <div>
               <p className="font-semibold text-gray-900">{review.productName}</p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-700 mt-1">
                 {new Date(review.createdAt).toLocaleDateString("en-IN", {
                   year: "numeric",
                   month: "short",

@@ -47,3 +47,20 @@ input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16p
 
 .slick-dots li button:before { color: var(--color-gold) !important; }
 .slick-dots li.slick-active button:before { color: var(--color-gold) !important; }
+
+/* Admin main content — reset dark-theme element-level colors so text is visible on white */
+.admin-content h1, .admin-content h2, .admin-content h3,
+.admin-content h4, .admin-content h5, .admin-content h6 {
+  color: inherit;
+  font-family: inherit;
+}
+
+/* Reset dark-theme form element styles inside admin */
+.admin-content input,
+.admin-content textarea,
+.admin-content select {
+  background-color: #ffffff;
+  color: #111827;
+  border-color: #e5e7eb;
+  min-height: unset;
+}

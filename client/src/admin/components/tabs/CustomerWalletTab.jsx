@@ -90,7 +90,7 @@ export default function CustomerWalletTab({ rewardPoints }) {
                   <p className="text-sm font-semibold text-gray-600">{reward.points}+ pts</p>
                 </div>
                 {!isUnlocked && (
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-gray-700 mt-2">
                     {reward.points - rewardPoints} points away
                   </p>
                 )}

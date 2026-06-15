@@ -26,18 +26,18 @@ export default function AdminReviews() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-gray-500">{reviews.length} review{reviews.length !== 1 ? "s" : ""} pending approval</p>
+      <p className="text-sm text-gray-700">{reviews.length} review{reviews.length !== 1 ? "s" : ""} pending approval</p>
       {reviews.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 text-center shadow-sm"><div className="text-4xl mb-3">✅</div><p className="text-gray-500">No pending reviews</p></div>
+        <div className="bg-white rounded-2xl p-12 text-center shadow-sm"><div className="text-4xl mb-3">✅</div><p className="text-gray-700">No pending reviews</p></div>
       ) : reviews.map(r => (
         <div key={r._id} className="bg-white rounded-2xl p-5 shadow-sm">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <p className="font-medium">{r.name}</p>
+              <p className="font-medium text-gray-900">{r.name}</p>
               <p className="text-xs text-brand-gold">{r.productName}</p>
               <div className="flex text-amber-400 text-sm mt-1">{"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}</div>
             </div>
-            <span className="text-xs text-gray-400">{new Date(r.createdAt).toLocaleDateString("en-IN")}</span>
+            <span className="text-xs text-gray-600">{new Date(r.createdAt).toLocaleDateString("en-IN")}</span>
           </div>
           <p className="text-gray-700 text-sm mb-4 italic">"{r.comment}"</p>
           <div className="flex gap-2">
@@ -51,7 +51,7 @@ export default function AdminReviews() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <h3 className="font-semibold mb-3">Reply to {replyModal.name}</h3>
-            <p className="text-sm text-gray-500 italic mb-3">"{replyModal.comment}"</p>
+            <p className="text-sm text-gray-700 italic mb-3">"{replyModal.comment}"</p>
             <textarea value={reply} onChange={e => setReply(e.target.value)} placeholder="Your reply as GeetadhyaJewels..." rows={4} className="w-full border rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-gold resize-none mb-4" />
             <div className="flex gap-3">
               <button onClick={() => setReplyModal(null)} className="flex-1 border border-gray-200 rounded-xl py-2.5 text-sm">Cancel</button>

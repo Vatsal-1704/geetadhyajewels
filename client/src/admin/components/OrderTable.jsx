@@ -38,7 +38,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
           <thead className="bg-gray-50">
             <tr>
               {["", "Order ID", "Customer", "Amount", "Payment", "Status", "Date", "Actions"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   {h}
                 </th>
               ))}
@@ -85,7 +85,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
         <table className="w-full text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 <input
                   type="checkbox"
                   checked={allSelected}
@@ -95,7 +95,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                 />
               </th>
               {["Order ID", "Customer", "Amount", "Payment", "Status", "Date", "Actions"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                   {h}
                 </th>
               ))}
@@ -117,8 +117,8 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                     {o.orderId}
                   </td>
                   <td className="px-5 py-3.5">
-                    <p className="font-medium">{o.user?.name}</p>
-                    <p className="text-xs text-gray-400">{o.user?.email}</p>
+                    <div className="font-medium text-gray-900">{o.user?.name || o.shippingAddress?.name || "—"}</div>
+                    <div className="text-xs text-gray-600">{o.user?.email || o.shippingAddress?.phone || ""}</div>
                   </td>
                   <td className="px-5 py-3.5 font-bold">₹{o.totalPrice?.toLocaleString()}</td>
                   <td className="px-5 py-3.5">
@@ -131,7 +131,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
                       {o.orderStatus}
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-gray-400 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
+                  <td className="px-5 py-3.5 text-gray-600 text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN")}</td>
                   <td className="px-5 py-3.5">
                     <button onClick={() => onSelectOrder(o)} className="text-brand-gold hover:text-brand-gold-dark transition">
                       <FiEye size={16} />
@@ -141,7 +141,7 @@ export default function OrderTable({ orders = [], loading = false, onSelectOrder
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="px-5 py-8 text-center text-gray-500">
+                <td colSpan="8" className="px-5 py-8 text-center text-gray-700">
                   No orders found
                 </td>
               </tr>

@@ -6,7 +6,7 @@ export default function ProductPreviewTable({ data, fileName, onConfirm, onEdit,
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-2xl max-w-2xl w-full p-6 text-center">
-          <p className="text-gray-500 mb-4">No data to preview</p>
+          <p className="text-gray-700 mb-4">No data to preview</p>
           <button
             onClick={onEdit}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
@@ -36,14 +36,14 @@ export default function ProductPreviewTable({ data, fileName, onConfirm, onEdit,
               </button>
               <div>
                 <h2 className="text-xl font-semibold text-brand-black">Preview Products</h2>
-                <p className="text-sm text-gray-500">{fileName}</p>
+                <p className="text-sm text-gray-700">{fileName}</p>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">Total Rows</p>
+              <p className="text-xs text-gray-700 uppercase tracking-wide font-medium">Total Rows</p>
               <p className="text-2xl font-bold text-gray-800">{data.length}</p>
             </div>
             <div className="p-3 bg-green-50 rounded-lg border border-green-200">
@@ -73,7 +73,7 @@ export default function ProductPreviewTable({ data, fileName, onConfirm, onEdit,
             <tbody>
               {data.map((row, idx) => (
                 <tr key={idx} className="border-b border-gray-200 hover:bg-gray-50">
-                  <td className="px-4 py-3 text-gray-500">{idx + 1}</td>
+                  <td className="px-4 py-3 text-gray-700">{idx + 1}</td>
                   <td className="px-4 py-3 text-gray-800 font-medium max-w-xs truncate">
                     {row.name || "N/A"}
                   </td>

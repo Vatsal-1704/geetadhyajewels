@@ -54,7 +54,7 @@ export default function OrderStatsBar({ onStatClick, refreshTrigger }) {
     <div className="mb-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold text-gray-800">Order Summary</h3>
-        {lastUpdated && <span className="text-xs text-gray-500">Updated: {lastUpdated}</span>}
+        {lastUpdated && <span className="text-xs text-gray-700">Updated: {lastUpdated}</span>}
       </div>
 
       {loading ? (

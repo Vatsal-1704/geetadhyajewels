@@ -199,7 +199,7 @@ export default function AdminCustomers() {
         ].map((stat, i) => (
           <div key={i} className="bg-white rounded-2xl p-4 shadow-sm">
             <div className="text-2xl mb-2">{stat.icon}</div>
-            <div className="text-sm text-gray-500">{stat.label}</div>
+            <div className="text-sm text-gray-700">{stat.label}</div>
             <div className="text-2xl font-bold text-brand-gold">{stat.value}</div>
           </div>
         ))}
@@ -226,7 +226,7 @@ export default function AdminCustomers() {
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="flex-1 relative">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
             <input
               value={search}
               onChange={e => { setSearch(e.target.value); setPage(1); }}
@@ -326,9 +326,9 @@ export default function AdminCustomers() {
       {/* Customers Table */}
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         {loading ? (
-          <div className="p-12 text-center text-gray-400">Loading customers...</div>
+          <div className="p-12 text-center text-gray-600">Loading customers...</div>
         ) : customers.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             No customers found. {(search || status) && "Try adjusting your filters."}
           </div>
         ) : (
@@ -345,14 +345,14 @@ export default function AdminCustomers() {
                         className="rounded cursor-pointer"
                       />
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Customer</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Phone</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Orders</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Total Spent</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Joined</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">Action</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Customer</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Email</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Phone</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Orders</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Total Spent</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Joined</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Status</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
@@ -378,7 +378,7 @@ export default function AdminCustomers() {
                       <td className="px-5 py-3 text-gray-600 text-sm">{c.phone || "N/A"}</td>
                       <td className="px-5 py-3 text-sm font-medium">{c.totalOrders}</td>
                       <td className="px-5 py-3 text-sm font-medium">₹{c.totalSpent?.toFixed(0) || 0}</td>
-                      <td className="px-5 py-3 text-gray-400 text-xs">
+                      <td className="px-5 py-3 text-gray-600 text-xs">
                         {new Date(c.createdAt).toLocaleDateString("en-IN")}
                       </td>
                       <td className="px-5 py-3">
@@ -411,7 +411,7 @@ export default function AdminCustomers() {
 
             {/* Pagination */}
             <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-700">
                 Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of {total} customers
               </div>
               <div className="flex items-center gap-3">

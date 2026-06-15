@@ -68,7 +68,7 @@ export default function AdminReports() {
         ].map(([label, value, icon]) => (
           <div key={label} className="bg-white rounded-2xl p-5 shadow-sm">
             <div className="text-2xl mb-2">{icon}</div>
-            <p className="text-xs text-gray-500 mb-1">{label}</p>
+            <p className="text-xs text-gray-700 mb-1">{label}</p>
             <p className="text-xl font-bold text-brand-black">{loading ? "—" : value}</p>
           </div>
         ))}
@@ -86,7 +86,7 @@ export default function AdminReports() {
           {loading ? (
             <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" /></div>
           ) : revenueData.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+            <div className="flex flex-col items-center justify-center py-16 text-gray-600">
               <div className="text-4xl mb-3">📊</div>
               <p>No revenue data for this period</p>
             </div>
@@ -107,7 +107,7 @@ export default function AdminReports() {
         <div className="bg-white rounded-2xl p-5 shadow-sm">
           <h3 className="font-semibold mb-4">Best Sellers Mix</h3>
           {bestSellers.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 text-gray-400 text-sm">No data yet</div>
+            <div className="flex flex-col items-center justify-center py-10 text-gray-600 text-sm">No data yet</div>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
@@ -126,7 +126,7 @@ export default function AdminReports() {
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b"><h3 className="font-semibold">Best Selling Products</h3></div>
         {bestSellers.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             <div className="text-4xl mb-3">🏆</div>
             <p>No sales data yet. Orders will appear here once placed.</p>
           </div>
@@ -134,13 +134,13 @@ export default function AdminReports() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50">
               <tr>{["#", "Product", "Units Sold", "Revenue", "Stock"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">{h}</th>
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">{h}</th>
               ))}</tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {bestSellers.map((b, i) => (
                 <tr key={b._id} className="hover:bg-gray-50">
-                  <td className="px-5 py-3.5 font-bold text-gray-400">{i + 1}</td>
+                  <td className="px-5 py-3.5 font-bold text-gray-600">{i + 1}</td>
                   <td className="px-5 py-3.5 font-medium">{b.product?.name || "—"}</td>
                   <td className="px-5 py-3.5">{b.totalSold}</td>
                   <td className="px-5 py-3.5 font-semibold text-green-600">₹{b.revenue?.toLocaleString()}</td>

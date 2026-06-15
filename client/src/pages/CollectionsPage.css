@@ -147,17 +147,14 @@
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-transform: capitalize;
+  margin: 0;
 }
 
-.collections-header-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.collections-product-count {
+.collections-subtitle {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+  margin-bottom: 0;
 }
 
 .collections-filter-button {
@@ -519,6 +516,89 @@
   overflow-y: auto;
   z-index: 50;
   animation: slideInRight var(--transition-slow);
+}
+
+/* ========== ERROR MESSAGE ========== */
+
+.collections-error {
+  padding: var(--space-4);
+  background-color: rgba(224, 92, 92, 0.1);
+  border-left: 4px solid var(--color-error);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  animation: slideDown 250ms ease-out;
+}
+
+.collections-error p {
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  margin: 0;
+  flex: 1;
+}
+
+.collections-error button {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-error);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+}
+
+.collections-error button:hover {
+  background-color: var(--color-error);
+  opacity: 0.9;
+}
+
+/* ========== PAGINATION ========== */
+
+.collections-pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.pagination-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-button:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.pagination-button.active {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  border-color: var(--color-gold);
+}
+
+.pagination-button:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 @keyframes slideInRight {

@@ -222,7 +222,7 @@ export default function CustomerAdvancedFeatures({ customer, detail, onUpdate, o
                         <div>
                           <p className="font-semibold text-gray-900">{dup.name}</p>
                           <p className="text-sm text-gray-600">{dup.email}</p>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-700 mt-1">
                             {dup.totalOrders} orders • Joined {new Date(dup.createdAt).toLocaleDateString()}
                           </p>
                         </div>
@@ -362,7 +362,7 @@ export default function CustomerAdvancedFeatures({ customer, detail, onUpdate, o
                 <div className="space-y-2 max-h-64 overflow-y-auto">
                   <div className="p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
                     <p className="font-semibold text-gray-900">Admin Support</p>
-                    <p className="text-xs text-gray-500">Just now</p>
+                    <p className="text-xs text-gray-700">Just now</p>
                     <p className="mt-2">{notes || "No notes yet"}</p>
                   </div>
                 </div>

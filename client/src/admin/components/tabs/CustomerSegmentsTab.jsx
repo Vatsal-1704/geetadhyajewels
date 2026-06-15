@@ -162,7 +162,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">{segment.icon}</span>
                   <div className="flex-1">
-                    <p className="font-semibold">{segment.name}</p>
+                    <p className="font-semibold text-gray-900">{segment.name}</p>
                     <p className="text-sm opacity-75 mt-1">{segment.description}</p>
                   </div>
                   <span className="text-xs font-mono px-2 py-1 bg-white/50 rounded">
@@ -174,8 +174,8 @@ export default function CustomerSegmentsTab({ customer, detail }) {
           </div>
         ) : (
           <div className="text-center py-8 border border-dashed border-gray-300 rounded-lg">
-            <p className="text-gray-500 text-sm">No auto segments generated yet</p>
-            <p className="text-xs text-gray-400 mt-1">Customer may qualify after more activity</p>
+            <p className="text-gray-700 text-sm">No auto segments generated yet</p>
+            <p className="text-xs text-gray-600 mt-1">Customer may qualify after more activity</p>
           </div>
         )}
       </div>
@@ -199,7 +199,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
                 <span className="text-sm font-medium text-gray-900">{segment.name}</span>
                 <button
                   onClick={() => handleRemoveSegment(segment.id)}
-                  className="text-gray-400 hover:text-gray-600 ml-1"
+                  className="text-gray-600 hover:text-gray-600 ml-1"
                 >
                   <FiX size={14} />
                 </button>
@@ -207,7 +207,7 @@ export default function CustomerSegmentsTab({ customer, detail }) {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-500 mb-4">No custom segments yet</p>
+          <p className="text-sm text-gray-700 mb-4">No custom segments yet</p>
         )}
 
         {/* Add New Segment */}

@@ -38,15 +38,15 @@ export default function AdminInventory() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="bg-white rounded-2xl p-4 shadow-sm text-center">
           <p className="text-2xl font-bold text-brand-black">{products.length}</p>
-          <p className="text-xs text-gray-500 mt-1">Total Products</p>
+          <p className="text-xs text-gray-700 mt-1">Total Products</p>
         </div>
         <div className="bg-orange-50 rounded-2xl p-4 shadow-sm text-center">
           <p className="text-2xl font-bold text-orange-600">{lowStock.length}</p>
-          <p className="text-xs text-gray-500 mt-1">Low Stock</p>
+          <p className="text-xs text-gray-700 mt-1">Low Stock</p>
         </div>
         <div className="bg-red-50 rounded-2xl p-4 shadow-sm text-center">
           <p className="text-2xl font-bold text-red-600">{outOfStock.length}</p>
-          <p className="text-xs text-gray-500 mt-1">Out of Stock</p>
+          <p className="text-xs text-gray-700 mt-1">Out of Stock</p>
         </div>
       </div>
 
@@ -66,7 +66,7 @@ export default function AdminInventory() {
           <h3 className="font-semibold">Inventory Levels</h3>
         </div>
         {products.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             <div className="text-4xl mb-3">📦</div>
             <p>No products found. Add products first.</p>
           </div>
@@ -74,7 +74,7 @@ export default function AdminInventory() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50">
               <tr>{["Product", "Category", "Price", "Stock", "Threshold", "Status", "Action"].map(h => (
-                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase">{h}</th>
+                <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-700 uppercase">{h}</th>
               ))}</tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -88,7 +88,7 @@ export default function AdminInventory() {
                         <span className="font-medium truncate max-w-[160px]">{p.name}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-500 text-xs">{p.category?.name || "—"}</td>
+                    <td className="px-5 py-3.5 text-gray-700 text-xs">{p.category?.name || "—"}</td>
                     <td className="px-5 py-3.5">₹{p.price?.toLocaleString()}</td>
                     <td className="px-5 py-3.5">
                       {editing === p._id ? (
@@ -96,13 +96,13 @@ export default function AdminInventory() {
                           <input type="number" min="0" value={stockVal} onChange={e => setStockVal(e.target.value)}
                             className="w-20 border rounded-lg px-2 py-1 text-sm outline-none focus:border-brand-gold" autoFocus />
                           <button onClick={() => updateStock(p._id)} className="text-green-600 hover:text-green-800 text-xs font-medium">Save</button>
-                          <button onClick={() => setEditing(null)} className="text-gray-400 text-xs">✕</button>
+                          <button onClick={() => setEditing(null)} className="text-gray-600 text-xs">✕</button>
                         </div>
                       ) : (
                         <span className={`font-bold ${p.stock === 0 ? "text-red-600" : p.stock <= threshold ? "text-orange-500" : "text-green-600"}`}>{p.stock}</span>
                       )}
                     </td>
-                    <td className="px-5 py-3.5 text-gray-500">{threshold}</td>
+                    <td className="px-5 py-3.5 text-gray-700">{threshold}</td>
                     <td className="px-5 py-3.5">
                       <span className={`text-xs px-2.5 py-1 rounded-full ${p.stock === 0 ? "bg-red-100 text-red-700" : p.stock <= threshold ? "bg-orange-100 text-orange-700" : "bg-green-100 text-green-700"}`}>
                         {p.stock === 0 ? "Out of Stock" : p.stock <= threshold ? "Low Stock" : "In Stock"}

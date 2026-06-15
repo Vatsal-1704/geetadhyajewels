@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, Navigate } from "react-router-dom";
 import { FiGrid, FiPackage, FiShoppingBag, FiUsers, FiTag, FiImage, FiStar, FiBarChart2, FiSettings, FiLogOut, FiMenu, FiX, FiAlertTriangle } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
@@ -21,13 +21,18 @@ export default function AdminLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [pathname]);
 
   if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="w-10 h-10 border-4 border-brand-gold border-t-transparent rounded-full animate-spin" /></div>;
   if (!user) return <Navigate to="/admin/login" replace />;
   if (user.role !== "admin") return <Navigate to="/" replace />;
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900">
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-brand-black transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:relative lg:translate-x-0 flex flex-col`}>
         <div className="p-5 border-b border-white/10">
@@ -63,10 +68,10 @@ export default function AdminLayout({ children }) {
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-600"><FiMenu size={22} /></button>
           <h1 className="font-semibold text-gray-800">{NAV.find(n => pathname === n.to || (n.to !== "/admin" && pathname.startsWith(n.to)))?.label || "Dashboard"}</h1>
           <div className="ml-auto flex items-center gap-2">
-            <Link to="/" target="_blank" className="text-xs text-gray-400 hover:text-brand-gold transition-colors">View Store →</Link>
+            <Link to="/" target="_blank" className="text-xs text-gray-600 hover:text-brand-gold transition-colors">View Store →</Link>
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main ref={mainRef} className="admin-content flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );

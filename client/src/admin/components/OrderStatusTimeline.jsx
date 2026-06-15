@@ -11,7 +11,7 @@ const STATUS_COLORS = {
 export default function OrderStatusTimeline({ statusHistory = [] }) {
   if (!statusHistory || statusHistory.length === 0) {
     return (
-      <div className="text-center py-6 text-gray-400">
+      <div className="text-center py-6 text-gray-600">
         <FiClock size={24} className="mx-auto mb-2 opacity-50" />
         <p className="text-sm">No status history yet</p>
       </div>
@@ -39,10 +39,10 @@ export default function OrderStatusTimeline({ statusHistory = [] }) {
               <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[entry.status] || "bg-gray-100 text-gray-600"}`}>
                 {entry.status}
               </span>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-600">
                 {new Date(entry.timestamp).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
               </span>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-600">
                 {new Date(entry.timestamp).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
               </span>
             </div>
@@ -50,7 +50,7 @@ export default function OrderStatusTimeline({ statusHistory = [] }) {
               <span className="font-medium">{entry.changedByName || "System"}</span>
             </p>
             {entry.notes && (
-              <p className="text-xs text-gray-500 mt-1 italic">"{entry.notes}"</p>
+              <p className="text-xs text-gray-700 mt-1 italic">"{entry.notes}"</p>
             )}
           </div>
         </div>

@@ -1,0 +1,132 @@
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+}
+
+.error-boundary-content {
+  max-width: 500px;
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  animation: slideUp 300ms ease-out;
+}
+
+.error-boundary-icon {
+  font-size: 3.5rem;
+  margin-bottom: var(--space-4);
+}
+
+.error-boundary-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  line-height: var(--leading-tight);
+}
+
+.error-boundary-message {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+  line-height: var(--leading-normal);
+}
+
+.error-boundary-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.error-boundary-button {
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.error-boundary-button:hover {
+  background-color: var(--color-gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.error-boundary-button:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.error-boundary-link {
+  padding: var(--space-3) var(--space-6);
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  display: inline-block;
+  transition: all var(--transition-base);
+}
+
+.error-boundary-link:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
+}
+
+.error-boundary-link:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .error-boundary-content {
+    padding: var(--space-6);
+  }
+
+  .error-boundary-icon {
+    font-size: 2.5rem;
+  }
+
+  .error-boundary-title {
+    font-size: var(--text-xl);
+  }
+
+  .error-boundary-actions {
+    flex-direction: column;
+  }
+
+  .error-boundary-button,
+  .error-boundary-link {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-boundary-content {
+    animation: none;
+  }
+
+  .error-boundary-button,
+  .error-boundary-link {
+    transition: none;
+  }
+
+  .error-boundary-button:hover,
+  .error-boundary-link:hover {
+    transform: none;
+  }
+}

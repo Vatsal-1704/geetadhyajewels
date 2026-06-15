@@ -53,7 +53,7 @@ export default function AdminSettings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {fields.map(([key, label]) => (
                 <div key={key} className={key === "metaDesc" || key === "tagline" ? "sm:col-span-2" : ""}>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">{label}</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1.5">{label}</label>
                   {key === "metaDesc" ? (
                     <textarea value={settings[key] || ""} onChange={e => set(key, e.target.value)} rows={3}
                       className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold resize-none" />

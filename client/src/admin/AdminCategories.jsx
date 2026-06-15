@@ -29,7 +29,7 @@ export default function AdminCategories() {
         <button onClick={() => { setShowForm(true); setEditCat(null); setForm({ name: "", slug: "", description: "", image: "" }); }} className="flex items-center gap-2 bg-brand-gold text-white px-4 py-2.5 rounded-xl text-sm font-medium"><FiPlus size={16} />Add Category</button>
       </div>
       {cats.length === 0 && (
-        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-400">
+        <div className="bg-white rounded-2xl p-12 text-center shadow-sm text-gray-600">
           <div className="text-4xl mb-3">🗂️</div>
           <p>No categories yet. Click "Add Category" to create one.</p>
         </div>

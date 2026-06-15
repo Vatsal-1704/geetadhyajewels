@@ -89,7 +89,7 @@ export default function AdminProducts() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3 flex-1">
           <div className="relative max-w-xs w-full">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={15} />
             <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Search products..."
               className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
           </div>
@@ -107,7 +107,7 @@ export default function AdminProducts() {
 
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
         {products.length === 0 ? (
-          <div className="p-12 text-center text-gray-400">
+          <div className="p-12 text-center text-gray-600">
             <div className="text-4xl mb-3">📦</div>
             <p>No products yet. Click "Add Product" to get started.</p>
           </div>
@@ -117,7 +117,7 @@ export default function AdminProducts() {
               <tr>
                 <th className="px-4 py-3"><input type="checkbox" onChange={e => setSelected(e.target.checked ? products.map(p => p._id) : [])} /></th>
                 {["Product", "Category", "Price", "Stock", "Status", "Actions"].map(h => (
-                  <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+                  <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -182,32 +182,32 @@ export default function AdminProducts() {
           <div className="bg-white rounded-2xl p-6 w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-semibold text-lg">{editProduct ? "Edit Product" : "Add New Product"}</h2>
-              <button onClick={() => setShowForm(false)}><FiX size={20} className="text-gray-400" /></button>
+              <button onClick={() => setShowForm(false)}><FiX size={20} className="text-gray-600" /></button>
             </div>
             <form onSubmit={handleSave} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Name */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Product Name *</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Product Name *</label>
                 <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required
                   className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
               </div>
               {/* Description */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Description *</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Description *</label>
                 <textarea value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} required rows={3}
                   className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold resize-none" />
               </div>
               {/* Price / MRP / Stock */}
               {[["price", "Price (₹) *"], ["mrp", "MRP (₹) *"], ["stock", "Stock Qty *"]].map(([key, label]) => (
                 <div key={key}>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">{label}</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1.5">{label}</label>
                   <input type="number" min="0" value={form[key]} onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))} required
                     className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold" />
                 </div>
               ))}
               {/* Category */}
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Category *</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Category *</label>
                 <select value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} required
                   className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold">
                   <option value="">Select Category</option>
@@ -216,7 +216,7 @@ export default function AdminProducts() {
               </div>
               {/* Style */}
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Style</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Style</label>
                 <select value={form.style} onChange={e => setForm(p => ({ ...p, style: e.target.value }))}
                   className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold">
                   <option value="">Select Style</option>
@@ -225,7 +225,7 @@ export default function AdminProducts() {
               </div>
               {/* Status */}
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Status</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Status</label>
                 <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}
                   className="w-full border rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand-gold">
                   <option value="published">Published</option>
@@ -234,7 +234,7 @@ export default function AdminProducts() {
               </div>
               {/* Images */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">Product Images (URLs)</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Product Images (URLs)</label>
                 <div className="space-y-2">
                   {form.images.map((img, i) => (
                     <div key={i} className="flex items-center gap-2">
@@ -247,7 +247,7 @@ export default function AdminProducts() {
               </div>
               {/* Flags */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-500 mb-2">Product Flags</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2">Product Flags</label>
                 <div className="flex flex-wrap gap-4">
                   {[["isFeatured", "Featured"], ["isBestSeller", "Best Seller"], ["isNewArrival", "New Arrival"]].map(([key, label]) => (
                     <label key={key} className="flex items-center gap-2 cursor-pointer">

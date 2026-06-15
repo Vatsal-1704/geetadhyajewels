@@ -274,7 +274,7 @@ Mike Johnson,mike@example.com,,0,`;
                   >
                     <FiUpload size={32} className="mx-auto text-gray-400 mb-2" />
                     <p className="font-medium text-gray-900">Click to upload or drag & drop</p>
-                    <p className="text-xs text-gray-500 mt-1">CSV or JSON files only (max 10MB)</p>
+                    <p className="text-xs text-gray-700 mt-1">CSV or JSON files only (max 10MB)</p>
                     <input
                       ref={fileInputRef}
                       type="file"

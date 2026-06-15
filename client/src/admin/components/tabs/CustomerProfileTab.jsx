@@ -48,7 +48,7 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
         <div className="space-y-4">
           {/* Name */}
           <div className="border border-gray-200 rounded-lg p-4">
-            <label className="text-xs font-semibold text-gray-500 uppercase">Full Name</label>
+            <label className="text-xs font-semibold text-gray-700 uppercase">Full Name</label>
             {editingField === "name" ? (
               <div className="flex gap-2 mt-2">
                 <input
@@ -86,14 +86,14 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
 
           {/* Email */}
           <div className="border border-gray-200 rounded-lg p-4">
-            <label className="text-xs font-semibold text-gray-500 uppercase">Email</label>
+            <label className="text-xs font-semibold text-gray-700 uppercase">Email</label>
             <p className="text-gray-900 font-medium mt-2">{customer.email}</p>
-            <p className="text-xs text-gray-500 mt-1">Cannot be edited</p>
+            <p className="text-xs text-gray-700 mt-1">Cannot be edited</p>
           </div>
 
           {/* Phone */}
           <div className="border border-gray-200 rounded-lg p-4">
-            <label className="text-xs font-semibold text-gray-500 uppercase">Phone</label>
+            <label className="text-xs font-semibold text-gray-700 uppercase">Phone</label>
             {editingField === "phone" ? (
               <div className="flex gap-2 mt-2">
                 <input
@@ -144,7 +144,7 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
                   <FiMapPin size={16} className="text-brand-gold mt-0.5 flex-shrink-0" />
                   <div className="flex-1">
                     <p className="font-semibold text-gray-900">{addr.name}</p>
-                    <p className="text-xs text-gray-500 mt-1">{addr.phone}</p>
+                    <p className="text-xs text-gray-700 mt-1">{addr.phone}</p>
                   </div>
                   {addr.isDefault && <span className="text-xs bg-brand-gold/20 text-brand-gold px-2 py-1 rounded-full">Default</span>}
                 </div>
@@ -156,7 +156,7 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
           </div>
         ) : (
           <div className="text-center py-8 border border-dashed border-gray-300 rounded-lg">
-            <p className="text-gray-500 text-sm">No addresses saved</p>
+            <p className="text-gray-700 text-sm">No addresses saved</p>
           </div>
         )}
       </div>
@@ -170,14 +170,14 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
           <div className="border border-gray-200 rounded-lg p-4 flex items-center gap-3">
             <FiCalendar size={18} className="text-brand-gold flex-shrink-0" />
             <div>
-              <p className="text-xs text-gray-500">Joined</p>
+              <p className="text-xs text-gray-700">Joined</p>
               <p className="font-semibold text-gray-900">{joinDate}</p>
             </div>
           </div>
           <div className="border border-gray-200 rounded-lg p-4 flex items-center gap-3">
             <FiCalendar size={18} className="text-brand-gold flex-shrink-0" />
             <div>
-              <p className="text-xs text-gray-500">Last Order</p>
+              <p className="text-xs text-gray-700">Last Order</p>
               <p className="font-semibold text-gray-900">{lastOrder}</p>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function CustomerProfileTab({ customer, detail, onUpdate, onClose
         <div className="border border-gray-200 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-gray-500 uppercase font-semibold">Status</p>
+              <p className="text-xs text-gray-700 uppercase font-semibold">Status</p>
               <p className="text-gray-900 font-medium mt-1">
                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
                   customer.isBlocked

@@ -24,9 +24,11 @@ api.interceptors.response.use(
   (err) => {
     if (err.response?.status === 401) {
       localStorage.removeItem("gjToken");
-      // Optionally redirect to login
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
+      localStorage.removeItem("gjUser");
+      const isAdmin = window.location.pathname.startsWith("/admin");
+      const loginPath = isAdmin ? "/admin/login" : "/login";
+      if (!window.location.pathname.endsWith("/login")) {
+        window.location.replace(loginPath);
       }
     }
     return Promise.reject(err);

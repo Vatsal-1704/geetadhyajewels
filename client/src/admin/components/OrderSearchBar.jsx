@@ -27,7 +27,7 @@ export default function OrderSearchBar({ onSearch, value = "" }) {
   return (
     <div className="relative">
       <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 focus-within:border-brand-gold focus-within:shadow-sm transition">
-        <FiSearch className="text-gray-400" size={18} />
+        <FiSearch className="text-gray-600" size={18} />
         <input
           type="text"
           placeholder="Search by Order ID or Customer name..."
@@ -38,7 +38,7 @@ export default function OrderSearchBar({ onSearch, value = "" }) {
         {searchTerm && (
           <button
             onClick={handleClear}
-            className="text-gray-400 hover:text-gray-600 transition p-1"
+            className="text-gray-600 hover:text-gray-600 transition p-1"
             title="Clear search"
           >
             <FiX size={18} />
@@ -46,7 +46,7 @@ export default function OrderSearchBar({ onSearch, value = "" }) {
         )}
       </div>
       {searchTerm && (
-        <div className="absolute top-full left-0 mt-1 text-xs text-gray-400">
+        <div className="absolute top-full left-0 mt-1 text-xs text-gray-600">
           Searching for "{searchTerm}"...
         </div>
       )}

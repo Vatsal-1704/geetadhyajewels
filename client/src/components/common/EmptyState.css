@@ -1,0 +1,106 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  min-height: 300px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.02) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px dashed var(--color-border);
+  animation: fadeIn var(--transition-base);
+}
+
+.empty-state-default {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.02) 0%, rgba(212, 175, 55, 0.05) 100%);
+}
+
+.empty-state-light {
+  background: transparent;
+  border: none;
+}
+
+.empty-state-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: var(--space-4);
+  animation: fadeIn 500ms ease-out;
+}
+
+.empty-state-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  line-height: var(--leading-tight);
+}
+
+.empty-state-description {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  max-width: 400px;
+  margin-bottom: var(--space-6);
+  line-height: var(--leading-normal);
+}
+
+.empty-state-action {
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.empty-state-action:hover {
+  background-color: var(--color-gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.empty-state-action:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .empty-state {
+    padding: var(--space-8) var(--space-4);
+    min-height: 250px;
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+
+  .empty-state-title {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-state,
+  .empty-state-icon {
+    animation: none;
+  }
+
+  .empty-state-action {
+    transition: none;
+  }
+
+  .empty-state-action:hover {
+    transform: none;
+  }
+}

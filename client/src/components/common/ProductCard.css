@@ -154,29 +154,44 @@
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  border: none;
+  border: 1.5px solid var(--color-gold);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   transition: all var(--transition-base);
   z-index: 4;
-  background-color: var(--color-gold);
-  color: var(--color-bg);
+  background-color: white;
+}
+
+.product-wishlist-button::before {
+  content: "♡";
+  font-size: 20px;
+  color: var(--color-gold);
+  line-height: 1;
 }
 
 .product-wishlist-button:hover {
-  transform: scale(1.2);
-  box-shadow: var(--shadow-gold-hover);
-  background-color: var(--color-gold-light);
+  transform: scale(1.15);
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.product-wishlist-button:hover::before {
+  color: white;
 }
 
 .product-wishlist-button.wishlisted {
   background-color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.product-wishlist-button.wishlisted::before {
+  content: "♥";
   color: white;
 }
 
