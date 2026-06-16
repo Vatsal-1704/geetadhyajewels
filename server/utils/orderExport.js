@@ -55,19 +55,3 @@ exports.generateOrdersExcel = async (orders) => {
   // Write to buffer
   return XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
 };
-
-exports.generateErrorReportExcel = async (errors) => {
-  const data = errors.map((err) => ({
-    "Row Number": err.row,
-    "Order ID": err.orderId,
-    "Error Details": err.error,
-  }));
-
-  const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  worksheet["!cols"] = [{ wch: 15 }, { wch: 15 }, { wch: 50 }];
-
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Error Report");
-
-  return XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-};
