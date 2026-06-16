@@ -20,8 +20,6 @@ const categories = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [shopOpen, setShopOpen] = useState(false);
   const { itemCount } = useCart();
   const { user, logout } = useAuth();
@@ -33,11 +31,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) { navigate(`/search?q=${encodeURIComponent(searchQuery)}`); setSearchOpen(false); setSearchQuery(""); }
-  };
 
   return (
     <>
@@ -101,7 +94,7 @@ export default function Navbar() {
 
           {/* Icons */}
           <div className="navbar-icons">
-            <button onClick={() => setSearchOpen(true)} className="navbar-icon-button"><FiSearch size={20} /></button>
+            <button onClick={() => navigate("/search")} className="navbar-icon-button"><FiSearch size={20} /></button>
             <button onClick={() => user ? navigate("/account?tab=wishlist") : navigate("/login")} className="navbar-icon-button">
               <FiHeart size={20} />
               {wishlist.length > 0 && <span className="navbar-icon-badge">{wishlist.length}</span>}
@@ -128,21 +121,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Search Overlay */}
-        {searchOpen && (
-          <div className="navbar-search-modal" onClick={() => setSearchOpen(false)}>
-            <div className="navbar-search-box" onClick={e => e.stopPropagation()}>
-              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-                <FiSearch size={20} style={{ color: "var(--color-gold)" }} />
-                <form onSubmit={handleSearch} style={{ flex: 1 }}>
-                  <input autoFocus value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Search for jewellery, occasions, styles..." className="navbar-search-input" />
-                </form>
-                <button onClick={() => setSearchOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-primary)" }}><FiX size={22} /></button>
-              </div>
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* Mobile Drawer */}

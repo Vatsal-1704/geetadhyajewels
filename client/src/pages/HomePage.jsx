@@ -1,4 +1,5 @@
 import HeroBanner from "../components/home/HeroBanner";
+import HomeSearch from "../components/home/HomeSearch";
 import AnnouncementBanner from "../components/home/AnnouncementBanner";
 import ShopByCategory from "../components/home/ShopByCategory";
 import FeaturedProducts from "../components/home/FeaturedProducts";
@@ -17,6 +18,7 @@ export default function HomePage() {
   return (
     <div>
       <HeroBanner />
+      <HomeSearch />
       <AnnouncementBanner />
       <TrustBadges />
       <ShopByCategory />

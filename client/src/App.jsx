@@ -61,11 +61,10 @@ function CustomerLayout({ children }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pb-20 lg:pb-0">{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
       <WhatsAppButton />
       <BackToTop />
-      <MobileBottomBar />
       <NewsletterPopup />
       <CookieBanner />
     </>
