@@ -6,22 +6,13 @@
 .hero-banner {
   position: relative;
   width: 100%;
-  height: 50vh;
+  /* 16:9 landscape on all screens, clamped so it never gets too small or too large */
+  height: clamp(220px, 56.25vw, 88vh);
   overflow: hidden;
   background-color: var(--color-bg);
 }
 
-@media (min-width: 768px) {
-  .hero-banner {
-    height: 65vh;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-banner {
-    height: 80vh;
-  }
-}
+/* Remove old vh-based media query overrides — clamp handles everything */
 
 /* ========== SLIDES ========== */
 
@@ -252,35 +243,42 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   z-index: 20;
   pointer-events: auto;
 }
 
 .hero-dot {
+  /* Lock dimensions so browser button defaults can't override */
+  display: block;
   width: 8px;
   height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  max-width: 8px;
+  max-height: 8px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.45);
   border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
   padding: 0;
+  margin: 0;
+  cursor: pointer;
   flex-shrink: 0;
+  line-height: 0;
+  font-size: 0;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   pointer-events: auto;
 }
 
 .hero-dot:hover {
-  background-color: rgba(255, 255, 255, 0.7);
-  transform: scale(1.3);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .hero-dot-active {
-  width: 10px;
-  height: 10px;
   background-color: var(--color-gold);
-  box-shadow: 0 0 6px rgba(201, 168, 76, 0.7);
-  transform: scale(1.1);
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.6);
+  transform: scale(1.5);
 }
 
 /* ========== ANIMATIONS ========== */
@@ -311,16 +309,35 @@
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .hero-nav-button {
-    width: 40px;
-    height: 40px;
+    padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
   }
 
+  .hero-nav-button {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+  }
+
+  .hero-nav-prev { left: var(--space-2); }
+  .hero-nav-next { right: var(--space-2); }
+
   .hero-dots {
-    bottom: var(--space-4);
+    bottom: var(--space-3);
+  }
+
+  .hero-title {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .hero-label {
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-2);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
   }
 }
 
