@@ -3,6 +3,8 @@ import AnnouncementBanner from "../components/home/AnnouncementBanner";
 import ShopByCategory from "../components/home/ShopByCategory";
 import FeaturedProducts from "../components/home/FeaturedProducts";
 import ShopByStyle from "../components/home/ShopByStyle";
+import ShopByOccasion from "../components/home/ShopByOccasion";
+import ShopByPrice from "../components/home/ShopByPrice";
 import SaleBanner from "../components/home/SaleBanner";
 import StripBanner from "../components/home/StripBanner";
 import Testimonials from "../components/home/Testimonials";
@@ -18,10 +20,12 @@ export default function HomePage() {
       <AnnouncementBanner />
       <TrustBadges />
       <ShopByCategory />
+      <ShopByOccasion />
       <FeaturedProducts type="new" title="What's New ✨" />
       <SaleBanner />
       <FeaturedProducts type="bestsellers" title="Best Sellers 🔥" />
       <ShopByStyle />
+      <ShopByPrice />
       <DealOfTheDay />
       <StripBanner />
       <Testimonials />

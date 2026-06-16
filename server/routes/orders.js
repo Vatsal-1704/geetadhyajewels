@@ -3,7 +3,7 @@ const { createOrder, verifyPayment, getMyOrders, getOrderById, trackOrder, admin
 const { protect, admin } = require("../middleware/auth");
 
 router.post("/", protect, createOrder);
-router.post("/verify-payment", verifyPayment);
+router.post("/verify-payment", protect, verifyPayment);
 router.get("/track", trackOrder);
 router.get("/my-orders", protect, getMyOrders);
 router.get("/admin/stats", protect, admin, getOrderStats);

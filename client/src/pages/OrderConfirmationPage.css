@@ -155,6 +155,39 @@
   background-color: rgba(212, 175, 55, 0.05);
 }
 
+/* ========== CONFETTI ========== */
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg) scaleX(1); opacity: 1; }
+  80%  { opacity: 0.8; }
+  100% { transform: translateY(100vh) rotate(680deg) scaleX(-1); opacity: 0; }
+}
+
+@keyframes confetti-sway {
+  0%, 100% { margin-left: 0; }
+  33%       { margin-left: 18px; }
+  66%       { margin-left: -18px; }
+}
+
+.confetti-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  animation:
+    confetti-fall var(--fall-dur, 2s) var(--fall-del, 0s) ease-in forwards,
+    confetti-sway var(--sway-dur, 1.5s) var(--fall-del, 0s) ease-in-out infinite;
+}
+
 /* ========== FOCUS STATES ========== */
 
 .order-confirmation-button:focus-visible {

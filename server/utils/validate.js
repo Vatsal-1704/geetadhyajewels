@@ -131,48 +131,6 @@ const validateRequired = (value, fieldName) => {
   return { valid: true };
 };
 
-// Text with min/max length
-const validateLength = (value, min, max, fieldName) => {
-  if (!value || !value.toString().trim()) {
-    return { valid: false, error: `${fieldName} is required` };
-  }
-  if (value.length < min) {
-    return { valid: false, error: `${fieldName} must be at least ${min} characters` };
-  }
-  if (value.length > max) {
-    return { valid: false, error: `${fieldName} must not exceed ${max} characters` };
-  }
-  return { valid: true };
-};
-
-// Subject validation (5+ chars)
-const validateSubject = (subject) => {
-  if (!subject || !subject.trim()) {
-    return { valid: false, error: "Subject is required" };
-  }
-  if (subject.trim().length < 5) {
-    return { valid: false, error: "Subject must be at least 5 characters" };
-  }
-  if (subject.trim().length > 100) {
-    return { valid: false, error: "Subject must not exceed 100 characters" };
-  }
-  return { valid: true };
-};
-
-// Message validation (20-1000 chars)
-const validateMessage = (message, minLength = 20, maxLength = 1000) => {
-  if (!message || !message.trim()) {
-    return { valid: false, error: "Message is required" };
-  }
-  if (message.trim().length < minLength) {
-    return { valid: false, error: `Message must be at least ${minLength} characters` };
-  }
-  if (message.trim().length > maxLength) {
-    return { valid: false, error: `Message must not exceed ${maxLength} characters` };
-  }
-  return { valid: true };
-};
-
 // Price validation
 const validatePrice = (price) => {
   const numPrice = parseFloat(price);
@@ -221,9 +179,6 @@ module.exports = {
   validateCity,
   validateState,
   validateRequired,
-  validateLength,
-  validateSubject,
-  validateMessage,
   validatePrice,
   validateStock,
   validateSKU,

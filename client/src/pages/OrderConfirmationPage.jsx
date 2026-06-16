@@ -4,6 +4,18 @@ import { FiCheckCircle, FiPackage, FiArrowRight } from "react-icons/fi";
 import api from "../utils/api";
 import "./OrderConfirmationPage.css";
 
+const CONFETTI_COLORS = ["#C9A84C", "#e8c96a", "#FAF7F2", "#1a1a1a", "#d4a0a7", "#10b981"];
+const CONFETTI_PIECES = Array.from({ length: 36 }, (_, i) => ({
+  left: `${3 + (i * 2.6) % 94}%`,
+  width: `${7 + (i % 3) * 4}px`,
+  height: `${7 + (i % 4) * 3}px`,
+  background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+  borderRadius: i % 3 === 0 ? "50%" : "2px",
+  "--fall-dur": `${1.8 + (i % 6) * 0.35}s`,
+  "--fall-del": `${(i % 10) * 0.15}s`,
+  "--sway-dur": `${1.2 + (i % 4) * 0.3}s`,
+}));
+
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
@@ -42,22 +54,20 @@ export default function OrderConfirmationPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+      {/* Falling confetti — fixed overlay, auto-removes after 5s */}
+      {confetti && (
+        <div className="confetti-wrapper" aria-hidden="true">
+          {CONFETTI_PIECES.map((style, i) => (
+            <div key={i} className="confetti-piece" style={style} />
+          ))}
+        </div>
+      )}
+
       {/* Animated Checkmark */}
       <div className="relative inline-block mb-6">
         <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mx-auto">
           <FiCheckCircle size={48} className="text-green-500 animate-bounce" />
         </div>
-        {confetti && (
-          <div className="absolute inset-0 pointer-events-none">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div key={i} className="absolute w-2 h-2 rounded-full animate-ping" style={{
-                background: ["#C9A84C", "#1a1a1a", "#FAF7F2", "#10b981"][i % 4],
-                left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`, animationDuration: `${1 + Math.random()}s`
-              }} />
-            ))}
-          </div>
-        )}
       </div>
 
       <h1 className="font-serif text-3xl sm:text-4xl text-brand-black mb-2">Order Confirmed! 🎉</h1>

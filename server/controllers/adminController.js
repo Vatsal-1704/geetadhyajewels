@@ -33,8 +33,6 @@ exports.getCustomers = async (req, res) => {
     const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
     const q = { role: "customer" };
 
-    console.log("📊 getCustomers Called with:", { page, limit, sortBy, sortOrder, search: req.query.search, status: req.query.status });
-
     // Search by name, email, or phone
     if (req.query.search) {
       q.$or = [
@@ -93,8 +91,6 @@ exports.getCustomers = async (req, res) => {
     ]);
 
     const total = await User.countDocuments(q);
-
-    console.log("✅ Customers Found:", customers.length, "out of", total, "total");
 
     res.json({
       customers,
