@@ -155,13 +155,29 @@ export default function Navbar() {
               <button className="navbar-mobile-close" onClick={() => setMenuOpen(false)}><FiX size={22} /></button>
             </div>
             <nav className="navbar-mobile-links">
-              {[{ to: "/", label: "Home" }, { to: "/offers", label: "🔥 Offers" }, { to: "/sales", label: "💎 Sales & Promotions" }, { to: "/about", label: "About Us" }, { to: "/contact", label: "Contact" }, { to: "/track-order", label: "Track Order" }].map(l => (
+              {[
+                { to: "/", label: "Home" },
+                { to: "/offers", label: "🔥 Offers" },
+                { to: "/sales", label: "💎 Sales & Promotions" },
+                { to: "/about", label: "About Us" },
+                { to: "/contact", label: "Contact" },
+                { to: "/track-order", label: "Track Order" },
+              ].map(l => (
                 <Link key={l.to} to={l.to} onClick={() => setMenuOpen(false)} className="navbar-mobile-link">{l.label}</Link>
               ))}
-              <div style={{ paddingTop: "var(--space-2)" }}><p style={{ fontSize: "var(--text-xs)", fontWeight: "var(--weight-semibold)", color: "var(--color-text-muted)", letterSpacing: "0.05em", padding: "var(--space-3) var(--space-2)", marginBottom: "var(--space-2)" }}>SHOP BY CATEGORY</p>
+
+              <span className="navbar-mobile-section-label">Shop by Category</span>
+              <div className="navbar-mobile-categories">
                 {categories.map(c => (
-                  <Link key={c.slug} to={`/collections/${c.slug}`} onClick={() => setMenuOpen(false)} className="navbar-mobile-link">{c.name}</Link>
+                  <Link key={c.slug} to={`/collections/${c.slug}`} onClick={() => setMenuOpen(false)} className="navbar-mobile-cat-link">
+                    <span className="navbar-mobile-cat-emoji">{c.emoji}</span>
+                    <span className="navbar-mobile-cat-name">{c.name}</span>
+                  </Link>
                 ))}
+                <Link to="/collections" onClick={() => setMenuOpen(false)} className="navbar-mobile-cat-link" style={{ color: "var(--color-gold)", marginTop: "var(--space-1)" }}>
+                  <span className="navbar-mobile-cat-emoji">→</span>
+                  <span className="navbar-mobile-cat-name">View All Collections</span>
+                </Link>
               </div>
             </nav>
           </div>
