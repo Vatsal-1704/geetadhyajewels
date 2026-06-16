@@ -23,7 +23,6 @@ export default function HomePage() {
       <ShopByOccasion />
       <FeaturedProducts type="new" title="What's New ✨" />
       <SaleBanner />
-      <FeaturedProducts type="bestsellers" title="Best Sellers 🔥" />
       <ShopByStyle />
       <ShopByPrice />
       <DealOfTheDay />
