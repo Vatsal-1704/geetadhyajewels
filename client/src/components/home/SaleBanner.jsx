@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 import api from "../../utils/api";
 import "./SaleBanner.css";
 
+const DEFAULT_BANNER = {
+  _id: "default",
+  subtitle: "Limited Time Offer",
+  title: "Festive Season Sale — Upto 40% OFF",
+  text: "Grab your favourite jewellery before stocks run out!",
+  link: "/collections",
+};
+
 export default function SaleBanner() {
-  const [banner, setBanner] = useState(null);
+  const [banner, setBanner] = useState(DEFAULT_BANNER);
   const [time, setTime] = useState({ h: "00", m: "29", s: "00" });
   const [timerStarted, setTimerStarted] = useState(false);
 
@@ -13,7 +21,6 @@ export default function SaleBanner() {
   // Timer resets every page load with 29 minutes duration
 
   useEffect(() => {
-    // Fetch sale banner from API
     const fetchSaleBanner = async () => {
       try {
         const { data } = await api.get("/products/banners/public");
@@ -22,7 +29,7 @@ export default function SaleBanner() {
           setBanner(saleBanners[0]);
         }
       } catch (err) {
-        console.warn("Failed to load sale banner:", err.message);
+        // keep default banner
       }
     };
 
@@ -30,14 +37,6 @@ export default function SaleBanner() {
   }, []);
 
   useEffect(() => {
-    // Only start timer if banner exists
-    if (!banner) return;
-
-    // Initialize timer: All users get the same countdown (server-based strategy)
-    // This is how Amazon, Flipkart, and other major retailers handle flash sales
-    // Every user sees the same timer - creates urgency for all
-
-    // Get or create session timer
     const sessionKey = `saleBannerTimer_${banner._id || "default"}`;
     let timerStartTime = sessionStorage.getItem(sessionKey);
 
@@ -85,9 +84,6 @@ export default function SaleBanner() {
       clearInterval(interval);
     };
   }, [banner]);
-
-  // Hide if no sale banner is configured
-  if (!banner) return null;
 
   return (
     <div className="sale-banner">

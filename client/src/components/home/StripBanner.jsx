@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import api from "../../utils/api";
 import "./StripBanner.css";
 
+const DEFAULT_BANNER = {
+  subtitle: "New Arrivals 2024",
+  title: "Bridal & Festive Collection",
+  text: "Handcrafted jewellery for every occasion — weddings, festivals & beyond.",
+  link: "/collections/bridal-sets",
+};
+
 export default function StripBanner() {
-  const [banner, setBanner] = useState(null);
+  const [banner, setBanner] = useState(DEFAULT_BANNER);
 
   useEffect(() => {
     const fetchStripBanner = async () => {
@@ -15,14 +22,12 @@ export default function StripBanner() {
           setBanner(stripBanners[0]);
         }
       } catch (err) {
-        console.warn("Failed to load strip banner:", err.message);
+        // keep default banner
       }
     };
 
     fetchStripBanner();
   }, []);
-
-  if (!banner) return null;
 
   return (
     <div className="strip-banner">

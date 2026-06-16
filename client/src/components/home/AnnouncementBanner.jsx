@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import api from "../../utils/api";
 import "./AnnouncementBanner.css";
 
+const DEFAULT_BANNER = {
+  text: "🚚 FREE SHIPPING on orders above ₹999  |  💎 Use code JEWEL10 for 10% OFF  |  ✨ New Arrivals Every Week",
+};
+
 export default function AnnouncementBanner() {
-  const [banner, setBanner] = useState(null);
+  const [banner, setBanner] = useState(DEFAULT_BANNER);
 
   useEffect(() => {
-    // Fetch announcement banner from API
     const fetchAnnouncementBanner = async () => {
       try {
         const { data } = await api.get("/products/banners/public");
@@ -17,15 +20,12 @@ export default function AnnouncementBanner() {
           setBanner(announcementBanners[0]);
         }
       } catch (err) {
-        console.warn("Failed to load announcement banner:", err.message);
+        // keep default banner
       }
     };
 
     fetchAnnouncementBanner();
   }, []);
-
-  // Hide if no announcement banner is configured
-  if (!banner) return null;
 
   return (
     <div className="announcement-banner">
