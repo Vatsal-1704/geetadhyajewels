@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
   const checkPincode = () => {
     if (!/^\d{6}$/.test(pincode)) return;
     setPincodeStatus("checking");
-    setTimeout(() => setPincodeStatus(parseInt(pincode) % 7 === 0 ? "no" : "ok"), 800);
+    setTimeout(() => setPincodeStatus("ok"), 800);
   };
 
   const copyCode = (code) => {
@@ -111,6 +111,11 @@ export default function ProductDetailPage() {
       toast.error("This item is out of stock");
       return;
     }
+    const needsSize = product.category?.slug === "rings" || product.category?.slug === "bangles";
+    if (needsSize && !selectedSize) {
+      toast.error("Please select a size before adding to cart");
+      return;
+    }
     addToCart(product, qty, selectedVariant);
     toast.success("Added to cart! 🛍️");
   };
@@ -118,6 +123,11 @@ export default function ProductDetailPage() {
   const handleBuyNow = () => {
     if (product.stock <= 0) {
       toast.error("This item is out of stock");
+      return;
+    }
+    const needsSize = product.category?.slug === "rings" || product.category?.slug === "bangles";
+    if (needsSize && !selectedSize) {
+      toast.error("Please select a size before adding to cart");
       return;
     }
     addToCart(product, qty, selectedVariant);

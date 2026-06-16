@@ -4,31 +4,31 @@ import "./ShopByOccasion.css";
 const occasions = [
   {
     name: "Wedding & Bridal",
-    slug: "wedding",
     emoji: "👑",
     desc: "Elegant sets for your big day",
     color: "#7c2d4a",
+    link: "/collections/bridal-sets",
   },
   {
     name: "Festive & Pooja",
-    slug: "festive",
     emoji: "🪔",
     desc: "Traditional jewels for celebrations",
     color: "#92400e",
+    link: "/collections?style=Temple",
   },
   {
     name: "Party & Evening",
-    slug: "party",
     emoji: "✨",
     desc: "Glamour for every night out",
     color: "#3730a3",
+    link: "/collections?style=American+Diamond",
   },
   {
     name: "Daily Casual",
-    slug: "casual",
     emoji: "🌸",
     desc: "Light & comfortable for every day",
     color: "#065f46",
+    link: "/collections?style=Gold+Plated",
   },
 ];
 
@@ -43,8 +43,8 @@ export default function ShopByOccasion() {
         <div className="shop-by-occasion-grid">
           {occasions.map((occ) => (
             <Link
-              key={occ.slug}
-              to={`/collections?occasion=${occ.slug}`}
+              key={occ.name}
+              to={occ.link}
               className="occasion-card"
               style={{ "--occ-color": occ.color }}
             >
