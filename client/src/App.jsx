@@ -27,6 +27,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import LoginPage from "./pages/LoginPage";
 import AccountPage from "./pages/AccountPage";
+import WishlistPage from "./pages/WishlistPage";
 import TrackOrderPage from "./pages/TrackOrderPage";
 import SearchPage from "./pages/SearchPage";
 import OffersPage from "./pages/OffersPage";
@@ -149,7 +150,7 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CustomerLayout>
-                    <AccountPage />
+                    <WishlistPage />
                   </CustomerLayout>
                 </PrivateRoute>
               }

@@ -95,7 +95,7 @@ export default function Navbar() {
           {/* Icons */}
           <div className="navbar-icons">
             <button onClick={() => navigate("/search")} className="navbar-icon-button"><FiSearch size={20} /></button>
-            <button onClick={() => user ? navigate("/account?tab=wishlist") : navigate("/login")} className="navbar-icon-button">
+            <button onClick={() => user ? navigate("/wishlist") : navigate("/login")} className="navbar-icon-button">
               <FiHeart size={20} />
               {wishlist.length > 0 && <span className="navbar-icon-badge">{wishlist.length}</span>}
             </button>
