@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useState, useRef } from "react";
 import { placeholderImages } from "../../utils/placeholderImages";
 import "./Testimonials.css";
 
@@ -12,51 +11,64 @@ const reviews = [
 
 export default function Testimonials() {
   const [idx, setIdx] = useState(0);
-  const prev = () => setIdx(p => (p - 1 + reviews.length) % reviews.length);
-  const next = () => setIdx(p => (p + 1) % reviews.length);
+  const touchStart = useRef(null);
+
+  const goTo = (i) => setIdx(i);
+  const goNext = () => setIdx((p) => (p + 1) % reviews.length);
+  const goPrev = () => setIdx((p) => (p - 1 + reviews.length) % reviews.length);
+
+  const onTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStart.current === null) return;
+    const diff = touchStart.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? goNext() : goPrev(); }
+    touchStart.current = null;
+  };
+
+  const r = reviews[idx];
 
   return (
     <section className="testimonials">
       <div className="testimonials-container">
-        <p className="testimonials-label">❤️ Happy Customers</p>
+        <p className="testimonials-label">Happy Customers</p>
         <h2 className="testimonials-title">What Our Customers Say</h2>
-        <div className="testimonials-carousel">
-          <div className="testimonial-card">
+
+        <div
+          className="testimonial-slider"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="testimonial-card" key={idx}>
             <div className="testimonial-rating">
-              {Array(reviews[idx].rating).fill("★").map((s, i) => (
+              {Array(r.rating).fill("★").map((s, i) => (
                 <span key={i} className="testimonial-star">{s}</span>
               ))}
             </div>
-            <p className="testimonial-text">"{reviews[idx].text}"</p>
+            <p className="testimonial-text">"{r.text}"</p>
             <div className="testimonial-author">
               <img
-                src={reviews[idx].avatarImage}
-                alt={reviews[idx].name}
+                src={r.avatarImage}
+                alt={r.name}
                 className="testimonial-avatar-image"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextElementSibling.style.display = "flex";
                 }}
               />
-              <div className="testimonial-avatar">{reviews[idx].avatar}</div>
+              <div className="testimonial-avatar">{r.avatar}</div>
               <div className="testimonial-info">
-                <p className="testimonial-name">{reviews[idx].name}</p>
-                <p className="testimonial-city">{reviews[idx].city}</p>
+                <p className="testimonial-name">{r.name}</p>
+                <p className="testimonial-city">{r.city}</p>
               </div>
             </div>
           </div>
-          <button onClick={prev} className="testimonial-nav-button testimonial-nav-prev">
-            <FiChevronLeft size={18} />
-          </button>
-          <button onClick={next} className="testimonial-nav-button testimonial-nav-next">
-            <FiChevronRight size={18} />
-          </button>
         </div>
+
         <div className="testimonial-dots">
           {reviews.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIdx(i)}
+              onClick={() => goTo(i)}
               className={`testimonial-dot ${i === idx ? "testimonial-dot-active" : ""}`}
               aria-label={`Go to testimonial ${i + 1}`}
             />

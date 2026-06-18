@@ -42,8 +42,10 @@ export default function ShopByPrice() {
               style={{ "--price-accent": r.accent }}
             >
               <div className="price-card-emoji">{r.emoji}</div>
-              <div className="price-card-label">{r.label}</div>
-              <p className="price-card-desc">{r.desc}</p>
+              <div className="price-card-text">
+                <div className="price-card-label">{r.label}</div>
+                <p className="price-card-desc">{r.desc}</p>
+              </div>
               <span className="price-card-cta">Shop Now →</span>
             </Link>
           ))}
